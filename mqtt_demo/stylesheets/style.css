@@ -1,0 +1,195 @@
+body {
+  background-color: #FFFFFF;
+  padding: 10px;
+  padding:0.5em; 
+  font: 100%/1.4 'Helvetica Neue', arial, helvetica, helve, sans-serif; 
+
+
+}
+
+/*https://css-tricks.com/examples/hrs/*/
+
+p, blockquote, q {
+  padding: 1px;
+  color: #2f5182;
+  font-size: 10px; 
+  font-family: 'SegoeUILight', sans-serif; font-weight: normal;
+}
+
+a {
+  color: #00B7FF;
+}
+
+h1 { 
+  font-size: 10px; 
+  font-family: 'SegoeUILight', sans-serif; font-weight: normal;
+  /*font-size:2.2em; padding:0 0 .5em 0; */
+}
+
+h2 { 
+  font-size:1.5em; 
+}
+
+/*http://cssdeck.com/labs/better-button*/
+button, select
+{
+
+  padding: 2px 6px;
+  margin: 6px auto;
+  background-color: #f5f5f5;
+  font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  border: 1px solid #cccccc;
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border-bottom-color: #b3b3b3;
+  cursor: pointer;
+}
+
+hr{
+ border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+hr.style_one{
+ border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+ margin: 4px;
+}
+
+hr.style_two{
+ border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+ margin: 0px;
+}
+
+
+button:active
+{
+  color: #6c7de7;
+}
+
+select: active{
+  color: #6c7de7;
+}
+
+input[type="text"]
+{
+   margin: 6px auto; 
+    font-size:8px;
+}
+
+/*http://jsfiddle.net/BB3JK/47/*/
+
+
+.header { padding:1em 0; }
+.col { 
+  padding:1/2em 0; 
+  text-align:center;  
+  font-size: 16px; 
+  font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
+}
+  
+#pageheader {
+  /*Only has the logo, which determines the width*/
+
+  width: 360px ;
+  margin-left: auto ;
+  margin-right: auto ;
+}
+
+
+#status{
+
+  font-size: 12px; 
+  font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
+
+}
+
+#pagefooter {
+  
+  font-size: 12px; 
+  font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
+  color: #98adcb;
+}
+
+#chartContainer{
+
+  height: 160px; 
+  width: 480px;
+
+  margin-top: 40px ;
+  margin-left: auto ;
+  margin-right: auto ;
+
+  padding: 5px;
+  text-align:left;  
+
+
+}
+
+.machineDrawing{
+
+  height: 280px; 
+  width: 500px;
+  
+  margin-left: auto ;
+  margin-right: auto ;
+
+  padding: 5px;
+  text-align:left;  
+
+  background-image:url('../images/biomakerlab.svg');
+  background-repeat: no-repeat;
+
+
+}
+
+
+
+.transformationmenu{
+  visibility: hidden;
+  padding: 10px;
+  height: 275px; 
+  text-align:left;   
+  background: -webkit-linear-gradient(180deg, #d4dbc8, transparent); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(180deg, #d4dbc8, transparent); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(180deg, #d4dbc8, transparent); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(180deg, #d4dbc8, transparent); /* Standard syntax (must be last) */ 
+}
+
+.incubationmenu{
+  padding: 10px;
+  height: 275px;
+  text-align:left;  
+  font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
+  background: -webkit-linear-gradient(180deg, #98adcb, transparent); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(180deg, #98adcb, transparent); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(180deg, #98adcb, transparent); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(180deg, #98adcb, transparent); /* Standard syntax (must be last) */
+}
+
+.purificationmenu{
+  visibility: hidden;
+  padding: 10px;
+  height: 275px;
+  text-align:left;  
+  background: -webkit-linear-gradient(180deg, #f1f1d6, transparent); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(180deg, #f1f1d6, transparent); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(180deg, #f1f1d6, transparent); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(180deg, #f1f1d6, transparent); /* Standard syntax (must be last) */
+
+}
+
+.analyticsmenu{
+  padding: 10px;
+  height: 275px;
+  text-align:left; 
+  background: -webkit-linear-gradient(180deg, #d8d8d8, transparent); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(180deg, #d8d8d8, transparent); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(180deg, #d8d8d8, transparent); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(180deg, #d8d8d8, transparent); /* Standard syntax (must be last) */ 
+
+}

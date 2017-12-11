@@ -1,0 +1,369 @@
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <title>I am the MQTT DEMO PAGE</title>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+
+
+    <link rel="stylesheet" href="stylesheets/html5reset.css" media="all">
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="stylesheet" href="stylesheets/col.css" media="all">
+    <link rel="stylesheet" href="stylesheets/4cols.css" media="all"/>
+    <link rel="stylesheet" href="stylesheets/2cols.css" media="all"/>
+
+    <!-- Responsive and mobile friendly -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- JQuery -->
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!-- Functions -->    
+    <script type="text/javascript" src="javascripts/functions.js"></script>
+    <!-- CanvasJS -->
+    <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+	
+<script type="text/javascript">
+
+  // Create a client instance
+  client = new Paho.MQTT.Client("m10.cloudmqtt.com", 37282, "web_" + parseInt(Math.random() * 100, 10));
+
+  // set callback handlers
+  client.onConnectionLost = onConnectionLost;
+  client.onMessageArrived = onMessageArrived;
+  var options = {
+    useSSL: true,
+    userName: "buwynvxd",
+    password: "AhFmFn2ibFAS",
+    onSuccess:onConnect,
+    onFailure:doFail
+  }
+
+  // connect the client
+  client.connect(options);
+
+  // called when the client connects
+  function onConnect() {
+    // Once a connection has been made, make a subscription and send a message.
+    console.log("onConnect");
+    client.subscribe("/MDS/+");
+    message = new Paho.MQTT.Message("Hello CloudMQTT");
+    message.destinationName = "/MDS";
+    client.send(message); 
+  }
+
+  function doFail(e){
+    console.log(e);
+  }
+
+  // called when the client loses its connection
+  function onConnectionLost(responseObject) {
+    if (responseObject.errorCode !== 0) {
+      console.log("onConnectionLost:"+responseObject.errorMessage);
+    }
+  }
+
+  // called when a message arrives
+  function onMessageArrived(message) {
+    console.log("onMessageArrived:"+message.payloadString);
+  }
+  
+	function sendMachineMessage(m) {
+		if (client) { 
+		    var topic = m.split(":")[0].substr(1); // get the @ prefix as a topic
+			var message = new Paho.MQTT.Message(m);
+			message.destinationName = "/MDS";
+			if (topic.length > 0) message.destinationName = message.destinationName + "/" + topic;
+			client.send(message);		 
+		}
+	}
+
+
+	/*Functions added for GUI */
+
+	function sendInterfaceMessage(m1, m2){
+
+		document.getElementById("status").innerHTML =  "<span style=\"color:#355ea3\">" + m1 + "</span>" + '&nbsp &nbsp &nbsp &nbsp'+ "<span style=\"color:black\">" + m2 + "</span>"; ; 
+
+	}
+  
+</script>	
+
+    </head>
+
+       <body  >
+        
+        <div id="pageheader">
+            <img src="images/biorealizelogo.svg" alt="Microbial Design Studio" class="center"> 
+        </div>
+
+        <hr class="style_two">
+
+        <div id="messages"></div>
+
+        <div class="section group">
+            <div class="col span_1_of_2">
+                <div class="machineDrawing"></div>   
+            </div>
+            <div class="col span_1_of_2">
+                 <div id="chartContainer">Spectrometer</div>   
+            </div>
+        </div>
+
+        
+        <hr class="style_one">
+
+        <div id="status">Waiting to connect...
+        </div>
+
+        <div class="section group">
+                </div>
+                <div class="section group">
+                    
+                    <div class="col span_1_of_4">
+                        <div class = "transformationmenu">
+                        Transformation
+                        
+                        <hr class="style_one">
+
+                        <p> Electroporator Lid &nbsp &nbsp &nbsp &nbsp Electroporate</p>
+                        
+                        <select id="electroporatorLidPosition">
+                        <option value="Open"> Open </option>
+                        <option value="Close"> Close </option>
+                        </select>
+
+                        <button type="button" id="electroporatorLidButton" = onclick='electroporatorLidButtonFunction();'> -> </button>
+
+                        <select id="transformationSetting">
+                        <option value="ecoli"> E.coli </option>
+                        <option value="yeast"> Yeast </option>
+                        </select>
+
+                        <button type="button" id="electroporateButton" = onclick='electroporateButtonFunction();'> ->  </button>
+
+                        <hr class="style_one">
+
+                        <p> Carousel No &nbsp &nbsp &nbsp &nbsp Destination </p>
+
+                        <select id="carouselNo">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>                   
+                        </select>
+
+                        <select id="carouselStation">
+                        <option value="0">Camera</option>
+                        <option value="1">Electroporator</option>
+                        <option value="2">Media Pump</option>
+                        <option value="3">Syringe Port</option>                       
+                        <option value="4">Home</option>
+                        </select>
+
+                        <button type="button" id="carouselButton" onclick= "carouselButtonFunction();" > -> </button> 
+
+                        <hr class="style_one"> 
+
+                        <p> Transformation Media Pump </p>
+
+                        <select id="pumpDuration">
+                        <option value="2000"> 2 sec</option>
+                        <option value="5000"> 5 sec </option>
+                        <option value="10000"> 10 sec </option>
+                        </select>
+                        
+                        <button type="button" id="pumpButton" onclick= "pumpButtonFunction();" > -> </button> 
+
+                        </div>
+                    </div> 
+
+
+
+                    <div class="col span_1_of_4">
+
+                        <div class = "incubationmenu">
+                        Incubation
+
+                        <hr class="style_one">
+
+                        <p> Wheel Position &nbsp  &nbsp   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp  </p>
+
+                        <select id="wheelPosition">
+                        <option value="Start">Start</option>
+                        <option value="Stop">Stop</option>
+                        <option value="Reset">Reset</option>
+                        </select>
+
+                        <button type="button" id="wheelPosButton" onclick= "wheelPosButtonFunction();" > -> </button>  
+                         <!--
+                        <input type="text" size="4" id="wheelPosFree" >
+                       
+                        <input type="text" size="4" value="400" id="wheelSpeed" >
+                        <button type="button" id="wheelSpeedButton" onclick= "wheelSpeedButtonFunction();" > -> </button> 
+                        -->
+
+
+                        <hr class="style_one">
+
+                        <p> Temperature Control </p>
+
+                        <button type="button" onclick='heaterButtonOnFunction();'>Heater On</button>  
+                        <button type="button" onclick='heaterButtonOffFunction();'>Heater Off</button>  
+                        <button type="button" onclick='getIncuTempButtonFunction();'>Get Temp</button>  
+                                                
+                        <hr class="style_one">
+
+                        <p> Syringe no &nbsp &nbsp &nbsp &nbsp Amount  &nbsp &nbsp &nbsp  &nbsp  Action </p> 
+
+                        <select id="syringeNo">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        </select>
+
+                        <select id="syringeAmount">
+                        <option value="0">0</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                        <option value="2000">2000</option>
+                        </select>
+                        
+                        <button type="button" id="syringeButton" onclick= "plungerButtonFunction();" > -> </button>  
+                        
+                        <select id="syringeAction">
+                        <option value="extend">extend</option>
+                        <option value="retract">retract</option>
+                        </select>
+
+                        <button type="button" id="syringeButton" onclick= "syringeButtonFunction();" > -> </button>  
+
+                        
+
+                        </div>
+                    </div>
+
+                    <div class="col span_1_of_4">
+                        <div class = "purificationmenu">
+                        Purification
+                        
+                        <hr class="style_one">
+
+                        <p> Media Input/Output</p>
+
+                        <select id="mediaType">
+                        <option value="50">50</option>
+                        <option value="150">150</option>
+                        <option value="200">200</option>
+                        <option value="250">250</option>
+                        </select>
+
+                        <button type="button" id="mediaIOButton" onclick= "mediaMagazineButtonFunction();" > -> </button>  
+
+                        <hr class="style_one">
+
+                        <p> Centrifuge Control</p>
+
+                        <select id="centrifugeSpeed">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="9">9</option>
+                        </select>
+                        <button type="button" id="centrifugeButton" onclick= "centrifugeButtonFunction();" > -> </button>  
+
+                        <hr class="style_one">
+
+                        <p> Sterilize Drawer</p>
+                        <button type="button" id="sterilizeButton" onclick= "syringeButtonFunction();" > UV-C Activate</button> 
+
+                        </div>
+                    </div> 
+                    <div class="col span_1_of_4">
+                        <div class = "analyticsmenu">
+                        Analytics
+                        <br>
+                        
+                        <hr class="style_one">
+
+                        <p> Spectrometer Selection </p>
+
+                        <select id="specNo">
+                        <option value="@spec">1</option>
+                        <option value="@spec1">2</option>
+                        <option value="@spec2">3</option>
+                        <option value="@spec3">4</option>
+                        </select>
+                        <button type="button" id="specSelectButton" onclick= "specSelectButtonFunction();" > Set </button>  
+
+                       
+                        <p> Spectrometer Calibration </p>
+
+                        
+                        SN: <input type="text" size="3" id="serialNum" >
+                        A0: <input type="text" size="3" id="A0">
+                        B1: <input type="text" size="3" id="B1">
+                        B2: <input type="text" size="3" id="B2">
+                        B3: <input type="text" size="3" id="B3">
+                        B4: <input type="text" size="3" id="B4">
+                        B5: <input type="text" size="3" id="B5">
+
+                        &nbsp  <button type="button" id="setSpecCalibration" onclick= "setSpecCalibrationButtonFunction();" > Set </button>  
+                        
+                        <hr class="style_one">                        
+                        
+                        <p> Clock Period &nbsp &nbsp Integration Time</p>
+
+                        <input type="text" id="clockPeriod" value="20us" size="8"> 
+                        <input type="text" id="integrationTime" size="8">      
+                        <button type="button" onclick='setClockPeriodButtonFunction;'> -></button>
+                        
+                         <hr class="style_one">
+
+                         <p> Control Elements</p>
+
+                        <button type="button" onclick='specShowFunction();'>Show</button>
+                        <button type="button" onclick='specStartFunction();'>Start</button>
+                        <button type="button" onclick='specStopFunction();'>Stop</button>
+                        <button type="button" onclick='specRawSpectrumFunction();'>Raw Spectrum</button>
+
+                        <hr class="style_one">
+
+                        <p> Optional Features </p>
+                        <button type="button" onclick='specLightOnFunction();'>Light On</button>
+                        <button type="button" onclick='specLightOffFunction();'>Light Off</button>
+                        <button type="button" onclick='specUVOnFunction();'>UV On</button>
+                        <button type="button" onclick='specUVOffFunction();'>UV Off</button>
+                        </div>
+                    </div>
+                </div>
+
+                 <hr class="style_one">
+                        <!-- Responsive and mobile friendly 
+                        <p> Debug Command &nbsp &nbsp &nbsp  &nbsp &nbsp   &nbsp&nbsp  &nbsp  &nbsp  &nbsp&nbsp  &nbsp  &nbsp  &nbsp  Simulation Control </p>
+
+                        <input type="text" id="rawCommandForDebug" value="@___:___;" size="20"> 
+                        <button type="button" onclick='sendRawCommandFunction();'> -></button>
+                        
+
+                        <button type="button" onclick='sendMachineMessage("@electroporator:SIMULATION_ON;");'>Simulation On</button>
+                        <button type="button" onclick='sendMachineMessage("@electroporator:SIMULATION_OFF;");'>Simluation Off</button>  
+                <hr class="style_one">  
+                    -->
+
+                <div id="pagefooter">NSF Eager 2016 | CC-BY-SA 4.0 </div>
+                        <!-- The analytics chart is loaded here from CanvasJS --> 
+
+
+    </body>
+</html>
