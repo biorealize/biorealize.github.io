@@ -91,7 +91,7 @@
     //console.log("onMessageArrived: "+ message.payloadString);
 
     var receivedTopic = message.payloadString.split(':')[0];
-    document.getElementById("status").innerHTML = Microbial Design Studio ready ; 
+    document.getElementById("status").innerHTML = 'Microbial Design Studio Ready' ; 
 
 
     if ( !machineDriveEnabled && receivedTopic =='Echo'){
