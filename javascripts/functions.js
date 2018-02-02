@@ -368,7 +368,7 @@
 
         }
 
-        function stopChangeSyringeButtonFunction(){
+        function finishChangeSyringeButtonFunction(){
 
         currentExperimentNo = $("#selectExperimentMenu").children(":selected").attr("value");
 
@@ -376,7 +376,7 @@
 
         if (currentExperimentNo!=0)
             currentExperimentNo -= 1;
-        msgToMachine = topicPrefix + 'StopChangeSyringe(' + currentExperimentNo + ')';
+        msgToMachine = topicPrefix + 'FinishChangeSyringe(' + currentExperimentNo + ')';
 
         if (machineDriveEnabled)
             sendMachineMessage( msgToMachine  );
@@ -445,7 +445,7 @@
         }
 
 
-        function unloadExperimentButtonFunction(){
+        function unloadCultureButtonFunction(){
 
         currentExperimentNo = $("#selectExperimentMenu").children(":selected").attr("value");
  
@@ -561,8 +561,10 @@
             }
 
 
+            if (currentExperimentForSpecNo!=0)
+                currentExperimentForSpecNo -= 1;
 
-            msgToMachine = topicPrefix + 'ShowSpec(' + currentExperimentNo + ')';
+            msgToMachine = topicPrefix + 'ShowSpec(' + currentExperimentForSpecNo + ')';
 
             sendInterfaceMessage( msgToWeb, msgToMachine  );
 
