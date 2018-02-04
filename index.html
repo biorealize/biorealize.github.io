@@ -88,7 +88,8 @@
   // called when a message arrives
   function onMessageArrived(message) {
 
-    console.log("onMessageArrived: "+ message.payloadString);
+    //console.log("onMessageArrived: "+ message.payloadString);
+
 
     var receivedTopic = message.payloadString.split(':')[0];
     document.getElementById("status").innerHTML = 'Microbial Design Studio Ready' ; 
@@ -97,6 +98,7 @@
 
     if ( !machineDriveEnabled && receivedTopic =='@IncubatorWheel'){
         angle = message.payloadString.split('=')[1];
+        console.log(angle);
         animateWheel(angle*-1, 250);
     }
 
