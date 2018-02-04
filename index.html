@@ -99,11 +99,11 @@
     if ( !machineDriveEnabled && receivedTopic =='@IncubatorWheel'){
         angle = message.payloadString.split('=')[1];
         console.log(angle);
-        animateWheel(angle*-60, 250);
+        animateWheel(angle * -170/Math.PI, 250);
     }
 
-    if ( receivedTopic =='@spec'){
-
+    if ( !machineDriveEnabled && receivedTopic =='@spec'){
+                    console.log(data);
                     var line = "";  // or uncomment this to overwrite the existing message
                     // parse the incoming message as a JSON object
                     
@@ -115,11 +115,12 @@
                     // the left of the '=' is the name of the handler function, 
                     // and the right of the '=' is a JSON statement that has the on which the handler will act
                     var eqAt = data.search('=');
+
                     if (eqAt > 0){
                         // Get the var name
                         // for example, a message like "TEST={x:1,y:2,z:3"} will yield a var named "TEST"
                         var varName = data.substr(0,eqAt);
-                        
+                        console.log(data);    
                         // convert the JSON into a local value
                         // whose name matches varName
                         var functionArg = eval(data);
