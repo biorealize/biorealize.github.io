@@ -88,18 +88,60 @@
   // called when a message arrives
   function onMessageArrived(message) {
 
-    //console.log("onMessageArrived: "+ message.payloadString);
+    console.log("onMessageArrived: "+ message.payloadString);
 
     var receivedTopic = message.payloadString.split(':')[0];
     document.getElementById("status").innerHTML = 'Microbial Design Studio Ready' ; 
 
+    //if ( !machineDriveEnabled && receivedTopic =='Echo'){
 
-    if ( !machineDriveEnabled && receivedTopic =='Echo'){
-        angle = message.payloadString.split(':')[1];
+    if ( !machineDriveEnabled && receivedTopic =='@IncubatorWheel'){
+        angle = message.payloadString.split('=')[1];
         animateWheel(angle*-1, 250);
     }
 
-    
+    if ( receivedTopic =='@spec'){
+
+                    var line = "";  // or uncomment this to overwrite the existing message
+                    // parse the incoming message as a JSON object
+                    
+                    var data = message.payloadString;
+                    //var data = msg.data;
+                    
+                    // dispatch to appropriate, if indicated
+                    // messages that require special handling are JSON statements that have an "=" in them
+                    // the left of the '=' is the name of the handler function, 
+                    // and the right of the '=' is a JSON statement that has the on which the handler will act
+                    var eqAt = data.search('=');
+                    if (eqAt > 0){
+                        // Get the var name
+                        // for example, a message like "TEST={x:1,y:2,z:3"} will yield a var named "TEST"
+                        var varName = data.substr(0,eqAt);
+                        
+                        // convert the JSON into a local value
+                        // whose name matches varName
+                        var functionArg = eval(data);
+                        
+                        // build up a statement that will invoke the handler function,
+                        // passing the structure as an argument
+                        // for example, a message like "TEST={x:1,y:2,z:3"} 
+                        // will cause evalExpression to have the value 'handle_TEST_response(TEST)'
+                        // which, when evaluated, will pass the TEST object to the handle_TEST function
+                        var evalExpression = "handle_" + varName + "_response(" + varName + ")" 
+                        eval(evalExpression);
+                        
+                    }
+                    else{
+                        //console.log(data);
+                        // build the output from the topic and payload parts of the object
+                        line += "<p>"+data+"</p>";
+                        // replace the messages div with the new "line"
+                        document.getElementById('messages').innerHTML = line;
+                        //ws.send(JSON.stringify({data:data}));
+                    }
+
+
+    }
 
     //document.getElementById("status").innerHTML = receivedMessage ; 
 
