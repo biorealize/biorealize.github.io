@@ -41,9 +41,9 @@
   // Create a client instance
   // m10.cloudmqtt.com
 
-  //client = new Paho.MQTT.Client("m11.cloudmqtt.com", 39547, "web_" + parseInt(Math.random() * 100, 10));
+  client = new Paho.MQTT.Client("m11.cloudmqtt.com", 39547, "web_" + parseInt(Math.random() * 100, 10));
 
-  client = new Paho.MQTT.Client("m10.cloudmqtt.com", 37282, "web_" + parseInt(Math.random() * 100, 10));
+  //client = new Paho.MQTT.Client("m10.cloudmqtt.com", 37282, "web_" + parseInt(Math.random() * 100, 10));
 
 
   // set callback handlers
@@ -52,10 +52,10 @@
 
   var options = {
     useSSL: true,
-    userName: "buwynvxd",
-    //userName: "bpbgifio",
-    //password: "TaxZFQ5IkTjE",
-    password: "AhFmFn2ibFAS",
+    //userName: "buwynvxd",
+    userName: "bpbgifio",
+    password: "TaxZFQ5IkTjE",
+    //password: "AhFmFn2ibFAS",
     onSuccess:onConnect,
     onFailure:doFail
   }
