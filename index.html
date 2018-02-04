@@ -99,7 +99,7 @@
     if ( !machineDriveEnabled && receivedTopic =='@IncubatorWheel'){
         angle = message.payloadString.split('=')[1];
         console.log(angle);
-        animateWheel(angle * -170/Math.PI, 250);
+        animateWheel(angle * -180/Math.PI, 50);//250
     }
 
     if ( !machineDriveEnabled && receivedTopic =='@spec'){
