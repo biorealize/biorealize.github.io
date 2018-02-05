@@ -104,6 +104,7 @@
 //@heater:temp_sp= 37.0;
     else if ( !machineDriveEnabled && receivedTopic =='@heater'){
         temp_sp = message.payloadString.split('=')[1];
+        temp_sp  = temp_sp .substring(0, temp_sp.length - 1); //eliminating the trailing ";"
         console.log(temp_sp);
         displayTemperature(temp_sp);
     }

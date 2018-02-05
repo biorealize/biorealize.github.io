@@ -99,6 +99,11 @@ function openElectroporatorLid(active){
 		electroporatorLid.animate({ transform: 't0,0'}, 2000, mina.easout);
 }
 
+function displayTemperature(newTemp){
+
+	  document.getElementById("temperatureDisplayBox").innerHTML =  "<span style=\"color:#355ea3\">" + newTemp + "</span>"; 
+}
+
 function moveSyringeToMedia(syringe, duration){
 
 	syringebbox = syringe.node.getBoundingClientRect();
