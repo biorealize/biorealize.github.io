@@ -280,22 +280,17 @@
 
                         <hr class="style_one">
 
-                        <p> Load Syringes with Media </p>
+                        <p> Load Media &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp Load Organisms </p>
 
 
                         <button type="button" id="loadMediaButton" onclick= "loadMediaButtonFunction();" > Load Media -> </button>  
 
-                        <hr class="style_one">
-
-
-                         <p> Load Syringes with Organism </p>
-
                         <button type="button" id="LoadOrganismButton" onclick= "loadOrganismButtonFunction();" > Load Organism -> </button> 
-                        
+
                         <hr class="style_one">
 
 
-                         <p> Incubate Syringes for </p>
+                         <p> Incubation Duration</p>
 
                         <select id="incubateDurationMenu">
                         <option value="30:00"> 30 min </option>
@@ -307,6 +302,18 @@
 
                         <button type="button" id="incubateStartButton" onclick= "incubateStartButtonFunction();" > Start -> </button> 
                         <button type="button" id="incubateStopButton" onclick= "incubateStopButtonFunction();" > Stop -> </button> 
+
+                        <hr class="style_one">
+
+                        <p> Incubation Temperature</p>
+
+                        <select id="incubateTempratureMenu">
+                        <option value="370"> 37 C </option>
+                        <option value="300"> 30 C</option>
+                        <option value="420"> 42 C </option>
+                        </select>
+
+                        <button type="button" id="setTempButton" onclick= "setTempButtonFunction();" > Set -> </button> 
 
                         <hr class="style_one">
 
