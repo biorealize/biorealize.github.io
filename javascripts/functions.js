@@ -382,6 +382,18 @@
             sendMachineMessage( msgToMachine  );
         }
 
+        function setTempButtonFunction(){
+
+        newTemp = $("#incubateTempratureMenu").children(":selected").attr("value");
+
+        msgToWeb = 'Incubator temp set to <b> '+ newTemp  + '</b>' ;
+        msgToMachine = '@heater:set_temp_sp ' + newTemp + ';';  
+
+        if (machineDriveEnabled)
+            sendMachineMessage( msgToMachine  );
+        
+        }
+
         function incubateStartButtonFunction(){
 
         currentExperimentNo = $("#selectExperimentMenu").children(":selected").attr("value");
@@ -573,6 +585,7 @@
 
        }
 
+       //hit start //
        function specStartFunction(){
 
             msgToMachine = topicPrefix+  ':' +  'Start' + ';' ;
