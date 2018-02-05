@@ -389,6 +389,8 @@
         msgToWeb = 'Incubator temp set to <b> '+ newTemp  + '</b>' ;
         msgToMachine = '@heater:set_temp_sp ' + newTemp + ';';  
 
+        sendInterfaceMessage( msgToWeb, msgToMachine  );
+        
         if (machineDriveEnabled)
             sendMachineMessage( msgToMachine  );
         
