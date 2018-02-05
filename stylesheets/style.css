@@ -103,7 +103,13 @@ input[type="text"]
 }
 
 
+#temperatureDisplayBox{
 
+  text-align:center;  
+  font-size: 16px; 
+  font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
+
+}
 
 #status{
 
