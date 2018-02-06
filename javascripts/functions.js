@@ -602,7 +602,7 @@
 
             msgToMachine = topicPrefix + 'ShowSpec(' + currentExperimentForSpecNo + ')';
 
-            sendInterfaceMessage( msgToWeb, msgToMachine  );
+            sendInterfaceMessage( msgToWeb, '');
 
             if (machineDriveEnabled)
                 sendMachineMessage( msgToMachine  );
@@ -614,7 +614,11 @@
 
             msgToWeb = '<b> Spectrometer started </b>' ;
             msgToMachine = "@SPEC:START;" 
-            sendInterfaceMessage( msgToWeb, msgToMachine  );
+            
+            sendInterfaceMessage( msgToWeb, ''  );
+
+            if (machineDriveEnabled)
+                sendMachineMessage( msgToMachine  );
 
        }
         /*
@@ -632,7 +636,7 @@
 
             msgToWeb = '<b> Spectrometer reading @ </b>'  + timeStamp ;
 
-            msgToMachine = topicPrefix + 'RAW_' ;
+            msgToMachine = "@SPEC:RAW_;" 
 
             sendInterfaceMessage( msgToWeb, ''  );
 
