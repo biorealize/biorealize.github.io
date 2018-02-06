@@ -88,7 +88,7 @@
   // called when a message arrives
   function onMessageArrived(message) {
 
-    //console.log("onMessageArrived: "+ message.payloadString);
+    console.log("onMessageArrived: "+ message.payloadString);
 
 
     var receivedTopic = message.payloadString.split(':')[0];
