@@ -632,10 +632,12 @@
 
             msgToWeb = '<b> Spectrometer reading @ </b>'  + timeStamp ;
 
-            msgToMachine = topicPrefix +  ':' +  'RAW_' + ';' ;
+            msgToMachine = topicPrefix + 'RAW_' ;
 
             sendInterfaceMessage( msgToWeb, ''  );
-            sendMachineMessage( msgToMachine  );
+
+            if (machineDriveEnabled)
+                sendMachineMessage( msgToMachine  );
 
        }
 
