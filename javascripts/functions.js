@@ -613,8 +613,8 @@
        function specStartFunction(){
 
             msgToWeb = '<b> Spectrometer started </b>' ;
-            msgToMachine = "@SPEC:START;" 
-            
+            msgToMachine = "@spec:START;" 
+
             sendInterfaceMessage( msgToWeb, ''  );
 
             if (machineDriveEnabled)
@@ -636,7 +636,7 @@
 
             msgToWeb = '<b> Spectrometer reading @ </b>'  + timeStamp ;
 
-            msgToMachine = "@SPEC:RAW_;" 
+            msgToMachine = "@spec:RAW_;" 
 
             sendInterfaceMessage( msgToWeb, ''  );
 
