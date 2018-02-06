@@ -110,11 +110,12 @@
     }
 
     else if ( !machineDriveEnabled && receivedTopic =='@spec'){
-                    console.log(data);
+
                     var line = "";  // or uncomment this to overwrite the existing message
                     // parse the incoming message as a JSON object
                     
                     var data = message.payloadString;
+                    console.log(data);
                     //var data = msg.data;
                     
                     // dispatch to appropriate, if indicated
