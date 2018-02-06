@@ -62,6 +62,9 @@ window.onload=function(){
 
 	sendInterfaceMessage( wheel.transform().string );
 
+	//We get the latest temperature from the machine
+	getTempFunction();
+
 	//Snap.load('images/mds_wheel.svg', function (response) {
     //var mds_wheel = response;
     //mds.append(mds_wheel);

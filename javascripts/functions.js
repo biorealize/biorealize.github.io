@@ -282,8 +282,8 @@
         }
 
         
-        if (currentExperimentNo!=0)
-            currentExperimentNo -= 1;
+        //if (currentExperimentNo!=0)
+        //    currentExperimentNo -= 1;
         
         msgToMachine = topicPrefix + 'LoadMedia('+ currentExperimentNo + ')';
 
@@ -339,8 +339,8 @@
         //msgToMachine = topicPrefix + ':' + 'LoadOrganism' + ' ' + currentExperimentNo +';' ;
 
 
-        if (currentExperimentNo!=0)
-            currentExperimentNo -= 1;
+        //if (currentExperimentNo!=0)
+        //    currentExperimentNo -= 1;
 
         msgToMachine = topicPrefix + 'LoadOrganism(' + currentExperimentNo + ')';
 
@@ -359,10 +359,13 @@
 
         msgToWeb = 'Changing <b> Syringe </b> for Experiment <b> '+ currentExperimentNo + '</b>' ;
 
-        if (currentExperimentNo!=0)
-            currentExperimentNo -= 1;
+        //if (currentExperimentNo!=0)
+        //    currentExperimentNo -= 1;
+
         msgToMachine = topicPrefix + 'StartChangeSyringe(' + currentExperimentNo + ')';
 
+        sendInterfaceMessage( msgToWeb, msgToMachine  );
+        
         if (machineDriveEnabled)
             sendMachineMessage( msgToMachine  );
 
@@ -373,10 +376,13 @@
         currentExperimentNo = $("#selectExperimentMenu").children(":selected").attr("value");
 
         msgToWeb = 'Placing back <b> Syringe </b> for Experiment <b> '+ currentExperimentNo + '</b>' ;
+       
+        //if (currentExperimentNo!=0)
+        //    currentExperimentNo -= 1;
 
-        if (currentExperimentNo!=0)
-            currentExperimentNo -= 1;
         msgToMachine = topicPrefix + 'FinishChangeSyringe(' + currentExperimentNo + ')';
+
+        sendInterfaceMessage( msgToWeb, msgToMachine  );
 
         if (machineDriveEnabled)
             sendMachineMessage( msgToMachine  );
@@ -390,11 +396,25 @@
         msgToMachine = '@heater:set_temp_sp ' + newTemp + ';';  
 
         sendInterfaceMessage( msgToWeb, msgToMachine  );
-        
+
         if (machineDriveEnabled)
             sendMachineMessage( msgToMachine  );
         
         }
+
+        function getTempFunction(){
+        /* this function is not called by the interface */
+
+        msgToMachine = '@heater:print_temp_sp;';  
+
+        sendInterfaceMessage( msgToMachine  );
+
+        if (machineDriveEnabled)
+            sendMachineMessage( msgToMachine  );
+        
+        }
+
+
 
         function incubateStartButtonFunction(){
 
@@ -406,8 +426,9 @@
         msgToWeb = '<b>Start incubating </b> Experiment<b> '+ currentExperimentNo + '</b> for '+ incubationDuration ;
 
 
-        if (currentExperimentNo!=0)
-            currentExperimentNo -= 1;
+        //if (currentExperimentNo!=0)
+        //    currentExperimentNo -= 1;
+
         msgToMachine = topicPrefix + ':' + 'Incubate' + ' ' + currentExperimentNo + ' ' + incubationDuration + ' ' + specSamplingDuration + ';' ;
 
         //sendInterfaceMessage( msgToWeb, msgToMachine  );
@@ -445,8 +466,8 @@
         msgToWeb = '<b>Stop incubation </b> Experiment<b> '+ currentExperimentNo + '</b> for '+ incubationDuration ;
 
 
-        if (currentExperimentNo!=0)
-            currentExperimentNo -= 1;
+        //if (currentExperimentNo!=0)
+        //    currentExperimentNo -= 1;
 
         msgToMachine = topicPrefix + 'Agitate('+ 0 + ')';
 
@@ -466,8 +487,9 @@
         msgToWeb = '<b> Stop Incubation </b> for Experiment<b> '+ currentExperimentNo + '</b> ';
         //msgToMachine = topicPrefix + ':' + 'Unload' + ' ' + currentExperimentNo +';' ;
 
-        if (currentExperimentNo!=0)
-            currentExperimentNo -= 1;
+        //if (currentExperimentNo!=0)
+        //    currentExperimentNo -= 1;
+        
         msgToMachine = topicPrefix + 'Unload(' + currentExperimentNo + ')'
 
         sendInterfaceMessage( msgToWeb, msgToMachine  );
@@ -575,8 +597,8 @@
             }
 
 
-            if (currentExperimentForSpecNo!=0)
-                currentExperimentForSpecNo -= 1;
+            //if (currentExperimentForSpecNo!=0)
+            //    currentExperimentForSpecNo -= 1;
 
             msgToMachine = topicPrefix + 'ShowSpec(' + currentExperimentForSpecNo + ')';
 
@@ -590,17 +612,19 @@
        //hit start //
        function specStartFunction(){
 
-            msgToMachine = topicPrefix+  ':' +  'Start' + ';' ;
-            sendMachineMessage( msgToMachine  );
+            msgToWeb = '<b> Spectrometer started </b>' ;
+            msgToMachine = "@SPEC:START;" 
+            sendInterfaceMessage( msgToWeb, msgToMachine  );
 
        }
-
+        /*
        function specStopFunction(){
 
             msgToMachine = topicPrefix +  ':' +  'Stop' + ';' ;
             sendMachineMessage( msgToMachine  );
 
        }
+       */
 
        function specRawSpectrumFunction(){
 
