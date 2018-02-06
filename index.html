@@ -109,7 +109,7 @@
         displayTemperature(temp_sp);
     }
 
-    else if ( !machineDriveEnabled && receivedTopic =='@spec'){
+    else if ( receivedTopic =='@spec'){
 
                     var line = "";  // or uncomment this to overwrite the existing message
                     // parse the incoming message as a JSON object
