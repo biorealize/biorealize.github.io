@@ -634,7 +634,7 @@
 
             timeStamp = getFormattedDate();
 
-            msgToWeb = '<b> Spectrometer reading @ </b>'  + timeStamp ;
+            msgToWeb = '<b> Spectrometer reading @ time </b>'  + timeStamp ;
 
             msgToMachine = "@spec:RAW_;" 
 

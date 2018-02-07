@@ -88,7 +88,7 @@
   // called when a message arrives
   function onMessageArrived(message) {
 
-    console.log("onMessageArrived: "+ message.payloadString);
+    //console.log("onMessageArrived: "+ message.payloadString);
 
 
     var receivedTopic = message.payloadString.split(':')[0];
@@ -115,7 +115,7 @@
                     // parse the incoming message as a JSON object
                     
                     var data = message.payloadString;
-                    console.log(data);
+                    
                     //var data = msg.data;
                     
                     // dispatch to appropriate, if indicated
@@ -128,7 +128,7 @@
                         // Get the var name
                         // for example, a message like "TEST={x:1,y:2,z:3"} will yield a var named "TEST"
                         var varName = data.substr(0,eqAt);
-                        console.log(data);    
+                        console.log(data.substr(0,eqAt))    ;   
                         // convert the JSON into a local value
                         // whose name matches varName
                         var functionArg = eval(data);
