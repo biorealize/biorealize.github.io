@@ -117,7 +117,7 @@
                     
                     //var data = msg.data;
                     var data = message.payloadString.substr(6);
-                    console.log(data) ; 
+                    //console.log(data) ; 
                     // dispatch to appropriate, if indicated
                     // messages that require special handling are JSON statements that have an "=" in them
                     // the left of the '=' is the name of the handler function, 
@@ -128,7 +128,7 @@
                         // Get the var name
                         // for example, a message like "TEST={x:1,y:2,z:3"} will yield a var named "TEST"
                         var varName = data.substr(0,eqAt);
-                        console.log(data.substr(0,eqAt)) ;   
+                        
                         // convert the JSON into a local value
                         // whose name matches varName
                         var functionArg = eval(data);
@@ -343,7 +343,7 @@
 
 
 
-                        <p> Display Spec for &nbsp  &nbsp &nbsp &nbsp &nbsp Sampling Duration</p>
+                        <p> Spec # &nbsp  &nbsp &nbsp &nbsp &nbsp Sampling Duration</p>
 
                         <select id="displaySpecForExperimentMenu">
                         <option value="0"> 1 </option>
