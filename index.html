@@ -109,15 +109,15 @@
         displayTemperature(temp_sp);
     }
 
-    else if (message.payloadString.includes("@spec:") === false){ return; }
-
+    else if (receivedTopic=='@spec'){
+    
                     var line = "";  // or uncomment this to overwrite the existing message
                     // parse the incoming message as a JSON object
                     
-                    var data = message.payloadString;
                     
                     //var data = msg.data;
-                    var data = msg.data.substr(6);
+                    var data = msg.payloadString.substr(6);
+                    console.log(data) ; 
                     // dispatch to appropriate, if indicated
                     // messages that require special handling are JSON statements that have an "=" in them
                     // the left of the '=' is the name of the handler function, 
