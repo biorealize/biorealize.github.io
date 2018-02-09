@@ -213,6 +213,7 @@
                     data: [              
                     {
                         // Change type to "bar", "area", "spline", "pie",etc.
+                        //type: "splineArea",
                         type: "line",
                         lineThickness: 1,
                         dataPoints: dataPoints
@@ -409,8 +410,8 @@
 
         sendInterfaceMessage( msgToMachine  );
 
-        if (machineDriveEnabled)
-            sendMachineMessage( msgToMachine  );
+        //if (machineDriveEnabled)
+        sendInterfaceMessage( msgToWeb, msgToMachine  );
         
         }
 
@@ -507,7 +508,8 @@
 
             //topicName = '@spec';
             msgToWeb = 'Spec <b> White </b> Light is ' + '<b>'+ 'on' + '</b>' ;
-            msgToMachine = topicPrefix +  ':' +  'White 1' + ';' ;
+            //msgToMachine = topicPrefix +  ':' +  'White 1' + ';' ;
+            msgToMachine = '@spec:White 1;'
        
         sendInterfaceMessage( msgToWeb, msgToMachine  );
 
@@ -517,10 +519,22 @@
 
        }
 
+       function specLightOffFunction(){
+
+            msgToWeb = 'Spec <b> White </b> Light is ' + '<b>'+ 'off' + '</b>' ;
+
+            //msgToMachine = topicPrefix +  ':' +  'White 0' + ';' ;
+            msgToMachine = '@spec:White 0;'
+
+            sendInterfaceMessage( msgToWeb, msgToMachine  );
+            sendMachineMessage( msgToMachine  );
+
+       }
+
+
        function specUVOnFunction(){
 
             msgToWeb = 'Spec <b> UV </b> Laser is ' + '<b>'+ 'on' + '</b>' ;
-
             msgToMachine = topicPrefix +  ':' +  'UVLaser 1' + ';' ;
 
 
@@ -645,16 +659,7 @@
 
        }
 
-       function specLightOffFunction(){
 
-            msgToWeb = 'Spec <b> White </b> Light is ' + '<b>'+ 'off' + '</b>' ;
-
-            msgToMachine = topicPrefix +  ':' +  'White 0' + ';' ;
-
-            sendInterfaceMessage( msgToWeb, msgToMachine  );
-            sendMachineMessage( msgToMachine  );
-
-       }
 
        function setSpecCalibrationButtonFunction(){
             
