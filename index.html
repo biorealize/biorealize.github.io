@@ -41,12 +41,13 @@
   // Create a client instance
   // m10.cloudmqtt.com
 
-  client = new Paho.MQTT.Client("m11.cloudmqtt.com", 39547, "web_" + parseInt(Math.random() * 100, 10));//
+  //var client = new Paho.MQTT.Client("m11.cloudmqtt.com", 39547, "web_" + parseInt(Math.random() * 100, 10));//
 
   //client = new Paho.MQTT.Client("m10.cloudmqtt.com", 37282, "web_" + parseInt(Math.random() * 100, 10));
 
 
   // set callback handlers
+  /*
   client.onConnectionLost = onConnectionLost;
   client.onMessageArrived = onMessageArrived;
 
@@ -59,9 +60,10 @@
     onSuccess:onConnect,
     onFailure:doFail
   }
+  */
 
   // connect the client
-  client.connect(options);
+  //client.connect(options);
 
   // called when the client connects
   function onConnect() {
@@ -192,7 +194,6 @@
     }
 
 
-
   
 </script>   
 
@@ -213,7 +214,8 @@
         <div class="section group">
             <div class="col span_1_of_2">
                     <svg id="mdsDrawing"></svg> 
-                            <div id="temperatureDisplayBox"> Waiting Temperature Status... </div>
+                    <div id="machineStatusBox"> Waiting For MDS Status... </div>
+
                <!-- <div class="machineDrawing"></div>  --> 
                 
             </div>
@@ -227,6 +229,19 @@
 
         <div id="status">Waiting to connect... </div>
 
+        <div id="serverSettingsDisplayBox">
+                                 <form>
+                                      Server:
+                                      <input type="text" id="server" size="16" value="m11.cloudmqtt.com">
+                                      Port:
+                                      <input type="text" id="port" size="5" value="39547" > 
+                                      User:
+                                      <input type="text" id="username" size="8" value="bpbgifio">
+                                      Password:
+                                      <input type="password" id="password" size="4" value="TaxZFQ5IkTjE" > 
+                                    </form> 
+                             </div>
+
         <div class="section group">
                 </div>
                 <div class="section group">
@@ -237,22 +252,21 @@
                         
                         <hr class="style_one">
 
-                        <p> Start &nbsp &nbsp &nbsp   &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp Electroporator &nbsp &nbsp &nbsp &nbsp &nbsp Enable Machine Drive </p>
+                        <p> Setup &nbsp &nbsp &nbsp   &nbsp  &nbsp  &nbsp &nbsp  &nbsp  &nbsp &nbsp  &nbsp  &nbsp &nbsp  &nbsp &nbsp  &nbsp  &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp Enable Controls </p>
                         
 
-                        <button type="button" id="initPlatfomButton"  onclick='initPlatformButtonFunction();'> Init Platform </button>
+                        <button type="button" id="connectPlatfomButton"  onclick='connectPlatformButtonFunction();'> Connect to Platform </button>
 
-                        <button type="button" id="openElectroporatorLid"  onclick='openElectroporatorLidButtonFunction();'> Open</button>
-                         <button type="button" id="closeElectroporatorLid"  onclick='closeElectroporatorLidButtonFunction();'> Close </button>
+                        <button type="button" id="initPlatfomButton"  onclick='initPlatformButtonFunction();'> Initialize </button>
 
                         <input type="checkbox" checked id="driveMachineCheckbox"  onclick='handleDriveMachineCheckboxClick(this);' >
 
                         <hr class="style_one">
 
-                        <p> Select Syringe </p>
+                        <p> Select Syringe   &nbsp &nbsp &nbsp &nbsp  Transformation Lid </p>
 
                         <select id="selectExperimentMenu">
-                        <option value="0"> 1 </option>
+                        <option value="0"> Syringe 1 </option>
                         <option value="1"> 2 </option>
                         <option value="2"> 3 </option>
                         <option value="3"> 4 </option>
@@ -261,6 +275,10 @@
                         <option value="6"> 7 </option>
                         <option value="7"> 8</option>
                         </select>
+
+
+                        <button type="button" id="openElectroporatorLid"  onclick='openElectroporatorLidButtonFunction();'> Open</button>
+                         <button type="button" id="closeElectroporatorLid"  onclick='closeElectroporatorLidButtonFunction();'> Close </button>
 
 
                         <hr class="style_one">
@@ -436,7 +454,7 @@
 
                 <hr class="style_one"> 
                 --> 
-                <div id="pagefooter">Biorealize Inc. 2018 | MDS v.5 | CC-BY-SA 4.0 </div>
+                <div id="pagefooter">Biorealize Inc. 2018 | MDS v.6 | CC-BY-SA 4.0 </div>
                         <!-- The analytics chart is loaded here from CanvasJS --> 
 
 

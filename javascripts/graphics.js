@@ -104,7 +104,7 @@ function openElectroporatorLid(active){
 
 function displayTemperature(newTemp){
 
-	  document.getElementById("temperatureDisplayBox").innerHTML =  "<span style=\"color:#355ea3\">" + newTemp + "</span>"; 
+	  document.getElementById("machineStatusBox").innerHTML =  "<span style=\"color:#355ea3\">" + "Incubator @ " + newTemp + "C"+ "</span>"; 
 }
 
 function moveSyringeToMedia(syringe, duration){

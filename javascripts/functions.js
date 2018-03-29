@@ -2,6 +2,8 @@
         var ws;
         var wsUri = "ws:";
         var loc = window.location;
+
+        var client;
         
         var topicName = "@spec";
 
@@ -41,6 +43,8 @@
         var mediaCarousel;
         var organismCarousel;
         var electroporatorLid; 
+
+        var msgToWeb;
 
         console.log(loc);
 
@@ -156,6 +160,56 @@
             }
         }
         */
+
+        /*Sets the MQTT credentials*/
+
+        function setMQTTCredentionals(){
+
+
+            serverName = document.getElementById('server').value;
+            portNo = document.getElementById('port').value;
+            userName = document.getElementById('username').value;
+            password = document.getElementById('password').value;
+
+            client = new Paho.MQTT.Client(serverName, parseInt(portNo), "web_" + parseInt(Math.random() * 100, 10));//
+
+            client.onConnectionLost = onConnectionLost;
+            client.onMessageArrived = onMessageArrived;
+
+            var options = {
+                useSSL: true,
+                //userName: "buwynvxd",
+                userName: userName, //"bpbgifio",
+                password: password, //"TaxZFQ5IkTjE",
+                //password: "AhFmFn2ibFAS",
+                onSuccess:onConnect,
+                onFailure:doFail
+              }
+
+            client.connect(options);
+
+            sendInterfaceMessage( 'Connected to Server', '');
+        }
+
+        function connectPlatformButtonFunction(){
+
+            setMQTTCredentionals();
+            hideServerSettings();
+
+        }
+
+        function hideServerSettings() {
+            var x = document.getElementById("serverSettingsDisplayBox");
+            var y = document.getElementById("status");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "none";
+            } else {
+                x.style.display = "none";
+                y.style.display = "block";
+            }
+        } 
+
             // handler for SHOW response
         function handle_SHOW_response(arg){
                 for(var propt in SHOW){
