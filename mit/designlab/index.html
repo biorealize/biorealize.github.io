@@ -101,7 +101,7 @@
     if ( !machineDriveEnabled && receivedTopic =='@IncubatorWheel'){
         angle = message.payloadString.split('=')[1];
         console.log(angle);
-        animateWheel(angle * -180/Math.PI, 200);//250
+        animateWheel(angle * -180/Math.PI, 300);//250
     }
 //@heater:temp_sp= 37.0;
     else if ( receivedTopic =='@heater'){
