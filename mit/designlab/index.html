@@ -1,0 +1,462 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <title>MIT Design Lab: Microbial Design Studio</title>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+
+
+    <link rel="stylesheet" href="stylesheets/html5reset.css" media="all">
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="stylesheet" href="stylesheets/col.css" media="all">
+    <link rel="stylesheet" href="stylesheets/4cols.css" media="all"/>
+    <link rel="stylesheet" href="stylesheets/2cols.css" media="all"/>
+
+    <!-- Responsive and mobile friendly -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript" ></script>
+    <!-- SVG lib -->    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.5.0/svg.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="javascripts/snap.svg.js"></script>
+
+    <!-- Functions -->    
+    <script type="text/javascript" src="javascripts/functions.js"></script>
+
+    <!-- CanvasJS -->
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+    <!-- This is the MQTT related section -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+
+    <!-- SVG Graphics -->    
+   <script type="text/javascript" src="javascripts/graphics.js"></script>   
+    
+    <script type="text/javascript">
+
+  // Create a client instance
+  // m10.cloudmqtt.com
+
+  //var client = new Paho.MQTT.Client("m11.cloudmqtt.com", 39547, "web_" + parseInt(Math.random() * 100, 10));//
+
+  //client = new Paho.MQTT.Client("m10.cloudmqtt.com", 37282, "web_" + parseInt(Math.random() * 100, 10));
+
+
+  // set callback handlers
+  /*
+  client.onConnectionLost = onConnectionLost;
+  client.onMessageArrived = onMessageArrived;
+
+  var options = {
+    useSSL: true,
+    //userName: "buwynvxd",
+    userName: "bpbgifio",
+    password: "TaxZFQ5IkTjE",
+    //password: "AhFmFn2ibFAS",
+    onSuccess:onConnect,
+    onFailure:doFail
+  }
+  */
+
+  // connect the client
+  //client.connect(options);
+
+  // called when the client connects
+  function onConnect() {
+    // Once a connection has been made, make a subscription and send a message.
+    console.log("onConnect");
+    client.subscribe("/#");       
+    message = new Paho.MQTT.Message("Hello CloudMQTT"); //InteractiveCommand.Agitate(1)
+    message.destinationName = "/MDS/Interactive";
+    client.send(message); 
+  }
+
+  function doFail(e){
+    console.log(e);
+  }
+
+  // called when the client loses its connection
+  function onConnectionLost(responseObject) {
+    if (responseObject.errorCode !== 0) {
+      console.log("onConnectionLost:"+responseObject.errorMessage);
+
+    }
+  }
+
+  // called when a message arrives
+  function onMessageArrived(message) {
+
+    //console.log("onMessageArrived: "+ message.payloadString);
+
+
+    var receivedTopic = message.payloadString.split(':')[0];
+    document.getElementById("status").innerHTML = 'Microbial Design Studio Ready' ; 
+
+    //if ( !machineDriveEnabled && receivedTopic =='Echo'){
+
+    if ( !machineDriveEnabled && receivedTopic =='@IncubatorWheel'){
+        angle = message.payloadString.split('=')[1];
+        console.log(angle);
+        animateWheel(angle * -180/Math.PI, 300);//250
+    }
+//@heater:temp_sp= 37.0;
+    else if ( receivedTopic =='@heater'){
+        temp_sp = message.payloadString.split('=')[1];
+        temp_sp  = temp_sp .substring(0, temp_sp.length - 1); //eliminating the trailing ";"
+        console.log(temp_sp);
+        displayTemperature(temp_sp);
+    }
+
+    else if (receivedTopic=='@spec'){
+    
+                    var line = "";  // or uncomment this to overwrite the existing message
+                    // parse the incoming message as a JSON object
+                    
+                    
+                    //var data = msg.data;
+                    var data = message.payloadString.substr(6);
+                    //console.log(data) ; 
+                    // dispatch to appropriate, if indicated
+                    // messages that require special handling are JSON statements that have an "=" in them
+                    // the left of the '=' is the name of the handler function, 
+                    // and the right of the '=' is a JSON statement that has the on which the handler will act
+                    var eqAt = data.search('=');
+
+                    if (eqAt > 0){
+                        // Get the var name
+                        // for example, a message like "TEST={x:1,y:2,z:3"} will yield a var named "TEST"
+                        var varName = data.substr(0,eqAt);
+                        
+                        // convert the JSON into a local value
+                        // whose name matches varName
+                        var functionArg = eval(data);
+                        
+                        // build up a statement that will invoke the handler function,
+                        // passing the structure as an argument
+                        // for example, a message like "TEST={x:1,y:2,z:3"} 
+                        // will cause evalExpression to have the value 'handle_TEST_response(TEST)'
+                        // which, when evaluated, will pass the TEST object to the handle_TEST function
+                        var evalExpression = "handle_" + varName + "_response(" + varName + ")" 
+                        eval(evalExpression);
+                        
+                    }
+                    else{
+                        console.log(data);
+                        // build the output from the topic and payload parts of the object
+                        //line += "<p>"+data+"</p>";
+                        // replace the messages div with the new "line"
+                        //document.getElementById('messages').innerHTML = line;
+                        //ws.send(JSON.stringify({data:data}));
+                    }
+
+
+    }
+
+    //document.getElementById("status").innerHTML = receivedMessage ; 
+
+    //document.getElementById("status").innerHTML =  "<span style=\"color:#355ea3\">" + message.payloadString + "</span>";; 
+
+
+  }
+
+    /*  
+    function sendMachineMessage(m) {
+        if (client) { 
+            var topic = m.split(":")[0].substr(1); // get the @ prefix as a topic
+            var message = new Paho.MQTT.Message(m);
+            message.destinationName = "/MDS";
+            if (topic.length > 0) message.destinationName = message.destinationName + "/" + topic;
+            client.send(message);        
+        }
+    }
+    */
+
+        function sendMachineMessage(m) {
+        if (client) { 
+            //var topic = '/MDS/+'
+            var message = new Paho.MQTT.Message(m);
+            message.destinationName = "/MDS/Interactive";
+            //if (topic.length > 0) message.destinationName = message.destinationName + "/" + topic;
+            client.send(message);        
+        }
+    }
+
+    /*Functions added for GUI */
+
+    function sendInterfaceMessage(m1, m2){
+
+        document.getElementById("status").innerHTML =  "<span style=\"color:#355ea3\">" + m1 + "</span>" + '&nbsp &nbsp &nbsp &nbsp'+ "<span style=\"color:black\">" + m2 + "</span>"; ; 
+
+    }
+
+
+  
+</script>   
+
+
+    </head>
+
+       <body >
+        
+        <div id="pageheader">
+            <img src="images/biorealizelogo.svg" alt="Microbial Design Studio" class="center"> 
+        </div>
+
+
+        <hr class="style_two">
+
+        <div id="messages"></div>
+
+        <div class="section group">
+            <div class="col span_1_of_2">
+                    <svg id="mdsDrawing"></svg> 
+                    <div id="machineStatusBox"> Waiting For MDS Status... </div>
+
+               <!-- <div class="machineDrawing"></div>  --> 
+                
+            </div>
+            <div class="col span_1_of_2">
+                 <div id="chartContainer">Analytics</div>   
+            </div>
+        </div>
+
+        
+        <hr class="style_one">
+
+        <div id="status">Waiting to connect... </div>
+
+        <div id="serverSettingsDisplayBox">
+                                 <form>
+                                      Server:
+                                      <input type="text" id="server" size="16" value="m14.cloudmqtt.com">
+                                      Port:
+                                      <input type="text" id="port" size="5" value="38086" > 
+                                      User:
+                                      <input type="text" id="username" size="8" value="rnyqxved">
+                                      Password:
+                                      <input type="password" id="password" size="4" value="sj7WFI_2EH28" > 
+                                    </form> 
+                             </div>
+
+        <div class="section group">
+                </div>
+                <div class="section group">
+                    
+                    <div class="col span_1_of_4">
+                        <div class = "designmenu">
+                        Design
+                        
+                        <hr class="style_one">
+
+                        <p> Setup &nbsp &nbsp &nbsp   &nbsp  &nbsp  &nbsp &nbsp  &nbsp  &nbsp &nbsp  &nbsp  &nbsp &nbsp  &nbsp &nbsp  &nbsp  &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp Enable Controls </p>
+                        
+
+                        <button type="button" id="connectPlatfomButton"  onclick='connectPlatformButtonFunction();'> Connect to Platform </button>
+
+                        <button type="button" id="initPlatfomButton"  onclick='initPlatformButtonFunction();'> Initialize </button>
+
+                        <input type="checkbox" checked id="driveMachineCheckbox"  onclick='handleDriveMachineCheckboxClick(this);' >
+
+                        <hr class="style_one">
+
+                        <p> Select Syringe   &nbsp &nbsp &nbsp &nbsp  Transformation Lid </p>
+
+                        <select id="selectExperimentMenu">
+                        <option value="0"> Syringe 1 </option>
+                        <option value="1"> 2 </option>
+                        <option value="2"> 3 </option>
+                        <option value="3"> 4 </option>
+                        <option value="4"> 5 </option>
+                        <option value="5"> 6 </option>
+                        <option value="6"> 7 </option>
+                        <option value="7"> 8</option>
+                        </select>
+
+
+                        <button type="button" id="openElectroporatorLid"  onclick='openElectroporatorLidButtonFunction();'> Open</button>
+                         <button type="button" id="closeElectroporatorLid"  onclick='closeElectroporatorLidButtonFunction();'> Close </button>
+
+
+                        <hr class="style_one">
+
+                        <p> Load Syringes </p>
+                        
+                        <button type="button" id="startChangeSyringeButton" = onclick='startChangeSyringeButtonFunction();'>  Start Change Syringe -> </button>
+
+                        <button type="button" id="finishChangeSyringeButton" = onclick='finishChangeSyringeButtonFunction();'> Finish Change Syringe -> </button>
+                        
+                        <hr class="style_one">
+
+                        <p> Start Experiments</p>
+
+                        <button type="button" id="selectExperimentButton" = onclick='runExperimentButtonFunction();'> Run -> </button>
+
+                        <hr class="style_one">
+                        </div>
+                    </div> 
+
+
+                    <div class="col span_1_of_4">
+
+                        <div class = "culturemenu">
+                        Culture
+
+                        <hr class="style_one">
+
+                        <p> Load Media &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp Load Organisms </p>
+
+
+                        <button type="button" id="loadMediaButton" onclick= "loadMediaButtonFunction();" > Load Media -> </button>  
+
+                        <button type="button" id="LoadOrganismButton" onclick= "loadOrganismButtonFunction();" > Load Organism -> </button> 
+
+                        <hr class="style_one">
+
+
+                         <p> Incubation Duration</p>
+
+                        <select id="incubateDurationMenu">
+                        <option value="30:00"> 30 min </option>
+                        <option value="60:00"> 60 min </option>
+                        <option value="06:00:00"> 6 hrs </option>
+                        <option value="12:00:00"> 12 hrs </option>
+                        <option value="24:00:00"> 24 hrs </option>
+                        </select>
+
+                        <button type="button" id="incubateStartButton" onclick= "incubateStartButtonFunction();" > Start -> </button> 
+                        <button type="button" id="incubateStopButton" onclick= "incubateStopButtonFunction();" > Stop -> </button> 
+
+                        <hr class="style_one">
+
+                        <p> Incubation Temperature</p>
+
+                        <select id="incubateTempratureMenu">
+                        <option value="370"> 37 C </option>
+                        <option value="300"> 30 C</option>
+                        <option value="420"> 42 C </option>
+                        </select>
+
+                        <button type="button" id="setTempButton" onclick= "setTempButtonFunction();" > Set -> </button> 
+
+                        <hr class="style_one">
+
+                         <p> Unload Culture</p>
+
+                        <button type="button" id="unloadCultureButton" onclick= "unloadCultureButtonFunction();" > Unload Culture -> </button> 
+                        
+                        <hr class="style_one">
+
+                        </div>
+                    </div>
+
+                    <div class="col span_1_of_4">
+                        <div class = "analyzemenu">
+                        Analyze
+                        
+                        <hr class="style_one">
+
+
+
+                        <p> Spec # &nbsp Sampling Duration</p>
+
+                        <select id="displaySpecForExperimentMenu">
+                        <option value="0"> 1 </option>
+                        <option value="1"> 2 </option>
+                        <option value="2"> 3 </option>
+                        <option value="3"> 4 </option>
+                        <option value="4"> 5 </option>
+                        <option value="5"> 6 </option>
+                        <option value="6"> 7 </option>
+                        <option value="7"> 8 </option>
+                        </select>
+                        
+                        <select id="specSamplingDurationMenu">
+                        <option value="01:00"> 1 min </option>
+                        <option value="10:00"> 10 mins </option>
+                        <option value="30:00"> 30 mins </option>
+                        <option value="60:00"> 60 mins </option>
+                        </select>
+
+                    
+                        <hr class="style_one">  
+
+                         <p> Spectrometer Settings</p>
+
+                        <button type="button" onclick='specStartFunction();'>Start Spec</button>
+                        <button type="button" onclick='specShowFunction();'>Show Spec</button>
+                        <!--<button type="button" onclick='specStopFunction();'>Stop</button>-->
+                        <button type="button" onclick='specRawSpectrumFunction();'>Raw Spectrum</button>
+
+                        <hr class="style_one">
+
+                        <p> Optional Features </p>
+                        <button type="button" onclick='specLightOnFunction();'>Light On</button>
+                        <button type="button" onclick='specLightOffFunction();'>Light Off</button>
+                        <!--<button type="button" onclick='specUVOnFunction();'>UV On</button>-->
+                        <!--<button type="button" onclick='specUVOffFunction();'>UV Off</button>-->
+
+                        <hr class="style_one">  
+
+
+                        </div>
+                    </div> 
+                    <!--
+                    <div class="col span_1_of_4">
+                        <div class = "configuremenu">
+                        Configure
+                        <br>
+                        
+                        <hr class="style_one">
+
+                        <p> Spectrometer Calibration </p>
+
+                        
+                        SN: <input type="text" size="3" id="serialNum" >
+                        A0: <input type="text" size="3" id="A0">
+                        B1: <input type="text" size="3" id="B1">
+                        B2: <input type="text" size="3" id="B2">
+                        B3: <input type="text" size="3" id="B3">
+                        B4: <input type="text" size="3" id="B4">
+                        B5: <input type="text" size="3" id="B5">
+
+                        &nbsp  <button type="button" id="setSpecCalibration" onclick= "setSpecCalibrationButtonFunction();" > Set </button>  
+                        
+                        <hr class="style_one">                        
+                        
+                        <p> Clock Period &nbsp &nbsp Integration Time</p>
+
+                        <input type="text" id="clockPeriod" value="20us" size="8"> 
+                        <input type="text" id="integrationTime" size="8">      
+                        <button type="button" onclick='setClockPeriodButtonFunction;'> -></button>
+                        
+                         <hr class="style_one">
+
+                        </div>
+                        --> 
+                    </div>
+
+                </div>
+
+                 <hr class="style_one">
+                        <!-- Responsive and mobile friendly 
+                        <p> Debug Command &nbsp &nbsp &nbsp  &nbsp &nbsp   &nbsp&nbsp  &nbsp  &nbsp  &nbsp&nbsp  &nbsp  &nbsp  &nbsp  Simulation Control </p>
+
+                        <input type="text" id="rawCommandForDebug" value="@___:___;" size="20"> 
+                        <button type="button" onclick='sendRawCommandFunction();'> -></button>
+                        
+
+                        <button type="button" onclick='sendMachineMessage("@electroporator:SIMULATION_ON;");'>Simulation On</button>
+                        <button type="button" onclick='sendMachineMessage("@electroporator:SIMULATION_OFF;");'>Simluation Off</button>  
+
+                <hr class="style_one"> 
+                --> 
+                <div id="pagefooter">Biorealize Inc. 2018 | MDS v.6 | CC-BY-SA 4.0 </div>
+                        <!-- The analytics chart is loaded here from CanvasJS --> 
+
+
+    </body>
+</html>
