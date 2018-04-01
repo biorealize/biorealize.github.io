@@ -221,8 +221,158 @@
                     }
                 }
             }
+
+
+			function $c(t) {
+				console.log(t);
+			}
+
             
-            function handle_RAW_SCAN_response(RAW_SCAN){
+			//set up some constants and global variables
+			var BIAS = 20200;			
+			var spec_data = {};
+			var OD600INDEX = 117;
+
+            function receive_RAW_SCAN() {
+            	//dummy spectral data, will be received from MQTT
+            	$.get(location.href + 'MDS_16FEB2018_spectral_samples.dat', function(data, status) {
+            		//dummy SHOW data, will be retrieved from MQTT
+            		var SHOW = {specState:6, specReady:1, specDataIndex:158, specBufferFilling:1, video_bias:0, video_max:40000, whiteLED:0, laserLED:0, whitePct:0.00, laserPct:0.00, clockPeriod:14, integrationTime:672, serialNum:"16a00106", A0:3.112979665E+02, B1:2.682851027E+00, B2:-7.479508945E-04, B3:-1.104274866E-05, B4:2.175770976E-08, B5:-1.189582572E-11};
+            		// make an empty array to hold the wavelength values for each sample
+					var wl=[];
+					// load the array with calculated wavelengths, using a 5th order polynomial calculation
+					for (var i=1;i<=288;i++) {
+						wl.push(SHOW.A0 + SHOW.B1*i + SHOW.B2*i^2 + SHOW.B3*i^3 + SHOW.B4*i^4 + SHOW.B5*i^5);
+					}
+            		
+            		//use regex to extract info from MQTT result
+            		var re = /@annotate:Spectral Sample for (\d), date=(.*)\s\(.*\n@spec:RAW_SCAN=\[(.*)\]/gm;
+            		do {
+            			var m = re.exec(data);
+            			if (m) {
+            				var syringe = m[1].toString();
+            				if (spec_data[syringe] === undefined) {
+            					spec_data[syringe] = [];
+            				}
+            				//convert date string to UNIX timestamp in seconds
+            				var ts = new Date(m[2]).getTime() / 1000;
+            				//convert datapoints to array
+            				var d = m[3].split(',');
+            				spec_data[syringe].push({timestamp:ts, dataPoints:d});
+            			}
+            		} while (m);
+            		
+            		//calculate OD, elapsed time for each timestamp for each syringe
+            		//to calculate the x and y domains properly, we need an array of all values for all syringes
+            		var allXVals = [], allYVals = [];
+					for (var syringe in spec_data) {
+						for (var i=0; i<spec_data[syringe].length;i++) {
+							var OD = Math.max(-Math.log10((spec_data[syringe][i].dataPoints[OD600INDEX] - BIAS) / (spec_data[syringe][0].dataPoints[OD600INDEX] - BIAS)), 0);
+							spec_data[syringe][i].OD600 = OD;
+							allYVals.push(OD);
+							
+							var elapsed = (spec_data[syringe][i].timestamp - spec_data[syringe][0].timestamp) / 60;
+							spec_data[syringe][i].elapsed = elapsed;
+							allXVals.push(elapsed);
+						}
+					}
+					$c(spec_data);
+					
+					//plot it
+					
+					var svg = d3.select('#chartContainer')
+						.insert("svg")
+						.attr("class", "spectrometer_data");
+					var margin = {top: 20, right: 20, bottom: 50, left: 50};
+					var graph_w = $('svg.spectrometer_data').width() - margin.right - margin.left;
+					var graph_h = $('svg.spectrometer_data').height() - margin.top - margin.bottom;
+					var g = svg.append("g")
+						.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+					
+					var xDomain = d3.extent(allXVals);
+					var yDomain = d3.extent(allYVals);
+										
+					var x = d3.scaleLinear()
+						.rangeRound([0, graph_w])
+						.domain(xDomain);						
+
+					var y = d3.scaleLinear()
+						.rangeRound([graph_h, 0])
+						.domain(yDomain);
+
+					var xAxis = d3.axisBottom(x)
+					var yAxis = d3.axisLeft(y)				
+						.ticks(yDomain[1] * 5);
+						
+					//https://bl.ocks.org/d3noob/c506ac45617cf9ed39337f99f8511218
+					function make_x_gridlines() {
+						return d3.axisBottom(x);
+					}
+
+					function make_y_gridlines() {
+						return d3.axisLeft(y)
+							.ticks(yDomain[1] * 5);
+					}
+
+					// add the X gridlines
+					  g.append("g")			
+						  .attr("class", "grid")
+						  .attr("transform", "translate(0," + graph_h + ")")
+						  .call(make_x_gridlines()
+							  .tickSize(-graph_h)
+							  .tickFormat("")
+						  );
+
+					  // add the Y gridlines
+					  g.append("g")			
+						  .attr("class", "grid")
+						  .call(make_y_gridlines()
+							  .tickSize(-graph_w)
+							  .tickFormat("")
+						  );
+					
+					
+					g.append("g")
+						.attr("class", "x axis")
+						.attr("transform", "translate(0," + graph_h + ")")
+						.call(xAxis)
+						.append("text")
+						.attr("class", "x label")
+						.attr("text-anchor", "middle")
+						.attr("y", 0)
+						.attr("dy", "3em")
+						.attr("x", graph_w/2)
+						.text("Elapsed Time, Minutes");
+
+					g.append("g")
+						.attr("class", "y axis")
+						//.attr("transform", "translate(" + graph_w + ", 0)")
+						.call(yAxis)
+						.append("text")
+						.attr("class", "y label")
+						.attr("text-anchor", "middle")
+						.attr("y", 0)
+						.attr("dy", "-3em")
+						.attr("x", -graph_h/2)
+						.attr("transform", "rotate(-90)")
+						.text("Absorbance at 600 nm");
+
+ 
+					var line = d3.line()
+						.x(function(d) { return x(d.elapsed); })
+						.y(function(d) { return y(d.OD600); });
+
+					for (var syringe in spec_data) {
+						g.append("path")
+							.datum(spec_data[syringe])
+							.attr("class", "line syringe" + syringe)
+							.attr("d", line);
+					}
+
+         	  	});
+            }
+            
+			function handle_RAW_SCAN_response(RAW_SCAN){
                 var dataPoints=[];
                 for (var i = 0; i < RAW_SCAN.length; i++) { 
                     dataPoints.push({y:RAW_SCAN[i]});
@@ -674,6 +824,9 @@
 
             if (machineDriveEnabled)
                 sendMachineMessage( msgToMachine  );
+                
+            //temp, just for demo
+            receive_RAW_SCAN();
 
        }
 
