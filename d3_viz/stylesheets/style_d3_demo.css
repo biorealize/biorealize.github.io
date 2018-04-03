@@ -1,0 +1,145 @@
+body {
+  background-color: #FFFFFF;
+  padding: 10px;
+  padding:0.5em; 
+  font: 100%/1.4 'Helvetica Neue', arial, helvetica, helve, sans-serif; 
+
+
+}
+
+/*https://css-tricks.com/examples/hrs/*/
+
+p, blockquote, q {
+  padding: 1px;
+  color: #2f5182;
+  font-size: 10px; 
+  font-family: 'SegoeUILight', sans-serif; font-weight: normal;
+}
+
+a {
+  color: #00B7FF;
+}
+
+h1 { 
+  font-size: 10px; 
+  font-family: 'SegoeUILight', sans-serif; font-weight: normal;
+  /*font-size:2.2em; padding:0 0 .5em 0; */
+}
+
+h2 { 
+  font-size:1.5em; 
+}
+
+/*http://cssdeck.com/labs/better-button*/
+button, select
+{
+
+  padding: 2px 6px;
+  margin: 6px auto;
+  background-color: #f5f5f5;
+  font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  border: 1px solid #cccccc;
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border-bottom-color: #b3b3b3;
+  cursor: pointer;
+}
+
+
+
+hr{
+ border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+hr.style_one{
+ border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+ margin: 4px;
+}
+
+hr.style_two{
+ border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+ margin: 0px;
+}
+
+
+button:active
+{
+  color: #6c7de7;
+}
+
+select: active{
+  color: #6c7de7;
+}
+
+input[type="text"]
+{
+   margin: 6px auto; 
+    font-size:8px;
+}
+
+/* D3 styles */
+#chartContainer {
+	height: 360px;
+	width: 659px;
+}
+svg.spectrometer_data {
+	height: 100%;
+	width: 100%;
+}
+
+g .label {
+	font-size:9pt;
+}
+
+.label {
+	fill: #000;
+}
+
+.tick line {
+	display: none;
+}
+
+.line {
+	fill: none;
+	stroke:#00A;
+	stroke-width: 1.5px;
+}
+
+.syringe0 {
+	stroke:#3e64cf;
+}
+
+.syringe1 {
+	stroke:#d83d18;
+}
+
+.syringe4 {
+	stroke:#fa9f00;
+}
+
+.syringe5 {
+	stroke:#2d9c0c;
+}
+
+.grid .tick line {
+	display: block;
+}
+
+.grid line {
+	stroke: lightgrey;
+	stroke-opacity: 0.7;
+	shape-rendering: crispEdges;
+}
+
+.grid path {
+	stroke-width: 0;
+}
+
+
+

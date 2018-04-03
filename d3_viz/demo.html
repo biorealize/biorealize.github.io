@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+    <title>Biorealize: Microbial Design Studio</title>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+
+
+    <link rel="stylesheet" href="stylesheets/html5reset.css" media="all">
+    <link rel="stylesheet" href="stylesheets/style_d3_demo.css" />
+    <link rel="stylesheet" href="stylesheets/col.css" media="all">
+    <link rel="stylesheet" href="stylesheets/4cols.css" media="all" />
+    <link rel="stylesheet" href="stylesheets/2cols.css" media="all" />
+
+    <!-- Responsive and mobile friendly -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript" ></script>
+    <!-- SVG lib -->    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.5.0/svg.js"></script>
+ 
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+
+    <!-- Functions -->    
+    <script type="text/javascript" src="javascripts/functions_d3_demo.js"></script>
+</head>
+
+<body>
+	<div id="chartContainer1" class="chartContainer">
+		<h2>Slow Growth Curve</h2>
+		<div class="controls">
+			<label for="syringe1">Syringe: </label>
+				<select class="control_syringe" id="syringe1" multiple>
+				</select>
+			<label for="wavelength1">Wavelength bin: </label>
+				<select class="control_wavelength" id="wavelength1">
+				</select>
+		</div>
+	</div>
+	<div id="chartContainer2" class="chartContainer">
+		<h2>Show Spec</h2>
+		<div class="controls">
+			<label for="syringe2">Syringe: </label>
+			<select class="control_syringe" id="syringe2">
+			</select>
+			<label for="timestring2">Time: </label>
+			<select class="control_timestring" id="timestring2">
+			</select>
+		</div>
+	</div>
+</body>
+</html>
