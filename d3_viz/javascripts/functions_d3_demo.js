@@ -33,7 +33,7 @@
 					// make an empty array to hold the wavelength values for each sample
 					// load the array with calculated wavelengths, using a 5th order polynomial calculation
 					for (var i=1;i<=288;i++) {
-						wavelengths.push(SHOW.A0 + SHOW.B1*i + SHOW.B2*i^2 + SHOW.B3*i^3 + SHOW.B4*i^4 + SHOW.B5*i^5);
+						wavelengths.push(SHOW.A0 + SHOW.B1*i + SHOW.B2*parseFloat(i^2) + SHOW.B3*parseFloat(i^3) + SHOW.B4*parseFloat(i^4) + SHOW.B5*parseFloat(i^5));
 					}
 					
 					//use regex to extract info from MQTT result
@@ -104,7 +104,7 @@
 				var options = '';
 				for (var i = 0; i < wavelengths.length; i++) {
 					var selected = i == OD600INDEX ? ' selected="selected"' : ''; //select OD600
-					options += "<option value='" + i + "'" + selected + ">" + wavelengths[i] + "</option>";
+					options += "<option value='" + i + "'" + selected + ">" + Math.round(wavelengths[i]) + "</option>";
 				}
 				$('.control_wavelength').html(options);
 			}
@@ -191,7 +191,7 @@
 					.attr("dy", "-3em")
 					.attr("x", -graph_h/2)
 					.attr("transform", "rotate(-90)")
-					.text("Absorbance at " + wavelengths[wavelengthIndex] + " nm");
+					.text("Absorbance at " + Math.round(wavelengths[wavelengthIndex]) + " nm");
 
 
 				var line = d3.line()
