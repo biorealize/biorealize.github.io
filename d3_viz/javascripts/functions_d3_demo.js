@@ -8,6 +8,7 @@
 			var spec_data = {};
 			var OD600INDEX = 117;
 			var all_elapsed_vals = [], all_optical_densities = [], all_raw_values = [];
+			var wavelengths = [];
 		
 			
 			$( document ).ready(function() {
@@ -30,10 +31,9 @@
 					//dummy SHOW data, will be retrieved from MQTT
 					var SHOW = {specState:6, specReady:1, specDataIndex:158, specBufferFilling:1, video_bias:0, video_max:40000, whiteLED:0, laserLED:0, whitePct:0.00, laserPct:0.00, clockPeriod:14, integrationTime:672, serialNum:"16a00106", A0:3.112979665E+02, B1:2.682851027E+00, B2:-7.479508945E-04, B3:-1.104274866E-05, B4:2.175770976E-08, B5:-1.189582572E-11};
 					// make an empty array to hold the wavelength values for each sample
-					var wl=[];
 					// load the array with calculated wavelengths, using a 5th order polynomial calculation
 					for (var i=1;i<=288;i++) {
-						wl.push(SHOW.A0 + SHOW.B1*i + SHOW.B2*i^2 + SHOW.B3*i^3 + SHOW.B4*i^4 + SHOW.B5*i^5);
+						wavelengths.push(SHOW.A0 + SHOW.B1*i + SHOW.B2*i^2 + SHOW.B3*i^3 + SHOW.B4*i^4 + SHOW.B5*i^5);
 					}
 					
 					//use regex to extract info from MQTT result
@@ -84,7 +84,7 @@
 				var options = '';
 				for (var syringe in spec_data) {
 					var selected = options ? '' : ' selected="selected"'; //make first option selected
-					options += "<option val='" + syringe + "'" + selected + ">" + syringe + "</option>";
+					options += "<option value='" + syringe + "'" + selected + ">" + syringe + "</option>";
 				}
 				//set the syringes menu
 				$('.control_syringe').html(options);
@@ -95,16 +95,16 @@
 				var $syringe = $('.control_timestring').siblings('.control_syringe');
 				var syringe = $syringe.val();
 				for (var ts in spec_data[syringe]) {
-					options += "<option val='" + spec_data[syringe][ts].timeString + "'>" + spec_data[syringe][ts].timeString + "</option>";
+					options += "<option value='" + spec_data[syringe][ts].timeString + "'>" + spec_data[syringe][ts].timeString + "</option>";
 				}
 				$('.control_timestring').html(options);
 			}
 			
 			function set_wavelength_options() {
 				var options = '';
-				for (var i = 0; i < spec_data[0][0].dataPoints.length; i++) {
+				for (var i = 0; i < wavelengths.length; i++) {
 					var selected = i == OD600INDEX ? ' selected="selected"' : ''; //select OD600
-					options += "<option val='" + i + "'" + selected + ">" + i + "</option>";
+					options += "<option value='" + i + "'" + selected + ">" + wavelengths[i] + "</option>";
 				}
 				$('.control_wavelength').html(options);
 			}
@@ -114,7 +114,7 @@
 				//I could hard-code the chart container div and its controls, but this makes it more flexible: the divs are selected by whatever control triggers this function.
 				var $chartContainer = $(event.target).parents('.chartContainer');
 				var $syringe = $chartContainer.find('.control_syringe');
-				var wavelength = $chartContainer.find('.control_wavelength').val();
+				var wavelengthIndex = $chartContainer.find('.control_wavelength').val();
 				
 				$chartContainer.find('svg').remove();
 				var svg = d3.select('#' + $chartContainer.attr('id'))
@@ -191,12 +191,12 @@
 					.attr("dy", "-3em")
 					.attr("x", -graph_h/2)
 					.attr("transform", "rotate(-90)")
-					.text("Absorbance at 600 nm");
+					.text("Absorbance at " + wavelengths[wavelengthIndex] + " nm");
 
 
 				var line = d3.line()
 					.x(function(d) { return x(d.elapsed); })
-					.y(function(d) { return y(d.opticalDensities[wavelength]); });
+					.y(function(d) { return y(d.opticalDensities[wavelengthIndex]); });
 
 				for (var syringe in spec_data) {
 					if ($syringe.val().indexOf(syringe) < 0) {
@@ -230,7 +230,8 @@
 				var g = svg.append("g")
 					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 				
-				var xDomain = d3.extent([0, spec_data[syringe][0].dataPoints.length]);
+				//var xDomain = d3.extent([0, spec_data[syringe][0].dataPoints.length]);
+				var xDomain = d3.extent(wavelengths);
 				var yDomain = d3.extent(all_raw_values);
 									
 				var x = d3.scaleLinear()
@@ -281,7 +282,7 @@
 					.attr("y", 0)
 					.attr("dy", "3em")
 					.attr("x", graph_w/2)
-					.text("Wavelength (Bin #)");
+					.text("Wavelength");
 
 				g.append("g")
 					.attr("class", "y axis")
@@ -297,7 +298,7 @@
 
 
 				var line = d3.line()
-					.x(function(d, i) { return x(i); })
+					.x(function(d, i) { return x(wavelengths[i]); })
 					.y(function(d) { return y(d); });
 				g.append("path")
 					.datum(snapshot.dataPoints)
