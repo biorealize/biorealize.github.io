@@ -32,9 +32,16 @@
 					var SHOW = {specState:6, specReady:1, specDataIndex:158, specBufferFilling:1, video_bias:0, video_max:40000, whiteLED:0, laserLED:0, whitePct:0.00, laserPct:0.00, clockPeriod:14, integrationTime:672, serialNum:"16a00106", A0:3.112979665E+02, B1:2.682851027E+00, B2:-7.479508945E-04, B3:-1.104274866E-05, B4:2.175770976E-08, B5:-1.189582572E-11};
 					// make an empty array to hold the wavelength values for each sample
 					// load the array with calculated wavelengths, using a 5th order polynomial calculation
+					/*
 					for (var i=1;i<=288;i++) {
 						wavelengths.push(SHOW.A0 + SHOW.B1*i + SHOW.B2*parseFloat(i^2) + SHOW.B3*parseFloat(i^3) + SHOW.B4*parseFloat(i^4) + SHOW.B5*parseFloat(i^5));
 					}
+					*/
+					
+					for (var i=1;i<=288;i++) {
+						wavelengths.push(SHOW.A0 + SHOW.B1*i + SHOW.B2 * Math.pow(i,2) + SHOW.B3 * Math.pow(i,3) + SHOW.B4 * Math.pow(i,4) + SHOW.B5 * Math.pow(i,5));
+					}
+
 					
 					//use regex to extract info from MQTT result
 					var re = /@annotate:Spectral Sample for (\d), date=(.*)\s\(.*\n@spec:RAW_SCAN=\[(.*)\]/gm;
