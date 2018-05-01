@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-    <title>Biorealize: Microbial Design Studio</title>
+    <title>MIT Design Lab: Microbial Design Studio</title>
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
 
@@ -101,7 +101,7 @@
     if ( !machineDriveEnabled && receivedTopic =='@IncubatorWheel'){
         angle = message.payloadString.split('=')[1];
         console.log(angle);
-        animateWheel(angle * -180/Math.PI, 50);//250
+        animateWheel(angle * -180/Math.PI, 300);//250
     }
 //@heater:temp_sp= 37.0;
     else if ( receivedTopic =='@heater'){
@@ -232,14 +232,27 @@
         <div id="serverSettingsDisplayBox">
                                  <form>
                                       Server:
-                                      <input type="text" id="server" size="16" value="m11.cloudmqtt.com">
+                                      <input type="text" id="server" size="16" value="m14.cloudmqtt.com">
                                       Port:
-                                      <input type="text" id="port" size="5" value="39547" > 
+                                      <input type="text" id="port" size="5" value="31969" > 
                                       User:
-                                      <input type="text" id="username" size="8" value="bpbgifio">
+                                      <input type="text" id="username" size="8" value="witzcpry">
                                       Password:
-                                      <input type="password" id="password" size="4" value="TaxZFQ5IkTjE" > 
+                                      <input type="password" id="password" size="4" value="V8cPnM_IEhBS" > 
                                     </form> 
+
+                                <!--
+                                 <form>
+                                      Server:
+                                      <input type="text" id="server" size="16" value="m14.cloudmqtt.com">
+                                      Port:
+                                      <input type="text" id="port" size="5" value="38086" > 
+                                      User:
+                                      <input type="text" id="username" size="8" value="rnyqxved">
+                                      Password:
+                                      <input type="password" id="password" size="4" value="sj7WFI_2EH28" > 
+                                    </form> 
+                                  -->  
                              </div>
 
         <div class="section group">
