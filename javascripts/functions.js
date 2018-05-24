@@ -10,7 +10,7 @@
         var topicPrefix = "InteractiveCommand.";
 
         var currentExperimentNo = 1;
-        var specSamplingDuration = '10:00'
+        var specSamplingFrequency = '10:00'
 
         var syringeProxyPrefix = '@i2cSerialProxy' ;  
         var electroporatorPrefix = '@electroporator';
@@ -475,7 +475,7 @@
 
         currentExperimentNo = $("#selectExperimentMenu").children(":selected").attr("value");
         incubationDuration  = $("#incubateDurationMenu").children(":selected").attr("value"); 
-        specSamplingDuration  = $("#specSamplingDurationMenu").children(":selected").attr("value"); 
+        specSamplingFrequency  = $("#specSamplingFrequencyMenu").children(":selected").attr("value"); 
         
 
         msgToWeb = '<b>Start incubating </b> Experiment<b> '+ currentExperimentNo + '</b> for '+ incubationDuration ;
@@ -484,7 +484,7 @@
         //if (currentExperimentNo!=0)
         //    currentExperimentNo -= 1;
 
-        msgToMachine = topicPrefix + ':' + 'Incubate' + ' ' + currentExperimentNo + ' ' + incubationDuration + ' ' + specSamplingDuration + ';' ;
+        msgToMachine = topicPrefix + ':' + 'Incubate' + ' ' + currentExperimentNo + ' ' + incubationDuration + ' ' + specSamplingFrequency + ';' ;
 
         //sendInterfaceMessage( msgToWeb, msgToMachine  );
         //sendMachineMessage( msgToMachine  );
@@ -516,9 +516,9 @@
 
         currentExperimentNo = $("#selectExperimentMenu").children(":selected").attr("value");
         incubationDuration  = $("#incubateDurationMenu").children(":selected").attr("value"); 
-        specSamplingDuration  = $("#specSamplingDurationMenu").children(":selected").attr("value"); 
+        specSamplingFrequency  = $("#specSamplingFrequencyMenu").children(":selected").attr("value"); 
 
-        msgToWeb = '<b>Stop incubation </b> Experiment<b> '+ currentExperimentNo + '</b> for '+ incubationDuration ;
+        msgToWeb = '<b>Stop incubation </b> Experiment<b> '+ currentExperimentNo + '</b> for '+ incubationFrequency ;
 
 
         //if (currentExperimentNo!=0)
