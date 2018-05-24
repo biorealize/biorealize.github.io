@@ -563,7 +563,7 @@
             //topicName = '@spec';
             msgToWeb = 'Spec <b> White </b> Light is ' + '<b>'+ 'on' + '</b>' ;
             //msgToMachine = topicPrefix +  ':' +  'White 1' + ';' ;
-            msgToMachine = '@spec:White 1;'
+            msgToMachine = '@spec:WHITE 1;'
        
         sendInterfaceMessage( msgToWeb, msgToMachine  );
 
@@ -578,7 +578,7 @@
             msgToWeb = 'Spec <b> White </b> Light is ' + '<b>'+ 'off' + '</b>' ;
 
             //msgToMachine = topicPrefix +  ':' +  'White 0' + ';' ;
-            msgToMachine = '@spec:White 0;'
+            msgToMachine = '@spec:WHITE 0;'
 
             sendInterfaceMessage( msgToWeb, msgToMachine  );
             sendMachineMessage( msgToMachine  );
@@ -589,7 +589,7 @@
        function specUVOnFunction(){
 
             msgToWeb = 'Spec <b> UV </b> Laser is ' + '<b>'+ 'on' + '</b>' ;
-            msgToMachine = topicPrefix +  ':' +  'UVLaser 1' + ';' ;
+            msgToMachine = topicPrefix +  ':' +  'UVLASER 1' + ';' ;
 
 
             sendInterfaceMessage( msgToWeb, msgToMachine  );
@@ -604,7 +604,7 @@
 
             msgToWeb = 'Spec <b> UV </b> Laser is ' + '<b>'+ 'off' + '</b>' ;
 
-            msgToMachine = topicPrefix +  ':' +  'UVLaser 0' + ';' ;
+            msgToMachine = topicPrefix +  ':' +  'UVLASER 1' + ';' ;
         
             sendInterfaceMessage( msgToWeb, msgToMachine  );
 
