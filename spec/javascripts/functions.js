@@ -221,7 +221,7 @@
                     }
                 }
             }
-            
+/*            
             function handle_RAW_SCAN_response(RAW_SCAN){
                 var dataPoints=[];
                 for (var i = 0; i < RAW_SCAN.length; i++) { 
@@ -276,7 +276,7 @@
                 });
                 chart.render();
             }       
-        
+*/        
         function handleDriveMachineCheckboxClick(cb){
             
             machineDriveEnabled = cb.checked;
