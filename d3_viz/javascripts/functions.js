@@ -285,6 +285,9 @@
             }
             
             function plot_all_syringes_over_time() {
+            	d3.select('#chartContainer')
+					.select("svg")
+					.remove();
 				var svg = d3.select('#chartContainer')
 					.insert("svg")
 					.attr("class", "spectrometer_data");

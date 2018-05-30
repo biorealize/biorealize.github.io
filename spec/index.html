@@ -24,11 +24,12 @@
 
     <script type="text/javascript" src="javascripts/snap.svg.js"></script>
 
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
     <!-- Functions -->    
     <script type="text/javascript" src="javascripts/functions.js"></script>
-
-    <!-- CanvasJS -->
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script type="text/javascript" src="javascripts/functions_d3.js"></script>
 
     <!-- This is the MQTT related section -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
@@ -220,7 +221,10 @@
                 
             </div>
             <div class="col span_1_of_2">
-                 <div id="chartContainer">Analytics</div>   
+                 <div id="chartContainer"><div>Analytics</div>
+					<div id="chartContainer1" class="chartContainer">
+					</div><!--#chartContainer1-->
+                 </div>   
             </div>
         </div>
 
@@ -385,7 +389,6 @@
                 --> 
                 <div id="pagefooter">Biorealize Inc. 2018 | MDS Spec Module | CC-BY-SA 4.0 </div>
                         <!-- The analytics chart is loaded here from CanvasJS --> 
-
 
     </body>
 </html>

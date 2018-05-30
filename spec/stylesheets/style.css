@@ -228,4 +228,64 @@ input[type="text"]
 
 }
 
+/* D3 styles */
+#chartContainer {
+	height: 360px;
+	width: 659px;
+}
+svg.spectrometer_data {
+	height: 100%;
+	width: 100%;
+}
+
+g .label {
+	font-size:9pt;
+}
+
+.label {
+	fill: #000;
+}
+
+.tick line {
+	display: none;
+}
+
+.line {
+	fill: none;
+	stroke:#00A;
+	stroke-width: 1.5px;
+}
+
+.syringe0 {
+	stroke:#3e64cf;
+}
+
+.syringe1 {
+	stroke:#d83d18;
+}
+
+.syringe4 {
+	stroke:#fa9f00;
+}
+
+.syringe5 {
+	stroke:#2d9c0c;
+}
+
+.grid .tick line {
+	display: block;
+}
+
+.grid line {
+	stroke: lightgrey;
+	stroke-opacity: 0.7;
+	shape-rendering: crispEdges;
+}
+
+.grid path {
+	stroke-width: 0;
+}
+
+
+
 
