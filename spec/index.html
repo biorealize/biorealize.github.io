@@ -73,7 +73,8 @@
     client.subscribe("/#");       
     message = new Paho.MQTT.Message("Hello CloudMQTT"); //InteractiveCommand.Agitate(1)
     message.destinationName = "/MDS/Interactive";
-    client.send(message); 
+    client.send(message);
+    $('#driveMachineCheckbox, #SpectrometerControls button').prop('disabled', false);
   }
 
   function doFail(e){
@@ -221,9 +222,17 @@
                 
             </div>
             <div class="col span_1_of_2">
-                 <div id="chartContainer"><div>Analytics</div>
+                 <div id="chartContainer">
 					<div id="chartContainer1" class="chartContainer">
+						<h2>Slow Growth Curve</h2>
+						<div class="controls">
+							<label for="wavelength1">Wavelength: </label>
+							<select class="control_wavelength" id="wavelength1"></select>
+						</div>
 					</div><!--#chartContainer1-->
+					<div id="chartContainer2" class="chartContainer">
+						<h2>Raw Spec</h2>
+					</div><!--#chartContainer2-->
                  </div>   
             </div>
         </div>
@@ -263,17 +272,18 @@
 
                         <button type="button" id="initPlatfomButton"  onclick='initPlatformButtonFunction();'> Initialize </button>
 
-                        <input type="checkbox" checked id="driveMachineCheckbox"  onclick='handleDriveMachineCheckboxClick(this);' >
+                        <input type="checkbox" checked id="driveMachineCheckbox"  onclick='handleDriveMachineCheckboxClick(this);' disabled>
 
                         <hr class="style_one">
 
-
+						<section id="SpectrometerControls">
                          <p> Spectrometer Settings</p>
-
-                        <button type="button" onclick='specStartFunction();'>Start Spec</button>
-                        <button type="button" onclick='specShowFunction();'>Show Spec</button>
+                        <button type="button" onclick='specStartFunction();' disabled>Start Spec</button>
+                        <button type="button" onclick='specShowFunction();' disabled>Show Spec</button>
                         <!--<button type="button" onclick='specStopFunction();'>Stop</button>-->
-                        <button type="button" onclick='specRawSpectrumFunction();'>Raw Spectrum</button>
+                        <button type="button" onclick='specRawSpectrumFunction();' disabled>Raw Spectrum</button>
+                        <button type="button" onclick='updateGrowthCurve();'>Growth Curve</button>
+                        <section>
 
                         <hr class="style_one">
 
@@ -388,7 +398,5 @@
                 <hr class="style_one"> 
                 --> 
                 <div id="pagefooter">Biorealize Inc. 2018 | MDS Spec Module | CC-BY-SA 4.0 </div>
-                        <!-- The analytics chart is loaded here from CanvasJS --> 
-
     </body>
 </html>

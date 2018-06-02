@@ -713,8 +713,6 @@
 
        }
 
-
-
        function setSpecCalibrationButtonFunction(){
             
             var message = ":CALIBRATE";
