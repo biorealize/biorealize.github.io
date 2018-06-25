@@ -563,7 +563,8 @@
             //topicName = '@spec';
             msgToWeb = 'Spec <b> White </b> Light is ' + '<b>'+ 'on' + '</b>' ;
             //msgToMachine = topicPrefix +  ':' +  'White 1' + ';' ;
-            msgToMachine = '@spec:WHITE 1;'
+            //msgToMachine = '@spec:WHITE 1;'
+            msgToMachine = '@Node:COOL 10;';
        
         sendInterfaceMessage( msgToWeb, msgToMachine  );
 
@@ -578,7 +579,8 @@
             msgToWeb = 'Spec <b> White </b> Light is ' + '<b>'+ 'off' + '</b>' ;
 
             //msgToMachine = topicPrefix +  ':' +  'White 0' + ';' ;
-            msgToMachine = '@spec:WHITE 0;'
+            //msgToMachine = '@spec:WHITE 0;'
+            msgToMachine = '@Node:COOL 38;';
 
             sendInterfaceMessage( msgToWeb, msgToMachine  );
             sendMachineMessage( msgToMachine  );
