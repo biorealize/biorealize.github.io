@@ -25,6 +25,9 @@
 
         var incubatorPrefix = '@incubator' ;
 
+        var teensyPrefix = '@NIN';
+        var motorPrefix = '@IncubatorWheel'; //NODE
+
         var mds;
         var frame;
         var wheel_group;
@@ -34,7 +37,7 @@
         var wheel_xPos = 190;
         var wheel_yPos = 22;
 
-        var machineDriveEnabled;
+        var machineDriveEnabled = true;
 
         var syringe1;
         var syringe2;
@@ -45,6 +48,16 @@
         var electroporatorLid; 
 
         var msgToWeb;
+
+        var currentSettingsMenu = null;
+
+        var motorDirection = 1;
+        var motorSpinInterval = 2150;
+        var motorIsPaused = false;
+
+        var startTime;
+        var currentTime;
+        var startDate; 
 
         console.log(loc);
 
@@ -189,26 +202,200 @@
             client.connect(options);
 
             sendInterfaceMessage( 'Connected to Server', '');
+
+
         }
 
-        function connectPlatformButtonFunction(){
+        function connectToNodeButtonFunction(){
 
             setMQTTCredentionals();
-            hideServerSettings();
+            
+        }
+
+        /*
+        New Node Function for enabling the NFC
+        */
+        function scanYourExperimentButtonFunction(){
+            
+            msgToMachine = teensyPrefix + ':READ;'; 
+            sendMachineMessage( msgToMachine  );   
+        }
+
+        /*
+        function hideServerSettings() {
+            var x = document.getElementById("serverSettingsDisplayBox");
+            //var y = document.getElementById("status");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                //y.style.display = "none";
+            } else {
+                x.style.display = "none";
+                //y.style.display = "block";
+            }
+        } */
+
+
+        /*
+        Node Spec Settings Menu
+        */
+        function specSettingsButtonFunction(){
+
+        //close what is visible already
+        if (currentSettingsMenu != null)
+            currentSettingsMenu.style.display = "none";
+           
+        currentSettingsMenu = document.getElementById("specSettingsMenu");
+
+         if (currentSettingsMenu.style.display === "none"){
+                currentSettingsMenu.style.display = "block";
+            } else {
+                currentSettingsMenu.style.display = "none";
+            }
+        }
+
+
+        /*
+        Node Heater/Cooler Settings Menu
+        */
+
+        function climateSettingsButtonFunction(){
+
+        //close what is visible already
+        if (currentSettingsMenu != null)
+            currentSettingsMenu.style.display = "none";
+
+        currentSettingsMenu = document.getElementById("climateSettingsMenu");
+
+
+         if (currentSettingsMenu.style.display === "none"){
+                currentSettingsMenu.style.display = "block";
+            } else {
+                currentSettingsMenu.style.display = "none";
+            }
+        }
+
+
+        /*
+        Node Motor Settings Menu
+        */
+        function motorSettingsButtonFunction(){
+
+        //close what is visible already
+        if (currentSettingsMenu != null)
+            currentSettingsMenu.style.display = "none";
+
+        currentSettingsMenu = document.getElementById("motorSettingsMenu");
+
+
+         if (currentSettingsMenu.style.display === "none"){
+                currentSettingsMenu.style.display = "block";
+            } else {
+                currentSettingsMenu.style.display = "none";
+            }
+        }
+
+        /*
+
+        New Node function that controls the Heater. Only for testing purposes.
+        The UI should not set the temperature. It should be set with the experiment protocol.
+
+        */
+
+        function heaterButtonFunction(status){
+
+            if (status){
+                msgToMachine = teensyPrefix + ':HEAT 1;'; 
+            }
+            else{
+                msgToMachine = teensyPrefix + ':HEAT 0;'; 
+            }
+
+            sendMachineMessage( msgToMachine  );   
 
         }
 
-        function hideServerSettings() {
-            var x = document.getElementById("serverSettingsDisplayBox");
-            var y = document.getElementById("status");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-                y.style.display = "none";
-            } else {
-                x.style.display = "none";
-                y.style.display = "block";
+        /*
+
+        New Node function that controls the Cooler. Only for testing purposes.
+        The UI should not set the temperature. It should be set with the experiment protocol.
+
+        */
+
+        function coolerButtonFunction(status){
+
+            if (status){
+                msgToMachine = teensyPrefix + ':COOL 1;'; 
             }
-        } 
+            else{
+                msgToMachine = teensyPrefix + ':COOL 0;'; 
+            }
+
+            sendMachineMessage( msgToMachine  );   
+
+        }
+
+        /*
+
+        New Node function that gets the current temperature from the system.
+        This can be queried periodically from UI. Or pushed from the Node at intervals.
+
+        */
+
+        function getTempButtonFunction(){
+
+            msgToMachine = teensyPrefix +':GETT 1;'; 
+            console.log('querying heater');
+            sendMachineMessage( msgToMachine  );   
+
+        }        
+
+        /*
+        New Node function that spins continously.
+        */
+
+
+        
+        function contSpinMotorButtonFunction(){
+
+            startDate = new Date();
+            startTime = startDate.getTime();
+            
+            document.getElementById("machineStatusBox").innerHTML = 'Starting Culturing:' ;  
+            
+            myVar = setInterval(spinMotorButtonFunction, motorSpinInterval);
+        
+        }
+
+        function pauseMotorButtonFunction(){
+
+            motorIsPaused = !motorIsPaused;
+            document.getElementById("pauseMotorButton").value="Start"; 
+
+        }
+        /*
+        New Node function that test the motor movement
+        */
+        function spinMotorButtonFunction(){
+
+            currentTime = startDate.getTime();
+            document.getElementById("machineStatusBox").innerHTML = parseInt(currentTime) - parseInt(startTime) ; 
+
+            if ((motorDirection === 1) && (!motorIsPaused)) {
+                msgToMachine = motorPrefix + ':SET trajectory_angular_displacement 6.28;SET trajectory_duration 2;GET obs_angular_displacement;' ;
+
+                console.log('spinning -->');
+            }
+            else if ((motorDirection === -1) && (!motorIsPaused)){
+                msgToMachine = motorPrefix + ':SET trajectory_angular_displacement -6.28;SET trajectory_duration 2;GET obs_angular_displacement;' ;
+                console.log('spinning <--'); 
+            }
+
+            sendMachineMessage( msgToMachine  ); 
+
+            motorDirection = motorDirection * -1; 
+
+
+        }
 
             // handler for SHOW response
         function handle_SHOW_response(arg){
@@ -277,14 +464,17 @@
                 chart.render();
             }       
         
+        /*
         function handleDriveMachineCheckboxClick(cb){
             
-            machineDriveEnabled = cb.checked;
+            machineDriveEnabled = true;
             msgToWeb = 'Machine Enable: ' + machineDriveEnabled ;
             sendInterfaceMessage( msgToWeb, '');
 
         }
-           
+        */
+        
+        /*   
         function initPlatformButtonFunction(){
 
             msgToWeb = 'Initializing Platform' ;
@@ -308,7 +498,7 @@
             //InteractiveCommand.Agitate(1)
         } 
 
-
+        */
 
         function loadMediaButtonFunction(){
 
@@ -562,9 +752,9 @@
 
             //topicName = '@spec';
             msgToWeb = 'Spec <b> White </b> Light is ' + '<b>'+ 'on' + '</b>' ;
-            //msgToMachine = topicPrefix +  ':' +  'White 1' + ';' ;
+            msgToMachine = specPrefix +  ':' +  'WHITE 1' + ';' ;
             //msgToMachine = '@spec:WHITE 1;'
-            msgToMachine = '@Node:COOL 10;';
+            //msgToMachine = '@Node:COOL 10;';
        
         sendInterfaceMessage( msgToWeb, msgToMachine  );
 
@@ -578,9 +768,9 @@
 
             msgToWeb = 'Spec <b> White </b> Light is ' + '<b>'+ 'off' + '</b>' ;
 
-            //msgToMachine = topicPrefix +  ':' +  'White 0' + ';' ;
+            msgToMachine = specPrefix +  ':' +  'WHITE 0' + ';' ;
             //msgToMachine = '@spec:WHITE 0;'
-            msgToMachine = '@Node:COOL 38;';
+            //msgToMachine = '@Node:COOL 38;';
 
             sendInterfaceMessage( msgToWeb, msgToMachine  );
             sendMachineMessage( msgToMachine  );
@@ -591,7 +781,7 @@
        function specUVOnFunction(){
 
             msgToWeb = 'Spec <b> UV </b> Laser is ' + '<b>'+ 'on' + '</b>' ;
-            msgToMachine = topicPrefix +  ':' +  'UVLASER 1' + ';' ;
+            msgToMachine = specPrefix +  ':' +  'UVLASER 1' + ';' ;
 
 
             sendInterfaceMessage( msgToWeb, msgToMachine  );
@@ -606,7 +796,7 @@
 
             msgToWeb = 'Spec <b> UV </b> Laser is ' + '<b>'+ 'off' + '</b>' ;
 
-            msgToMachine = topicPrefix +  ':' +  'UVLASER 1' + ';' ;
+            msgToMachine = specPrefix +  ':' +  'UVLASER 1' + ';' ;
         
             sendInterfaceMessage( msgToWeb, msgToMachine  );
 
@@ -750,7 +940,7 @@
          
         function sendInterfaceMessage(m1, m2){
 
-            document.getElementById("status").innerHTML =  "<span style=\"color:#355ea3\">" + m1 + "</span>" + '&nbsp &nbsp &nbsp &nbsp'+ "<span style=\"color:black\">" + m2 + "</span>"; ; 
+            ;//document.getElementById("status").innerHTML =  "<span style=\"color:#355ea3\">" + m1 + "</span>" + '&nbsp &nbsp &nbsp &nbsp'+ "<span style=\"color:black\">" + m2 + "</span>"; ; 
 
         }
 

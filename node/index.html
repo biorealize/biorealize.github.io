@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-    <title>Biorealize: Microbial Design Studio</title>
+    <title>Biorealize: Node</title>
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
 
@@ -66,6 +66,8 @@
   //client.connect(options);
 
   // called when the client connects
+
+
   function onConnect() {
     // Once a connection has been made, make a subscription and send a message.
     console.log("onConnect");
@@ -87,14 +89,107 @@
     }
   }
 
-  // called when a message arrives
-  function onMessageArrived(message) {
+
+  function onMessageArrived(message){
+    
+    console.log("onMessageArrived: " + message.payloadString);
+
+
+    //Update the status of the interface
+    document.getElementById("machineStatusBox").innerHTML = 'Node Ready' ;  
+    toggleMenuElement("serverSettingsDisplayBox");
+
+    //parse the incoming message
+
+    //this tells us if the machine came from teensy(@NOUT) or the spec(@spec)
+    var msgSource = message.payloadString.split(':')[0];
+    var msgContent = message.payloadString.split(':')[1];
+    
+    //if the message is from teensy, look for a '*'
+    if (msgSource == '@NOUT'){
+
+        var msgType = msgContent.split('*')[0];
+
+        if (msgType == 'SYRINGE_ID'){
+            var syrinegID = msgContent.split('*')[1]
+            document.getElementById("machineStatusBox").innerHTML = 'Experiment ID: ' + syrinegID + 'received' ; 
+        }
+        else if (msgType == 'TEMP'){
+            var currentTemp = msgContent.split('*')[1]
+            document.getElementById("machineStatusBox").innerHTML = 'Current Temperature is: ' + currentTemp ; 
+        }
+    }
+
+    else if (msgSource =='@spec'){
+    
+                    var line = "";  // or uncomment this to overwrite the existing message
+                    // parse the incoming message as a JSON object
+                    
+                    
+                    //var data = msg.data;
+                    var data = message.payloadString.substr(6);
+                    //console.log(data) ; 
+                    // dispatch to appropriate, if indicated
+                    // messages that require special handling are JSON statements that have an "=" in them
+                    // the left of the '=' is the name of the handler function, 
+                    // and the right of the '=' is a JSON statement that has the on which the handler will act
+                    var eqAt = data.search('=');
+
+                    if (eqAt > 0){
+                        // Get the var name
+                        // for example, a message like "TEST={x:1,y:2,z:3"} will yield a var named "TEST"
+                        var varName = data.substr(0,eqAt);
+                        
+                        // convert the JSON into a local value
+                        // whose name matches varName
+                        var functionArg = eval(data);
+                        
+                        // build up a statement that will invoke the handler function,
+                        // passing the structure as an argument
+                        // for example, a message like "TEST={x:1,y:2,z:3"} 
+                        // will cause evalExpression to have the value 'handle_TEST_response(TEST)'
+                        // which, when evaluated, will pass the TEST object to the handle_TEST function
+                        var evalExpression = "handle_" + varName + "_response(" + varName + ")" 
+                        eval(evalExpression);
+                        
+                    }
+                    else{
+                        console.log(data);
+                        // build the output from the topic and payload parts of the object
+                        //line += "<p>"+data+"</p>";
+                        // replace the messages div with the new "line"
+                        //document.getElementById('messages').innerHTML = line;
+                        //ws.send(JSON.stringify({data:data}));
+                    }
+
+
+    }
+
+
+    //if (receivedTopic =='@NOUT:SYRINGE_ID'){
+    //    var syrinegID = receivedTopic = message.payloadString.split('*')[1]
+    //    document.getElementById("machineStatusBox").innerHTML = 'Experiment ID: ' + syrinegID + 'received' ; 
+    //}
+
+  }//end of onMessageArrived function
+
+
+  // called when a message arrives -- Old version
+  /*
+  function onMessageArrived2(message) {
 
     //console.log("onMessageArrived: "+ message.payloadString);
 
+    console.log("onMessageArrived");
 
     var receivedTopic = message.payloadString.split(':')[0];
-    document.getElementById("status").innerHTML = 'Microbial Design Studio Ready' ; 
+    //document.getElementById("status").innerHTML = 'Microbial Design Studio Ready' ;
+    document.getElementById("machineStatusBox").innerHTML = 'Node Ready' ;  
+
+    //toggleMenuElement("experimentReadyElements");
+    //document.getElementById("experimentReadyElements").style.display = "block";// for some reason, the toggle function didn't work on this.
+    toggleMenuElement("serverSettingsDisplayBox");
+    
 
     //if ( !machineDriveEnabled && receivedTopic =='Echo'){
 
@@ -162,7 +257,7 @@
 
 
   }
-
+*/
     /*  
     function sendMachineMessage(m) {
         if (client) { 
@@ -193,6 +288,22 @@
 
     }
 
+    function toggleMenuElement(menuToToggle){
+
+            var menu = document.getElementById(menuToToggle);
+            
+            if (menu.style.display === "none"){
+                //console.log("visible " + menuToToggle);
+                menu.style.display = "block";
+            } else {
+                menu.style.display = "none";
+                //console.log("hiding " + menuToToggle);
+            }
+        }
+
+
+    
+
 
   
 </script>   
@@ -203,7 +314,7 @@
        <body >
         
         <div id="pageheader">
-            <img src="images/biorealizelogo.svg" alt="Microbial Design Studio" class="center"> 
+            <img src="images/biorealize_node_icon.SVG" alt="Node" class="center"> 
         </div>
 
 
@@ -213,14 +324,23 @@
 
         <div class="section group">
             <div class="col span_1_of_2">
+
+
                     <svg id="mdsDrawing"></svg> 
-                    <div id="machineStatusBox"> Waiting For MDS Status... </div>
+                    <div id="machineStatusBox"> Waiting for Node to Connect... </div>
 
                <!-- <div class="machineDrawing"></div>  --> 
-                
+                    
             </div>
             <div class="col span_1_of_2">
-                 <div id="chartContainer">Analytics</div>   
+                <div class = "networkstreammenu">
+                        Network & User Stream
+
+                        <div id="chartContainer">></div>   
+
+                       </div>
+
+
             </div>
         </div>
 
@@ -229,43 +349,55 @@
 
         <div id="status">Waiting to connect... </div>
 
-        <div id="serverSettingsDisplayBox">
-                                 <form>
-                                      Server:
-                                      <input type="text" id="server" size="16" value="m14.cloudmqtt.com">
-                                      Port:
-                                      <input type="text" id="port" size="5" value="31969" > 
-                                      User:
-                                      <input type="text" id="username" size="8" value="witzcpry">
-                                      Password:
-                                      <input type="password" id="password" size="4" value="V8cPnM_IEhBS" >
-                                    </form> 
-                             </div>
+
 
         <div class="section group">
                 </div>
                 <div class="section group">
                     
-                    <div class="col span_1_of_4">
-                        <div class = "designmenu">
-                        Analyze Experiments
+                    <div class="col span_1_of_2">
+                        <div class = "initmenu">
+                        Connect to Node
                         
                         <hr class="style_one">
 
-                        <p> Setup &nbsp &nbsp  &nbsp  &nbsp &nbsp  &nbsp  &nbsp &nbsp  &nbsp &nbsp  &nbsp  &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp Enable Controls </p>
                         
+                        <div id="serverSettingsDisplayBox">
+                                 <form>
+                                      Server:
+                                      <input type="text" id="server" size="16" value="m14.cloudmqtt.com">
+                                      Port:
+                                      <input type="text" id="port" size="4" value="31969" > 
+                                      User:
+                                      <input type="text" id="username" size="8" value="witzcpry">
+                                      Pass:
+                                      <input type="password" id="password" size="6" value="V8cPnM_IEhBS" >
 
-                        <button type="button" id="connectPlatfomButton"  onclick='connectPlatformButtonFunction();'> Connect to Platform </button>
+                                      
+                                    </form> 
+                        </div>
 
-                        <button type="button" id="initPlatfomButton"  onclick='initPlatformButtonFunction();'> Initialize </button>
+                        <button type="button" id="connectPlatfomButton"  onclick='connectToNodeButtonFunction();'> Connect </button>
 
-                        <input type="checkbox" checked id="driveMachineCheckbox"  onclick='handleDriveMachineCheckboxClick(this);' >
+                        <hr class="style_one">
+                        
+                        <p> Advanced Settings</p>
+
+                        <button type="button" onclick='specSettingsButtonFunction();'>Spec</button>
+                        <button type="button" onclick='climateSettingsButtonFunction();'>Heater/Cooler</button>
+                        <button type="button" onclick='motorSettingsButtonFunction();'>Motor Control</button>
+
+                         <!--<<button type="button" id="initPlatfomButton"  onclick='initPlatformButtonFunction();'> Initialize </button>-->
+
+                         <!--<input type="checkbox" checked id="driveMachineCheckbox"  onclick='handleDriveMachineCheckboxClick(this);'-->
 
                         <hr class="style_one">
 
 
-                         <p> Spectrometer Settings</p>
+                        <div id="specSettingsMenu">
+                         <p> Spec Configuration</p>
 
+                        
                         <button type="button" onclick='specStartFunction();'>Start Spec</button>
                         <button type="button" onclick='specShowFunction();'>Show Spec</button>
                         <!--<button type="button" onclick='specStopFunction();'>Stop</button>-->
@@ -277,7 +409,7 @@
                         <select id="specSamplingDurationMenu">
                         <option value="01:00"> 1 min </option>
                         <option value="10:00"> 10 mins </option>
-                        <option value="30:00"> 30 mins </option>
+                        <option value="30:00"> 30 mins </option
                         <option value="60:00"> 60 mins </option>
                         </select>
 
@@ -287,56 +419,92 @@
                         <!--<button type="button" onclick='specUVOnFunction();'>UV On</button>-->
                         <!--<button type="button" onclick='specUVOffFunction();'>UV Off</button>-->
 
-                        <hr class="style_one"> 
+                        <hr class="style_one">
+                        
+                        <p> Spectrometer Calibration </p>
 
+                        
+                        SN: <input type="text" size="3" id="serialNum" >
+                        A0: <input type="text" size="3" id="A0">
+                        B1: <input type="text" size="3" id="B1">
+                        B2: <input type="text" size="3" id="B2">>
+                        B3: <input type="text" size="3" id="B3">
+                        B4: <input type="text" size="3" id="B4">
+                        B5: <input type="text" size="3" id="B5">
+
+                        &nbsp  <button type="button" id="setSpecCalibration" onclick= "setSpecCalibrationButtonFunction();" > Set </button>  
+                       
+                        </div>    
+
+
+                        <div id="climateSettingsMenu">
+
+                        <p> Heater Settings </p>
+                        <button type="button" onclick='heaterButtonFunction(1);'>Start Heater</button>
+                        <button type="button" onclick='heaterButtonFunction(0);'>Stop Heater</button>
+                        <button type="button" onclick='coolerButtonFunction(1);'>Start Cooler</button>
+                        <button type="button" onclick='coolerButtonFunction(0);'>Stop Cooler</button>
+                        <button type="button" onclick='getTempButtonFunction();'>Get Temperature</button>
+
+                        </div>
+
+
+                        <div id="motorSettingsMenu">
+
+                        <p> Motor Settings </p>
+                        <!--<button type="button" onclick='spinMotorButtonFunction(1);'>Spin Motor(->)</button>-->
+                        <!--<button type="button" onclick='spinMotorButtonFunction(0);'>Spin Motor(<-)</button>-->
+                        <button type="button" onclick='contSpinMotorButtonFunction();'>Spin Motor(<->)</button>
+                        <button type="button" id="pauseMotorButton" onclick='pauseMotorButtonFunction();'>Pause </button>
+                        <!--<<input onclick="pauseMotorButtonFunction()" type="button" value="Pause" id="pauseMotorButton" />-->
+
+                        </div>
 
 
                         </div>
                     </div> 
 
 
-                    <div class="col span_1_of_4">
+                    <div class="col span_1_of_2">
                     
-                    <div class = "analyzemenu">
-                        Calibrate Spec
+                        <div class = "experimentmenu">
+
+                            <div id="experimentReadyElements">
+                            Node Ready for Experiment   
+                                <hr class="style_one">
+
+                                <button type="button" id="setSpecCalibration" onclick= "scanYourExperimentButtonFunction();" > Scan Your Experiment </button>  
+                                <!--<a href="#" class="button1" onclick='scanYourExperimentButtonFunction();' >Scan Your Experiment</a>-->
+                                
+                            </div>
+                       </div> 
+                   </div>
+                    <!-- 
+                    <div class="col span_1_of_2">
+
+                        <div class = "experimentinprogressmenu">
+                        2.Experimeny in Progress
 
 
                          <hr class="style_one">
                         <p> Spectrometer Calibration </p>
 
                         
-                        SN: <input type="text" size="2" id="serialNum" >
-                        A0: <input type="text" size="2" id="A0">
-                        B1: <input type="text" size="2" id="B1">
-                        B2: <input type="text" size="2" id="B2">
-                        B3: <input type="text" size="2" id="B3">
-                        B4: <input type="text" size="2" id="B4">
-                        B5: <input type="text" size="2" id="B5">
-
-                        &nbsp  <button type="button" id="setSpecCalibration" onclick= "setSpecCalibrationButtonFunction();" > Set </button>  
-                        
-                        <hr class="style_one">                        
-                        
-                        <p> Clock Period &nbsp &nbsp Integration Time</p>
-
-                        <input type="text" id="clockPeriod" value="20us" size="8"> 
-                        <input type="text" id="integrationTime" size="8">      
-                        <button type="button" onclick='setClockPeriodButtonFunction;'> -></button>
+                    
                         
                          <hr class="style_one">
 
 
 
                        </div> 
-                   </div>
-                    <div class="col span_1_of_4">
 
                        
-                    </div> 
-                    <!--
-                    <div class="col span_1_of_4">
-                        <div class = "configuremenu">
-                        Configure
+                    </div>
+                    -->  
+                    <!-- 
+                    <div class="col span_1_of_2">
+                        <div class = "experimentfinishedmenu">
+                        2. Experiment Finished
                         <br>
                         
                         <hr class="style_one">
@@ -344,29 +512,12 @@
                         <p> Spectrometer Calibration </p>
 
                         
-                        SN: <input type="text" size="3" id="serialNum" >
-                        A0: <input type="text" size="3" id="A0">
-                        B1: <input type="text" size="3" id="B1">
-                        B2: <input type="text" size="3" id="B2">
-                        B3: <input type="text" size="3" id="B3">
-                        B4: <input type="text" size="3" id="B4">
-                        B5: <input type="text" size="3" id="B5">
-
-                        &nbsp  <button type="button" id="setSpecCalibration" onclick= "setSpecCalibrationButtonFunction();" > Set </button>  
-                        
-                        <hr class="style_one">                        
-                        
-                        <p> Clock Period &nbsp &nbsp Integration Time</p>
-
-                        <input type="text" id="clockPeriod" value="20us" size="8"> 
-                        <input type="text" id="integrationTime" size="8">      
-                        <button type="button" onclick='setClockPeriodButtonFunction;'> -></button>
                         
                          <hr class="style_one">
 
                         </div>
-                        --> 
-                    </div>
+                        
+                    </div>--> 
 
                 </div>
 
@@ -383,7 +534,7 @@
 
                 <hr class="style_one"> 
                 --> 
-                <div id="pagefooter">Biorealize Inc. 2018 | MDS Spec Module | CC-BY-SA 4.0 </div>
+                <div id="pagefooter">Biorealize Inc. 2018 | NODE | CC-BY-SA 4.0 </div>
                         <!-- The analytics chart is loaded here from CanvasJS --> 
 
 

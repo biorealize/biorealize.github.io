@@ -20,50 +20,11 @@ window.onload=function(){
 	*/
 	mds_g = mds.g();
 
-	frame = mds_g.image('images/mds_frame.svg', 0,0, 655, 330 );
+	frame = mds_g.image('images/biorealize_node_graphic.svg', 0,0, 300, 320 );
 
-	wheel = mds_g.image('images/mds_wheel.svg', wheel_xPos, wheel_yPos, 285,285 );
-	//wheel = mds.circle(wheel_xPos+90, wheel_yPos+122, 142).attr({ fill: "green", opacity: "0.8", stroke: "black", strokeWidth: "2" });
-	syringe1 = mds_g.image('images/mds_syringe1.svg', 200,151, 118,28 ); 
-	//syringe1.attr({ id: 'syringe1' });
-
-	syringe2 = mds_g.image('images/mds_syringe2.svg', 200,151, 118,28 ); //syringe1.clone();
-	//syringe2.attr({ id: 'syringe2' });
-
-	syringe5 = mds_g.image('images/mds_syringe5.svg', 200,151, 118,28 ); //syringe1.clone();
-	//syringe3.attr({ id: 'syringe3' });
-	
-	syringe6 = mds_g.image('images/mds_syringe6.svg', 200,151, 118,28 ); //syringe1.clone();
-	//syringe4.attr({ id: 'syringe4' });
-
-	//syringe1.transform('t100', '100');
-	//syringe1.transform('t73,-75,0');
-
-	syringe2.transform('t19,-54,r45');
-
-	syringe5.transform('t150,0,r180');
-	syringe6.transform('t125,52,r225');
-
-	
-	mediaCarousel = mds_g.image('images/mds_media_carousel.svg', 484,127, 75,75 );
-	organismCarousel = mds_g.image('images/mds_organism_carousel.svg', 97,128, 75,75 );
-	//mediaCarousel.transform('t387,-0.5');
-
-
-	electroporatorLid = mds_g.image('images/mds_electr_lid.svg', 97,128, 75,75 );
-	//electroporatorLid.transform('t0,0');
-
-
-	wheel_group = mds.group( syringe1, 
-								 syringe2, 
-								 syringe5, 
-								 syringe6, 
-								 wheel);
-
-	sendInterfaceMessage( wheel.transform().string );
 
 	//We get the latest temperature from the machine
-	getTempFunction();
+	//getTempFunction();
 
 	//Snap.load('images/mds_wheel.svg', function (response) {
     //var mds_wheel = response;

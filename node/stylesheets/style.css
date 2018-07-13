@@ -86,6 +86,30 @@ input[type="text"]
 /*http://jsfiddle.net/BB3JK/47/*/
 
 
+.button1 {
+  background-color:#FFFFFF;
+  -moz-border-radius:18px;
+  -webkit-border-radius:18px;
+  border-radius:18px;
+  border:1px solid #18ab29;
+  display:inline-block;
+  cursor:pointer;
+  color:#ff0000;
+  font-family:Arial;
+  font-size:17px;
+  padding:16px 31px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #2f6627;
+}
+.button1:hover {
+  background-color:#000000;
+}
+.button1:active {
+  position:relative;
+  top:1px;
+}
+
+
 .header { padding:1em 0; }
 .col { 
   padding:1/2em 0; 
@@ -97,7 +121,7 @@ input[type="text"]
 #pageheader {
   /*Only has the logo, which determines the width*/
 
-  width: 360px ;
+  width: 75px ;
   margin-left: auto ;
   margin-right: auto ;
 }
@@ -119,6 +143,18 @@ input[type="text"]
 
 }
 
+#specSettingsMenu{
+  display: none;
+}
+
+#climateSettingsMenu{
+  display: none;
+}
+
+#motorSettingsMenu{
+  display: none;
+}
+
 
 #status{
 
@@ -133,6 +169,24 @@ input[type="text"]
   font-size: 12px; 
   font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
   color: #98adcb;
+}
+
+#experimentMenuButton{
+
+
+}
+
+#experimentReadyElements{
+  /*display: none;*/
+  font-size: 16px;
+  padding: 10px;
+  height: 275px;
+  text-align:left;   
+  font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
+  background: -webkit-linear-gradient(180deg, #98adcb, transparent); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(180deg, #98adcb, transparent); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(180deg, #98adcb, transparent); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(180deg, #98adcb, transparent); /* Standard syntax (must be last) */
 }
 
 #chartContainer{
@@ -167,10 +221,10 @@ input[type="text"]
 }
 */
 
-.designmenu{
+.initmenu{
 
   padding: 10px;
-  height: 275px; 
+  height: 350px; 
   text-align:left;   
   background: -webfkit-linear-gradient(180deg, #d4dbc8, transparent); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(180deg, #d4dbc8, transparent); /* For Opera 11.1 to 12.0 */
@@ -178,35 +232,30 @@ input[type="text"]
   background: linear-gradient(180deg, #d4dbc8, transparent); /* Standard syntax (must be last) */ 
 }
 
-.culturemenu{
-  
-  padding: 10px;
-  height: 275px;
-  text-align:left;  
+.experimentmenu{
+
+
   font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
-  background: -webkit-linear-gradient(180deg, #98adcb, transparent); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(180deg, #98adcb, transparent); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(180deg, #98adcb, transparent); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(180deg, #98adcb, transparent); /* Standard syntax (must be last) */
+
 }
 
-.analyzemenu{
+.networkstreammenu{
   
   padding: 10px;
   height: 275px;
   text-align:left;  
-  background: -webkit-linear-gradient(180deg, #f1f1d6, transparent); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(180deg, #f1f1d6, transparent); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(180deg, #f1f1d6, transparent); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(180deg, #f1f1d6, transparent); /* Standard syntax (must be last) */
+  /*background: -webkit-linear-gradient(180deg, #f1f1d6, transparent);  For Safari 5.1 to 6.0 */
+  /*background: -o-linear-gradient(180deg, #f1f1d6, transparent); For Opera 11.1 to 12.0 */
+  /*background: -moz-linear-gradient(180deg, #f1f1d6, transparent);  For Firefox 3.6 to 15 */
+  /*background: linear-gradient(180deg, #f1f1d6, transparent);  Standard syntax (must be last) */
 
 }
 
-.configuremenu{
+.nodegraphicmenu{
 
   padding: 10px;
   height: 275px;
-  text-align:left; 
+  text-align:center; 
   background: -webkit-linear-gradient(180deg, #d8d8d8, transparent); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(180deg, #d8d8d8, transparent); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(180deg, #d8d8d8, transparent); /* For Firefox 3.6 to 15 */
@@ -215,13 +264,11 @@ input[type="text"]
 }
 
 
-#mdsDrawing2{
 
-  height: 330px; 
-  width: 655px;
-
+#mdsDrawing{
+margin: 0 auto;
   padding: 10px;
-  text-align:left;  
+  text-align:center;  
 
   /*background-image:url('../images/mds_base_new.svg');*/
   /*background-repeat: no-repeat;*/
