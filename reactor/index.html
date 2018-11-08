@@ -5,15 +5,15 @@
 var __eon_pubnub = new PubNub({
   subscribeKey: "sub-c-0b2aaa44-a779-11e6-be20-0619f8945a4f"
 });
-var __eon_cols = ["B | reactor"]; 
+var __eon_cols = ["Austin","New York","San Francisco","Portland"]; 
 var __eon_labels = {}; 
 chart = eon.chart({
   pubnub: __eon_pubnub,
   channels: ["node-red"],
-  history: true,
+  history: false,
   flow: true,
   rate: 1000,
-  limit: 20,
+  limit: 5,
   generate: {
     bindto: "#chart",
     data: {
@@ -40,7 +40,7 @@ chart = eon.chart({
       }
     },
     tooltip: {
-     show: false
+     show: true
     },
     point: {
       show: true
