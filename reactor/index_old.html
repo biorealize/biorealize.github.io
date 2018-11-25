@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+		<head>
+		<title>Biorealize: Microbial Design Studio</title>
+				<!-- Responsive and mobile friendly -->
+		<meta name="HandheldFriendly" content="True">
+		<meta name="MobileOptimized" content="320">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+		<script type="text/javascript" src="https://pubnub.github.io/eon/v/eon/1.0.0/eon.js"></script>
+		<link type="text/css" rel="stylesheet" href="https://pubnub.github.io/eon/v/eon/1.0.0/eon.css" />
+
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+		<!-- SVG lib -->    
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.5.0/svg.js" type="text/javascript"></script>
+
+		<script type="text/javascript" src="javascripts/snap.svg.js"></script>
+
+		<!-- Functions -->    
+		<script type="text/javascript" src="javascripts/functions.js"></script>
+
+
+		<div id="tempChart"></div>
+		
+
+		<script type="text/javascript">
+
+
+		var pubnub = new PubNub({
+
+		subscribeKey: "sub-c-0b2aaa44-a779-11e6-be20-0619f8945a4f",
+		publishKey: "pub-c-722b1270-6c2b-423d-98f6-cb21c18a2265",
+		
+		});
+		
+		pubnub.addListener({
+
+		message: function (message) {
+		console.log('message came in: ', message)
+		}
+		});
+
+		var __eon_pubnub = new PubNub({
+			subscribeKey: "sub-c-0b2aaa44-a779-11e6-be20-0619f8945a4f"
+		});
+		var __eon_cols = ["Temperature","New York","San Francisco","Portland"]; 
+		var __eon_labels = {}; 
+		chart = eon.chart({
+			pubnub: __eon_pubnub,
+			channels: ["node-red"],
+			history: false,
+			flow: true,
+			rate: 1000,
+			limit: 5,
+			generate: {
+				bindto: "#tempChart",
+				data: {
+					colors: {"Temp":"#D70060","New York":"#E54028","San Francisco":"#F18D05","Portland":"#113F8C"},
+					type: "spline"
+				},
+				transition: {
+					duration: 250
+				},
+				axis: {
+					x: {
+						label: ""
+					},
+					y: {
+						label: ""
+					}
+				},
+				grid: {
+					x: {
+						show: false 
+					},
+					y: {
+						show: false 
+					}
+				},
+				tooltip: {
+				 show: true
+				},
+				point: {
+					show: true
+				}
+			},
+			transform: function(message) {
+				var message = eon.c.flatten(message.eon);
+				var o = {};
+				for(index in message) {
+					if(__eon_cols.indexOf(index) > -1){
+						o[__eon_labels[index] || index] = message[index];
+					}
+				}
+				return {
+					eon: o
+				};
+			}
+		});
+	</script>
+
+	</head>
+
+		<body >
+        
+        <div id='pageheader'>
+            <img src="images/biorealizelogo.svg" alt="Microbial Design Studio" class="center"> 
+        </div>
+
+        	
+		</body>
+
+</html>

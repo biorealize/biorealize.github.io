@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>B | reactor </title>
+    <script type="text/javascript" src="//pubnub.github.io/eon/v/eon/1.0.0/eon.js"></script>
+    <link type="text/css" rel="stylesheet" href="//pubnub.github.io/eon/v/eon/1.0.0/eon.css" />
+    <style type="text/css">
+        html, body { margin: 0; }
+        #chart {
+            position: absolute;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+        }
+        .c3 svg {
+            font: bold 20px sans-serif;
+        }
+        .c3-chart-line path {
+            stroke-width: 10px;
+            stroke-linecap: round;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart"></div>
+ <script type="text/javascript">
+
+    var pubnub = new PubNub({
+
+        subscribeKey: "sub-c-0b2aaa44-a779-11e6-be20-0619f8945a4f",
+        publishKey: "pub-c-722b1270-6c2b-423d-98f6-cb21c18a2265",
+        
+        });
+        
+        pubnub.addListener({
+
+        message: function (message) {
+        console.log('message came in: ', message)
+        }
+        });
+
+        var __eon_pubnub = new PubNub({
+            subscribeKey: "sub-c-0b2aaa44-a779-11e6-be20-0619f8945a4f"
+        });
+        var __eon_cols = ["Austin","New York","San Francisco","Portland"]; 
+        var __eon_labels = {}; 
+        chart = eon.chart({
+            pubnub: __eon_pubnub,
+            channels: ["node-red"],
+            history: true,
+            flow: true,
+            rate: 1000,
+            limit: 5,
+            generate: {
+                bindto: "#chart",
+                data: {
+                    colors: {"Austin":"#D70060","New York":"#E54028","San Francisco":"#F18D05","Portland":"#113F8C"},
+                    type: "spline"
+                },
+                transition: {
+                    duration: 250
+                },
+                axis: {
+                    x: {
+                        label: ""
+                    },
+                    y: {
+                        label: ""
+                    }
+                },
+                grid: {
+                    x: {
+                        show: false 
+                    },
+                    y: {
+                        show: false 
+                    }
+                },
+                tooltip: {
+                 show: true
+                },
+                point: {
+                    show: true
+                }
+            },
+            transform: function(message) {
+                var message = eon.c.flatten(message.eon);
+                var o = {};
+                for(index in message) {
+                    if(__eon_cols.indexOf(index) > -1){
+                        o[__eon_labels[index] || index] = message[index];
+                    }
+                }
+                return {
+                    eon: o
+                };
+            }
+        });
+
+  
+    </script>   
+
+</body>
+</html>
