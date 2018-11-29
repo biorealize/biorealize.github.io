@@ -72,6 +72,8 @@
 
   eon.chart({
     channels: ['node-red'],
+    history: true,
+    flow: true,
     generate: {
       bindto: '#od',
       point: {
@@ -109,7 +111,7 @@
       }
     },
     pubnub: pubnub,
-    limit: 255,
+    limit: 10,
 
     transform: function(m) {
       return { eon: {
