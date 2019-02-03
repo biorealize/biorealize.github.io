@@ -109,9 +109,9 @@
       }
     },
     pubnub: pubnub,
-    flow: true,
-    rate: 1000,
-    limit: 6,
+    flow: false,
+    rate: 500,
+    limit: 2,
 
     transform: function(m) {
       return { eon: {
