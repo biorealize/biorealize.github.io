@@ -109,8 +109,6 @@
       }
     },
     pubnub: pubnub,
-    flow: false,
-    rate: 500,
     limit: 2,
 
     transform: function(m) {
