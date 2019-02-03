@@ -109,7 +109,7 @@
       }
     },
     pubnub: pubnub,
-    limit: 20,
+    limit: 6,
 
     transform: function(m) {
       return { eon: {
