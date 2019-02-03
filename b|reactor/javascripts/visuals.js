@@ -78,7 +78,7 @@
         r: 1
       },
       data: {
-        type: 'spline',
+        type: 'area-spline',
         colors: {
           temperature: 'deeppink'
         }
