@@ -80,7 +80,7 @@
       data: {
         type: 'spline',
         colors: {
-          od: 'deeppink'
+          temperature: 'deeppink'
         }
       },
       axis: {
@@ -113,7 +113,7 @@
 
     transform: function(m) {
       return { eon: {
-        od: m.eon.od
+        temperature: m.eon.temperature
       }}
     }
   });
