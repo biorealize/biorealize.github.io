@@ -109,6 +109,8 @@
       }
     },
     pubnub: pubnub,
+    flow: true,
+    rate: 1000,
     limit: 6,
 
     transform: function(m) {
