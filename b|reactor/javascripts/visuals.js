@@ -68,12 +68,12 @@
     limit: 288,
   });
 
-  //the spectra chart
+  //the temperature
 
   eon.chart({
     channels: ['node-red'],
     generate: {
-      bindto: '#od',
+      bindto: '#temperature', //was #od
       point: {
         r: 1
       },
@@ -91,12 +91,12 @@
             fit: false
           },
           label: {
-            text: 'Optical density over time',
+            text: 'Temperature over time', //Optical density over time
           }
         },
         y: {
           label: {
-            text: 'Absorbance',
+            text: 'Celcius', //Absorbance
             position: 'outer-middle'
           },
           tick: {
