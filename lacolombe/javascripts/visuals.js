@@ -8,14 +8,14 @@
 
     //node-red: once per run
     //node-red2: real-time array data
-    pubnub.subscribe({ channels: ['node-red', 'node-red2', 'fromdevice-red'] });
+    pubnub.subscribe({ channels: ['lacolombe01s_in', 'lacolombe01s_out', 'node-red2'] });
 
     pubnub.addListener({
 
         message: function (m) {
           var channelName = m.channel;
           console.log('message came in: ', m);
-            if ( channelName ==='node-red') {
+            if ( channelName ==='lacolombe01s_out') {
               parseInstructions(m);
             }
         }
@@ -71,7 +71,7 @@
   //the temperature
 
   eon.chart({
-    channels: ['node-red'],
+    channels: ['lacolombe01s_out'],
     generate: {
       bindto: '#temperature', //was #od
       point: {
@@ -120,7 +120,7 @@
 
 
   eon.chart({
-    channels: ['node-red'],
+    channels: ['lacolombe01s_out'],
     
     oninit: function()
     {
