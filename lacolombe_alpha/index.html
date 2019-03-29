@@ -1,0 +1,297 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <title>B | reactor </title>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+
+     <!-- PubNub EON -->
+    <script type="text/javascript" src="https://pubnub.github.io/eon/v/eon/1.0.0/eon.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://pubnub.github.io/eon/v/eon/1.0.0/eon.css" />
+
+
+    <link rel="stylesheet" href="stylesheets/html5reset.css" media="all">
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="stylesheet" href="stylesheets/col.css" media="all">
+    <link rel="stylesheet" href="stylesheets/4cols.css" media="all"/>
+    <link rel="stylesheet" href="stylesheets/2cols.css" media="all"/>
+
+    <!-- Responsive and mobile friendly -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript" ></script>
+    <!-- SVG lib -->    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.5.0/svg.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="javascripts/snap.svg.js"></script>
+
+    <!-- D3 
+    <script src="https://d3js.org/d3.v5.min.js"></script>-->
+
+    <!-- Functions 
+    <script type="text/javascript" src="javascripts/functions.js"></script>
+    <script type="text/javascript" src="javascripts/functions_d3.js"></script>-->    
+
+    <!-- SVG Graphics   
+   <script type="text/javascript" src="javascripts/graphics.js"></script>   -->  
+    
+    <script type="text/javascript">
+
+    var pubnub = new PubNub({
+
+        subscribeKey: "sub-c-0b2aaa44-a779-11e6-be20-0619f8945a4f",
+        publishKey: "pub-c-722b1270-6c2b-423d-98f6-cb21c18a2265",
+        
+        });
+        
+        pubnub.addListener({
+
+        message: function (message) {
+        console.log('message came in: ', message)
+        }
+        });
+
+        var __eon_pubnub = new PubNub({
+            subscribeKey: "sub-c-0b2aaa44-a779-11e6-be20-0619f8945a4f"
+        });
+        var __eon_cols = ["Temperature","New York","San Francisco","Portland"]; 
+        var __eon_labels = {}; 
+        chart = eon.chart({
+            pubnub: __eon_pubnub,
+            channels: ["node-red"],
+            history: false,
+            flow: true,
+            rate: 1000,
+            limit: 5,
+            generate: {
+                bindto: "#tempChart",
+                data: {
+                    colors: {"Austin":"#D70060","New York":"#E54028","San Francisco":"#F18D05","Portland":"#113F8C"},
+                    type: "spline"
+                },
+                transition: {
+                    duration: 250
+                },
+                axis: {
+                    x: {
+                        label: ""
+                    },
+                    y: {
+                        label: ""
+                    }
+                },
+                grid: {
+                    x: {
+                        show: false 
+                    },
+                    y: {
+                        show: false 
+                    }
+                },
+                tooltip: {
+                 show: true
+                },
+                point: {
+                    show: true
+                }
+            },
+            transform: function(message) {
+                var message = eon.c.flatten(message.eon);
+                var o = {};
+                for(index in message) {
+                    if(__eon_cols.indexOf(index) > -1){
+                        o[__eon_labels[index] || index] = message[index];
+                    }
+                }
+                return {
+                    eon: o
+                };
+            }
+        });
+
+  
+    </script>   
+
+
+    </head>
+
+       <body >
+        
+        <div id="pageheader">
+            <img src="images/biorealizelogo.svg" alt="Microbial Design Studio" class="center"> 
+        </div>
+            <div id="tempChart"></div>
+
+        <hr class="style_two">
+
+        <div id="messages"></div>
+
+        <div class="section group">
+            <div class="col span_1_of_2">
+                    <svg id="mdsDrawing"></svg> 
+                    <div id="machineStatusBox"> Waiting For MDS Status... </div>
+
+               <!-- <div class="machineDrawing"></div>  --> 
+                
+            </div>
+            <div class="col span_1_of_2">
+                
+                 
+                 </div>   
+            </div>
+        </div>
+
+        
+        <hr class="style_one">
+
+        <div id="status">Waiting to connect... </div>
+
+        <div class="section group">
+                </div>
+                <div class="section group">
+                    
+                    <div class="col span_1_of_4">
+                        <div class = "designmenu">
+
+                        Analyze Experiments
+                        
+                        <hr class="style_one">
+
+                        <p> Setup &nbsp &nbsp  &nbsp  &nbsp &nbsp  &nbsp  &nbsp &nbsp  &nbsp &nbsp  &nbsp  &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp Enable Controls </p>
+                        
+
+                        <button type="button" id="connectPlatfomButton"  onclick='connectPlatformButtonFunction();'> Connect to Platform </button>
+
+                        <button type="button" id="initPlatfomButton"  onclick='initPlatformButtonFunction();'> Initialize </button>
+
+                        <input type="checkbox" checked id="driveMachineCheckbox"  onclick='handleDriveMachineCheckboxClick(this);' disabled>
+
+                        <hr class="style_one">
+
+						<section id="SpectrometerControls">
+                         <p> Spectrometer Settings</p>
+                        <button type="button" onclick='specStartFunction();' disabled>Start Spec</button>
+                        <button type="button" onclick='specShowFunction();' disabled>Show Spec</button>
+                        <!--<button type="button" onclick='specStopFunction();'>Stop</button>-->
+                        <button type="button" onclick='specRawSpectrumFunction();' disabled>Raw Spectrum</button>
+                        <button type="button" onclick='updateGrowthCurve();'>Growth Curve</button>
+                        <section>
+
+                        <hr class="style_one">
+
+                        <p> Sampling Duration</p>
+                        <select id="specSamplingDurationMenu">
+                        <option value="01:00"> 1 min </option>
+                        <option value="10:00"> 10 mins </option>
+                        <option value="30:00"> 30 mins </option>
+                        <option value="60:00"> 60 mins </option>
+                        </select>
+
+                        <p> Optional Features </p>
+                        <button type="button" onclick='specLightOnFunction();'>Light On</button>
+                        <button type="button" onclick='specLightOffFunction();'>Light Off</button>
+                        <!--<button type="button" onclick='specUVOnFunction();'>UV On</button>-->
+                        <!--<button type="button" onclick='specUVOffFunction();'>UV Off</button>-->
+
+                        <hr class="style_one"> 
+
+
+
+                        </div>
+                    </div> 
+
+
+                    <div class="col span_1_of_4">
+                    
+                    <div class = "analyzemenu">
+                        Calibrate Spec
+
+
+                         <hr class="style_one">
+                        <p> Spectrometer Calibration </p>
+
+                        
+                        SN: <input type="text" size="2" id="serialNum" >
+                        A0: <input type="text" size="2" id="A0">
+                        B1: <input type="text" size="2" id="B1">
+                        B2: <input type="text" size="2" id="B2">
+                        B3: <input type="text" size="2" id="B3">
+                        B4: <input type="text" size="2" id="B4">
+                        B5: <input type="text" size="2" id="B5">
+
+                        &nbsp  <button type="button" id="setSpecCalibration" onclick= "setSpecCalibrationButtonFunction();" > Set </button>  
+                        
+                        <hr class="style_one">                        
+                        
+                        <p> Clock Period &nbsp &nbsp Integration Time</p>
+
+                        <input type="text" id="clockPeriod" value="20us" size="8"> 
+                        <input type="text" id="integrationTime" size="8">      
+                        <button type="button" onclick='setClockPeriodButtonFunction;'> -></button>
+                        
+                         <hr class="style_one">
+
+
+
+                       </div> 
+                   </div>
+                    <div class="col span_1_of_4">
+
+                       
+                    </div> 
+                    <!--
+                    <div class="col span_1_of_4">
+                        <div class = "configuremenu">
+                        Configure
+                        <br>
+                        
+                        <hr class="style_one">
+
+                        <p> Spectrometer Calibration </p>
+
+                        
+                        SN: <input type="text" size="3" id="serialNum" >
+                        A0: <input type="text" size="3" id="A0">
+                        B1: <input type="text" size="3" id="B1">
+                        B2: <input type="text" size="3" id="B2">
+                        B3: <input type="text" size="3" id="B3">
+                        B4: <input type="text" size="3" id="B4">
+                        B5: <input type="text" size="3" id="B5">
+
+                        &nbsp  <button type="button" id="setSpecCalibration" onclick= "setSpecCalibrationButtonFunction();" > Set </button>  
+                        
+                        <hr class="style_one">                        
+                        
+                        <p> Clock Period &nbsp &nbsp Integration Time</p>
+
+                        <input type="text" id="clockPeriod" value="20us" size="8"> 
+                        <input type="text" id="integrationTime" size="8">      
+                        <button type="button" onclick='setClockPeriodButtonFunction;'> -></button>
+                        
+                         <hr class="style_one">
+
+                        </div>
+                        --> 
+                    </div>
+
+                </div>
+
+                 <hr class="style_one">
+                        <!-- Responsive and mobile friendly 
+                        <p> Debug Command &nbsp &nbsp &nbsp  &nbsp &nbsp   &nbsp&nbsp  &nbsp  &nbsp  &nbsp&nbsp  &nbsp  &nbsp  &nbsp  Simulation Control </p>
+
+                        <input type="text" id="rawCommandForDebug" value="@___:___;" size="20"> 
+                        <button type="button" onclick='sendRawCommandFunction();'> -></button>
+                        
+
+                        <button type="button" onclick='sendMachineMessage("@electroporator:SIMULATION_ON;");'>Simulation On</button>
+                        <button type="button" onclick='sendMachineMessage("@electroporator:SIMULATION_OFF;");'>Simluation Off</button>  
+
+                <hr class="style_one"> 
+                --> 
+                <div id="pagefooter">Biorealize Inc. 2018 | MDS Spec Module | CC-BY-SA 4.0 </div>
+    </body>
+</html>
