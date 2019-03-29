@@ -5,6 +5,19 @@
    }
 
 
+    function takeImgFunction(){
+        pubnub.publish({
+
+                channel : 'lacolombe01s_in',
+                message : { device: 'take_img'},
+                callback : function(m){
+                    callbackonsole.log(m)
+                }
+            });
+
+
+    }
+
     function parseInstructions(m){
 
     	var experimentId = m.message.eon.run.syringe_id;
@@ -55,18 +68,6 @@
 
     }
 
-    function takeImgFunction(){
-        pubnub.publish({
-
-                channel : 'lacolombe01s_in',
-                message : { device: 'take_img'},
-                callback : function(m){
-                    callbackonsole.log(m)
-                }
-            });
-
-
-    }
 
     function UpdateButton(chkButton) {
         if (chkButton.checked){
