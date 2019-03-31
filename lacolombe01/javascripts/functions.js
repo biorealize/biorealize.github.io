@@ -41,7 +41,7 @@
             image.src = this.src;   
         };
 
-        downloadingImage.src = "https://www.dropbox.com/s/b4ymnx6io3oh22p/Saturday%2030%20March%202019%2002%3A20%3A12PM.jpg?raw=1";
+        //downloadingImage.src = "https://www.dropbox.com/s/b4ymnx6io3oh22p/Saturday%2030%20March%202019%2002%3A20%3A12PM.jpg?raw=1";
         
         //convert message into string
         //var url = data.split("/")[2] + "";
@@ -52,11 +52,11 @@
         
         //downloadingImage.src = "https://www.dropbox.com/preview/BR_Imaging/" +formatted_url;
         
-        //var data = m.message[1] + "";
-        //url = data.split("/")[2] + "";
-        //formatted_url = "http://biorealize.github.io/" + data;
-        //downloadingImage.src = formatted_url;
-        //console.log(formatted_url);
+        var data = m.message[1] + "";
+        url = data.split("/")[2] + "";
+        formatted_url = "http://biorealize.github.io/" + data;
+        downloadingImage.src = formatted_url;
+        console.log(formatted_url);
 
     }
 
