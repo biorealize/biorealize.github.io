@@ -229,3 +229,10 @@ input[type="text"]
 }
 
 
+img {
+  width: 600px;
+  height: 450px;
+  background: url("images/loading.gif") 50% no-repeat;
+  border: 1px solid black;
+  border-radius: 5px;
+}

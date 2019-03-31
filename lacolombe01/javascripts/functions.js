@@ -2,6 +2,7 @@
 
     document.getElementById("togBtn").checked=false; 
 
+
    }
 
 
@@ -11,11 +12,52 @@
                 channel : 'lacolombe01s_in',
                 message : { device: 'take_img'},
                 callback : function(m){
-                    callbackonsole.log(m)
+                    console.log(m)
                 }
             });
 
+        //after 1 seconds stop the image take and revert back to interval
+        setTimeout(function(){ 
 
+        pubnub.publish({
+
+                channel : 'lacolombe01s_in',
+                message : { device: 'take_img_interval'},
+                callback : function(m){
+                    console.log(m)
+                }
+            });
+
+        }, 1000);
+
+
+    }
+
+    function loadNewImage(m){
+
+        var image = document.images[2]; //2 corresponds to the clear image
+        var downloadingImage = new Image();
+        downloadingImage.onload = function(){
+            image.src = this.src;   
+        };
+
+        //downloadingImage.src = "https://www.dropbox.com/s/b4ymnx6io3oh22p/Saturday%2030%20March%202019%2002%3A20%3A12PM.jpg?raw=1";
+        
+        //convert message into string
+        var data = m.message[1] + "";
+        //var url = data.split("/")[2] + "";
+        //formatted_url = url.split(' ').join('%20') + '?raw=1';
+        //console.log(formatted_url);
+
+        //downloadingImage.src = "https://www.dropbox.com/s/b4ymnx6io3oh22p/" + formatted_url;
+        
+        //downloadingImage.src = "https://www.dropbox.com/preview/BR_Imaging/" +formatted_url;
+        url = data.split("/")[2] + "";
+        formatted_url = "../../" + data;
+        downloadingImage.src = formatted_url;
+        console.log(formatted_url);
+        //console.log(m.message.img_path)
+        //document.getElementById("instructions").innerHTML = m.message.img_path;
     }
 
     function parseInstructions(m){

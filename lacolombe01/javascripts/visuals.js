@@ -16,7 +16,10 @@
           var channelName = m.channel;
           console.log('message came in: ', m);
             if ( channelName ==='lacolombe01s_out') {
-              parseInstructions(m);
+              if (eon in m.message)
+                parseInstructions(m);
+              else
+                loadNewImage(m);
             }
         }
         });  
@@ -71,7 +74,7 @@
   //the temperature
 
   eon.chart({
-    channels: ['lacolombe01s_out'],
+    channels: ['node-red2'],
     generate: {
       bindto: '#temperature', //was #od
       point: {
@@ -120,7 +123,7 @@
 
 
   eon.chart({
-    channels: ['lacolombe01s_out'],
+    channels: ['node-red2'],
     
     oninit: function()
     {
