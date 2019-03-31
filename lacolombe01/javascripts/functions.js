@@ -56,6 +56,7 @@
         formatted_url = "http://biorealize.github.io/" + data;
         downloadingImage.src = formatted_url;
         console.log(formatted_url);
+        //nnee
         //console.log(m.message.img_path)
         //document.getElementById("instructions").innerHTML = m.message.img_path;
     }
