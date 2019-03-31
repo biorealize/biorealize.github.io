@@ -53,7 +53,7 @@
         
         //downloadingImage.src = "https://www.dropbox.com/preview/BR_Imaging/" +formatted_url;
         url = data.split("/")[2] + "";
-        formatted_url = "../../" + data;
+        formatted_url = "http://biorealize.github.io/" + data;
         downloadingImage.src = formatted_url;
         console.log(formatted_url);
         //console.log(m.message.img_path)
