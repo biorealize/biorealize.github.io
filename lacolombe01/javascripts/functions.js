@@ -54,7 +54,7 @@
         
         var data = m.message[1] + "";
         url = data.split("/")[2] + "";
-        formatted_url = "http://biorealize.github.io/" + data;
+        formatted_url = "https://biorealize.github.io/" + data;
         downloadingImage.src = formatted_url;
         console.log(formatted_url);
 
