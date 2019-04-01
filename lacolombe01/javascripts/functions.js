@@ -42,14 +42,6 @@
     }
 
     function loadNewImage(m){
-
-
-        var data = m.message[1] + "";
-        var url = data.split("/")[2] + "";
-        var formatted_url = url.split(' ').join('%20');
-        formatted_url = "https://biorealize.github.io/" + data;
-        downloadingImage.src = formatted_url;
-        console.log(formatted_url);
  
 
         var image = document.images[2]; //2 corresponds to the clear image
@@ -57,6 +49,14 @@
         downloadingImage.onload = function(){
             image.src = this.src;   
             };
+
+        
+        var data = m.message[1] + "";
+        var url = data.split("/")[2] + "";
+        var formatted_url = url.split(' ').join('%20');
+        formatted_url = "https://biorealize.github.io/" + data;
+        downloadingImage.src = formatted_url;
+        console.log(formatted_url);    
 
         //downloadingImage.src = "https://www.dropbox.com/s/b4ymnx6io3oh22p/Saturday%2030%20March%202019%2002%3A20%3A12PM.jpg?raw=1";
         
