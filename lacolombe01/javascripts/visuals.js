@@ -20,6 +20,7 @@
               //  parseInstructions(m);
               //else
                 loadNewImage(m);
+                console.log("new message arrived");
             }
         }
         });  
