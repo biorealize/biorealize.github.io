@@ -16,16 +16,11 @@
           var channelName = m.channel;
           console.log('message came in: ', m);
             if ( channelName ==='lacolombe01s_out') {
-              //if (eon in m.message)
-              //  parseInstructions(m);
-              //else
-
-                setTimeout(function(){ 
-
+              if (eon in m.message)
+                  parseInstructions(m);
+              else if (image_path in m.message)
                   loadNewImage(m); 
                
-                }, 10000);
-
                 //console.log("new message arrived");
             }
         }
