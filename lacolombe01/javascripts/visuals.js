@@ -24,7 +24,7 @@
 
                   loadNewImage(m); 
                
-                }, 3000);
+                }, 10000);
 
                 //console.log("new message arrived");
             }
