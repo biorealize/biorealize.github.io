@@ -16,7 +16,7 @@
           var channelName = m.channel;
           console.log('message came in: ', m);
 
-            field = m.message[0] + "";
+            field = String(m.message[0]);
 
             if ( channelName ==='lacolombe01s_out') {
 
