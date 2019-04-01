@@ -23,8 +23,13 @@
               if (eon in m.message)
                   parseInstructions(m);
               //else if (m.message[1] + "" === m.message)
-              else if (field ==='img_path'){  
-                  loadAsyncImage(m); 
+              else if (field ==='img_path'){
+
+                   setTimeout(function(){
+                    loadAsyncImage(m); 
+                  }, 10000);
+
+
                   console.log("new path arrived");
               }
             }
