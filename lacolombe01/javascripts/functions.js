@@ -55,7 +55,7 @@
         var data = m.message[1] + "";
         var url = data.split("/")[2] + "";
         var formatted_url = url.split(' ').join('%20');
-        formatted_url = "https://biorealize.github.io/" + data;
+        formatted_url = 'https://biorealize.github.io/Sunday%2031%20March%202019%2007:56:21PM.png';//"https://biorealize.github.io/" + data;
         downloadingImage.src = formatted_url;
         console.log(formatted_url);
 
