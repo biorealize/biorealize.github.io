@@ -18,7 +18,7 @@
             if ( channelName ==='lacolombe01s_out') {
               if (eon in m.message)
                   parseInstructions(m);
-              else if (image_path in m.message)
+              else if (img_path in m.message)
                   loadNewImage(m); 
                
                 //console.log("new message arrived");
