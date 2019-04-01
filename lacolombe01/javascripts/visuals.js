@@ -19,8 +19,14 @@
               //if (eon in m.message)
               //  parseInstructions(m);
               //else
-                loadNewImage(m);
-                console.log("new message arrived");
+
+                setTimeout(function(){ 
+
+                  loadNewImage(m); 
+               
+                }, 3000);
+
+                //console.log("new message arrived");
             }
         }
         });  
