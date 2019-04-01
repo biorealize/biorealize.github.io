@@ -44,6 +44,14 @@
     function loadNewImage(m){
 
 
+        var data = m.message[1] + "";
+        var url = data.split("/")[2] + "";
+        var formatted_url = url.split(' ').join('%20');
+        formatted_url = "https://biorealize.github.io/" + data;
+        downloadingImage.src = formatted_url;
+        console.log(formatted_url);
+ 
+
         var image = document.images[2]; //2 corresponds to the clear image
         var downloadingImage = new Image();
         downloadingImage.onload = function(){
@@ -63,13 +71,8 @@
         
         //setTimeout(function(){ 
 
-        var data = m.message[1] + "";
-        var url = data.split("/")[2] + "";
-        var formatted_url = url.split(' ').join('%20');
-        formatted_url = "https://biorealize.github.io/" + data;
-        downloadingImage.src = formatted_url;
-        console.log(formatted_url);
- 
+
+
         //}, 1000);
 
 
