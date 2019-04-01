@@ -47,9 +47,9 @@
         var image = document.images[2]; //2 corresponds to the clear image
         var downloadingImage = new Image();
         downloadingImage.onload = function(){
-        image.src = this.src;   
+            image.src = this.src;   
             };
-            
+
         //downloadingImage.src = "https://www.dropbox.com/s/b4ymnx6io3oh22p/Saturday%2030%20March%202019%2002%3A20%3A12PM.jpg?raw=1";
         
         //convert message into string
