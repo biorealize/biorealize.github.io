@@ -12,11 +12,13 @@
        if (formatted_url !== "")
             document.images[2].src = formatted_url;
 
-
    }
 
     function takeImgFunction(){
+        
         document.getElementById("previewImageButton").value=""; 
+        document.images[2].src = "images/loading.gif";
+
         pubnub.publish({
 
                 channel : 'lacolombe01s_in',
