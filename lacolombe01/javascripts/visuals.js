@@ -25,10 +25,11 @@
               //else if (m.message[1] + "" === m.message)
               else if (field ==='img_path'){
 
-                   setTimeout(function(){
-                    loadAsyncImage(m); 
-                  }, 10000);
+                  loadAsyncImage(m); 
 
+                  setTimeout(function(){ 
+                      document.getElementById("previewImageButton").value=">"; 
+                   }, 500);
 
                   console.log("new path arrived");
               }
