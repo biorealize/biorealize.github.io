@@ -15,14 +15,16 @@
         message: function (m) {
           var channelName = m.channel;
           console.log('message came in: ', m);
+
+            field = m.message[1] + "";
+
             if ( channelName ==='lacolombe01s_out') {
               if (eon in m.message)
                   parseInstructions(m);
               //else if (m.message[1] + "" === m.message)
-              else    
-                  loadNewImage(m); 
-               
-                //console.log("new message arrived");
+              else if (field='img_path'){}   
+                  loadAsyncImage(m); 
+                  console.log("new path arrived");
             }
         }
         });  
