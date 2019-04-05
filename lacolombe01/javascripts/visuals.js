@@ -19,7 +19,7 @@
             field = String(m.message[0]);
 
             if ( channelName ==='lacolombe01s_out') {
-
+              
               if (field === 'eon')
               //if (eon in m.message)
                   parseInstructions(m);
