@@ -20,7 +20,8 @@
 
             if ( channelName ==='lacolombe01s_out') {
 
-              if (eon in m.message)
+              if (field === 'eon')
+              //if (eon in m.message)
                   parseInstructions(m);
               //else if (m.message[1] + "" === m.message)
               else if (field ==='img_path'){
