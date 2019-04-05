@@ -69,7 +69,7 @@
         var data = m.message[1]+"";
         var url = data.split("/")[2]+"";
         formatted_url = url.split(' ').join('%20');
-        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/lacolombe01/data" + data;
+        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/lacolombe01/data/" + data;
         //downloadingImage.src = formatted_url;
         console.log(formatted_url);  
                 
