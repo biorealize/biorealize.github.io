@@ -8,7 +8,11 @@
 
     //node-red: once per run
     //node-red2: real-time array data
-    pubnub.subscribe({ channels: ['lacolombe01s_in', 'lacolombe01s_out', 'node-red2'] });
+    pubnub.subscribe({ channels: ['lacolombe01s_in', 'lacolombe01s_out', 'lacolombe01s_out2'] });
+    
+    //in: Interface sends info to both camera module and reactor
+    //out1 is for image link input from camera module
+    //out2 is for data input from reactor
 
     pubnub.addListener({
 
@@ -16,15 +20,16 @@
           var channelName = m.channel;
           console.log('message came in: ', m);
 
-            field = String(m.message[0]);
 
             if ( channelName ==='lacolombe01s_out') {
+
+              field = String(m.message[0]);
               
-              if (field === 'eon')
+              //if (field === 'eon')
               //if (eon in m.message)
-                  parseInstructions(m);
+              //parseInstructions(m);
               //else if (m.message[1] + "" === m.message)
-              else if (field ==='img_path'){
+              if (field ==='img_path'){
 
                   loadAsyncImage(m); 
 
@@ -34,6 +39,11 @@
 
                   console.log("new path arrived");
               }
+            }
+            else if (channelName ==='lacolombe01s_out2') 
+            {
+                if (eon in m.message)
+                  parseInstructions(m);
             }
         }
         });  
@@ -88,7 +98,7 @@
   //the temperature
 
   eon.chart({
-    channels: ['node-red2'],
+    channels: ['lacolombe01s_out2'],
     generate: {
       bindto: '#temperature', //was #od
       point: {
@@ -137,7 +147,7 @@
 
 
   eon.chart({
-    channels: ['node-red2'],
+    channels: ['lacolombe01s_out2'],
     
     oninit: function()
     {
