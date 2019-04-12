@@ -1,0 +1,82 @@
+// MIXINS
+=font-face($family, $path, $svg, $weight: normal, $style: normal)
+	@font-face
+		font-family: $family
+		src: url('#{$path}.eot')
+		src: url('#{$path}.eot?#iefix') format('embedded-opentype'), url('#{$path}.woff') format('woff'), url('#{$path}.ttf') format('truetype'), url('#{$path}.svg##{$svg}') format('svg')
+		font-weight: $weight
+		font-style: $style
+
+=font-face2($family, $path, $svg, $weight: normal, $style: normal)
+	@font-face
+		font-family: $family
+		src: url('#{$path}.eot')
+		src: url('#{$path}.eot?#iefix') format('embedded-opentype'), url('#{$path}.woff') format('woff'), url('#{$path}.woff2') format('woff2'), url('#{$path}.ttf') format('truetype')
+		font-weight: $weight
+		font-style: $style
+
+@mixin font($face: AvenirLTStd-Light, $weight: normal, $style: normal, $font-size: 0.845em, $line-height: 1.56)
+	font-family: $face,serif
+	font-weight: $weight
+	font-style: $style
+	font-size: $font-size
+	line-height: $line-height
+
+@mixin border-sizing($value: border-box) 
+	-webkit-box-sizing: $value
+	-moz-box-sizing: $value
+	-ms-box-sizing: $value
+	box-sizing: $value
+
+@mixin box-shadow($shadow: 0 0 4px #aaa) 
+	-webkit-box-shadow: $shadow
+	-moz-box-shadow: $shadow
+	-ms-box-shadow: $shadow
+	box-shadow: $shadow
+
+
+@mixin border-radius($radius: 5px) 
+	-moz-border-radius: $radius
+	-webkit-border-radius: $radius
+	-ms-border-radius: $radius
+	border-radius: $radius
+
+@mixin column-count($count) 
+	-moz-column-count: $count
+	-webkit-column-count: $count
+	-ms-column-count: $count
+	column-count: $count
+
+@mixin column-gap($gap) 
+	-moz-column-gap: $gap
+	-webkit-column-gap: $gap
+	-ms-column-gap: $gap
+	column-gap: $gap
+
+@mixin opacity($opacity: .8) 
+	-moz-opacity: $opacity
+	-webkit-opacity: $opacity
+	-ms-opacity: $opacity
+	opacity: $opacity
+
+@mixin opacity-zero($opacity: 0) 
+	-moz-opacity: $opacity
+	-webkit-opacity: $opacity
+	-ms-opacity: $opacity
+	opacity: $opacity
+
+// TRANSITION
+@mixin transition($transition...)
+	$prefixes: ("-webkit", "-ms", "-o",	 "")
+	@each $prefix in $prefixes
+		#{$prefix}-transition: $transition
+	transition: $transition
+
+//VENDORIZE
+@mixin vendorize($property, $value)
+	-webkit-#{$property}: $value
+	-khtml-#{$property}: $value
+	-moz-#{$property}: $value
+	-ms-#{$property}: $value
+	-o-#{$property}: $value
+	#{$property}: $value

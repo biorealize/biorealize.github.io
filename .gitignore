@@ -16,3 +16,9 @@ xcuserdata
 # svn & cvs
 .svn
 CVS
+
+d3_viz/mongo.json
+
+# dependencies
+node_modules
+*/package-lock.json
