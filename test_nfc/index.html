@@ -4,8 +4,8 @@
 	<meta charset="utf-8" />
 	<title>NFC</title>
 	<link rel="stylesheet" type="text/css" href="css/main.min.css">
+	<script src="jquery-3.4.0.min.js"></script>
 	<script src="javascript/custom.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
 	<script src="http://localhost:34477/livereload.js?snipver=1"></script>
 </head>
 <body>
@@ -48,13 +48,18 @@
 					</div><!--.row-->
 
 					<div class="row">
-						<div class="form-check form-check-inline col-md-3">
-							<input type="radio" name="media_type" id="media_type_solid" value="solid" class="form-check-input" checked>
-							<label class="form-check-label" for="media_type_solid">Solid</label>
-						</div>
-						<div class="form-check form-check-inline col-md-3">
-							<input type="radio" name="media_type" id="media_type_liquid" value="solid" class="form-check-input">
-							<label class="form-check-label" for="media_type_liquid">Liquid</label>
+						<div class="col-md-6">
+							Media Type
+							<div class="row">
+								<div class="form-check form-check-inline col-md-6">
+									<input type="radio" name="media_type" id="media_type_solid" value="solid" class="form-check-input" checked>
+									<label class="form-check-label" for="media_type_solid">Solid</label>
+								</div>
+								<div class="form-check form-check-inline col-md-6">
+									<input type="radio" name="media_type" id="media_type_liquid" value="solid" class="form-check-input">
+									<label class="form-check-label" for="media_type_liquid">Liquid</label>
+								</div>
+							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group" id="peripheral_type_group">
