@@ -15,23 +15,162 @@
 				<h2>Send</h2>
 				<form>
 					<div class="row">
-						<div class="col-md-6" style="background-color: #FDD">
+						<div class="form-group col-md-6">
 							<label for="id">ID</label>
-							<input type="text" id="id">
+							<input type="text" id="id" class="form-control">
 						</div>
-						<div class="col-md-6">
+						<div class="form-group col-md-6">
 							<label for="client">Client</label>
-							<input type="text" id="client">
+							<input type="text" id="client" class="form-control">
 						</div>
 					</div><!--.row-->
+
 					<div class="row">
-						<div class="col-md-6">
+						<div class="form-group col-md-6">
 							<label for="location">Location</label>
-							<input type="text" id="location">
+							<input type="text" id="location" class="form-control">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="start_time">Start Time</label>
+							<input type="text" id="start_time" class="form-control" readonly>
+						</div>
+					</div><!--.row-->
+
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="expiration_date">Expiration Date</label>
+							<input type="text" id="expiration_date" class="form-control">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="duration">Duration</label>
+							<input type="text" id="duration" class="form-control">
+						</div>
+					</div><!--.row-->
+
+					<div class="row">
+						<div class="form-check form-check-inline col-md-3">
+							<input type="radio" name="media_type" id="media_type_solid" value="solid" class="form-check-input" checked>
+							<label class="form-check-label" for="media_type_solid">Solid</label>
+						</div>
+						<div class="form-check form-check-inline col-md-3">
+							<input type="radio" name="media_type" id="media_type_liquid" value="solid" class="form-check-input">
+							<label class="form-check-label" for="media_type_liquid">Liquid</label>
 						</div>
 						<div class="col-md-6">
-							<label for="start_time">Start Time</label>
-							<input type="text" id="start_time">
+							<div class="form-group" id="peripheral_type_group">
+								<label for="peripheral_type">Peripheral Type</label>
+								<select id="peripheral_type" class="form-control">
+									<option value="plate_6_well" selected>6 Well Plate</option>
+									<option value="plate_12_well">12 Well Plate</option>
+									<option value="plate_24_well">24 Well Plate</option>
+								</select>
+							</div><!--.form-group-->
+
+							<div class="form-group" id="syringe_group">
+								<label for="syringe">Syringe</label>
+								<select id="syringe" class="form-control">
+									<option value="10ml_syringe" selected>10ml Syringe</option>
+									<option value="20ml_syringe">20ml Syringe</option>
+									<option value="60ml_syringe">60ml Syringe</option>
+								</select>
+							</div><!--.form-group-->
+						</div>
+					</div><!--.row-->
+
+					<div class="form-row plate" id="plate_6_well">
+						<table>
+							<tr>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+							</tr>
+							<tr>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+							</tr>
+						</table>
+					</div><!--.row-->
+
+					<div class="form-row plate" id="plate_12_well">
+						<table>
+							<tr>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+							</tr>
+							<tr>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+							</tr>
+							<tr>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+							</tr>
+						</table>
+					</div><!--.row-->
+
+					<div class="form-row plate" id="plate_24_well">
+						<table>
+							<tr>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+							</tr>
+							<tr>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+							</tr>
+							<tr>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+							</tr>
+							<tr>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+								<td><input type="text" class="form-control"></td>
+							</tr>
+						</table>
+					</div><!--.row-->
+
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="target_temperature">Target Temperature</label>
+							<input type="number" id="target_temperature" class="form-control" min="30" step="0.1">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="imaging_frequency">Imaging Frequency</label>
+							<input type="number" id="imaging_frequency" class="form-control" min="1">
+						</div>
+					</div><!--.row-->
+					
+					<div class="form-row">
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div><!--.row-->
+
+					<div class="form-row" id="json_sent_row">
+						<div class="form-group">
+							<label for="json_sent">JSON Sent</label>
+							<textarea class="form-control" id="json_sent" rows="8"></textarea>
 						</div>
 					</div><!--.row-->
 				</form>
