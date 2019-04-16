@@ -13,37 +13,37 @@
 		<div class="row">
 			<div class="col-md-6">
 				<h2>Send</h2>
-				<form>
+				<form id="submit_nfc_form">
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="id">ID</label>
-							<input type="text" id="id" class="form-control">
+							<input type="text" value="12345" id="id" class="form-control">
 						</div>
 						<div class="form-group col-md-6">
 							<label for="client">Client</label>
-							<input type="text" id="client" class="form-control">
+							<input type="text" value="12345" id="client" class="form-control">
 						</div>
 					</div><!--.row-->
 
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="location">Location</label>
-							<input type="text" id="location" class="form-control">
+							<input type="text" value="12345" id="location" class="form-control">
 						</div>
 						<div class="form-group col-md-6">
 							<label for="start_time">Start Time</label>
-							<input type="text" id="start_time" class="form-control" readonly>
+							<input type="text" value="12345" id="start_time" class="form-control" readonly>
 						</div>
 					</div><!--.row-->
 
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="expiration_date">Expiration Date</label>
-							<input type="text" id="expiration_date" class="form-control">
+							<input type="text" value="12345" id="expiration_date" class="form-control">
 						</div>
 						<div class="form-group col-md-6">
 							<label for="duration">Duration</label>
-							<input type="text" id="duration" class="form-control">
+							<input type="number" value="2345" id="duration" class="form-control">
 						</div>
 					</div><!--.row-->
 
@@ -56,7 +56,7 @@
 									<label class="form-check-label" for="media_type_solid">Solid</label>
 								</div>
 								<div class="form-check form-check-inline col-md-6">
-									<input type="radio" name="media_type" id="media_type_liquid" value="solid" class="form-check-input">
+									<input type="radio" name="media_type" id="media_type_liquid" value="liquid" class="form-check-input">
 									<label class="form-check-label" for="media_type_liquid">Liquid</label>
 								</div>
 							</div>
@@ -85,14 +85,14 @@
 					<div class="form-row plate" id="plate_6_well">
 						<table>
 							<tr>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
+								<td><input type="text" placeholder="A0" class="form-control"></td>
+								<td><input type="text" placeholder="A1" class="form-control"></td>
+								<td><input type="text" placeholder="A2" class="form-control"></td>
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
+								<td><input type="text" placeholder="B0" class="form-control"></td>
+								<td><input type="text" placeholder="B1" class="form-control"></td>
+								<td><input type="text" placeholder="B2" class="form-control"></td>
 							</tr>
 						</table>
 					</div><!--.row-->
@@ -100,22 +100,22 @@
 					<div class="form-row plate" id="plate_12_well">
 						<table>
 							<tr>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
+								<td><input type="text" placeholder="A0" class="form-control"></td>
+								<td><input type="text" placeholder="A1" class="form-control"></td>
+								<td><input type="text" placeholder="A2" class="form-control"></td>
+								<td><input type="text" placeholder="A3" class="form-control"></td>
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
+								<td><input type="text" placeholder="B0" class="form-control"></td>
+								<td><input type="text" placeholder="B1" class="form-control"></td>
+								<td><input type="text" placeholder="B2" class="form-control"></td>
+								<td><input type="text" placeholder="B3" class="form-control"></td>
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
+								<td><input type="text" placeholder="C0" class="form-control"></td>
+								<td><input type="text" placeholder="C1" class="form-control"></td>
+								<td><input type="text" placeholder="C2" class="form-control"></td>
+								<td><input type="text" placeholder="C3" class="form-control"></td>
 							</tr>
 						</table>
 					</div><!--.row-->
@@ -123,36 +123,36 @@
 					<div class="form-row plate" id="plate_24_well">
 						<table>
 							<tr>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
+								<td><input type="text" placeholder="A0" class="form-control"></td>
+								<td><input type="text" placeholder="A1" class="form-control"></td>
+								<td><input type="text" placeholder="A2" class="form-control"></td>
+								<td><input type="text" placeholder="A3" class="form-control"></td>
+								<td><input type="text" placeholder="A4" class="form-control"></td>
+								<td><input type="text" placeholder="A5" class="form-control"></td>
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
+								<td><input type="text" placeholder="B0" class="form-control"></td>
+								<td><input type="text" placeholder="B1" class="form-control"></td>
+								<td><input type="text" placeholder="B2" class="form-control"></td>
+								<td><input type="text" placeholder="B3" class="form-control"></td>
+								<td><input type="text" placeholder="B4" class="form-control"></td>
+								<td><input type="text" placeholder="B5" class="form-control"></td>
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
+								<td><input type="text" placeholder="C0" class="form-control"></td>
+								<td><input type="text" placeholder="C1" class="form-control"></td>
+								<td><input type="text" placeholder="C2" class="form-control"></td>
+								<td><input type="text" placeholder="C3" class="form-control"></td>
+								<td><input type="text" placeholder="C4" class="form-control"></td>
+								<td><input type="text" placeholder="C5" class="form-control"></td>
 							</tr>
 							<tr>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
-								<td><input type="text" class="form-control"></td>
+								<td><input type="text" placeholder="D0" class="form-control"></td>
+								<td><input type="text" placeholder="D1" class="form-control"></td>
+								<td><input type="text" placeholder="D2" class="form-control"></td>
+								<td><input type="text" placeholder="D3" class="form-control"></td>
+								<td><input type="text" placeholder="D4" class="form-control"></td>
+								<td><input type="text" placeholder="D5" class="form-control"></td>
 							</tr>
 						</table>
 					</div><!--.row-->
@@ -160,16 +160,22 @@
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="target_temperature">Target Temperature</label>
-							<input type="number" id="target_temperature" class="form-control" min="30" step="0.1">
+							<input type="number" value="2345" id="target_temperature" class="form-control" min="30" step="0.1">
 						</div>
 						<div class="form-group col-md-6">
 							<label for="imaging_frequency">Imaging Frequency</label>
-							<input type="number" id="imaging_frequency" class="form-control" min="1">
+							<input type="number" value="2345" id="imaging_frequency" class="form-control" min="1">
 						</div>
 					</div><!--.row-->
 					
 					<div class="form-row">
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<button type="submit" class="btn btn-primary" id="submit_nfc">Submit</button>
+					</div><!--.row-->
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<textarea id="json_to_send" readonly></textarea>
+						</div>
 					</div><!--.row-->
 
 					<div class="form-row" id="json_sent_row">
