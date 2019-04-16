@@ -17,33 +17,33 @@
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="id">ID</label>
-							<input type="text" value="12345" id="id" class="form-control">
+							<input type="text" id="id" class="form-control">
 						</div>
 						<div class="form-group col-md-6">
 							<label for="client">Client</label>
-							<input type="text" value="12345" id="client" class="form-control">
+							<input type="text" id="client" class="form-control">
 						</div>
 					</div><!--.row-->
 
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="location">Location</label>
-							<input type="text" value="12345" id="location" class="form-control">
+							<input type="text" id="location" class="form-control">
 						</div>
 						<div class="form-group col-md-6">
 							<label for="start_time">Start Time</label>
-							<input type="text" value="12345" id="start_time" class="form-control" readonly>
+							<input type="text" id="start_time" class="form-control" readonly>
 						</div>
 					</div><!--.row-->
 
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="expiration_date">Expiration Date</label>
-							<input type="text" value="12345" id="expiration_date" class="form-control">
+							<input type="text" id="expiration_date" class="form-control">
 						</div>
 						<div class="form-group col-md-6">
 							<label for="duration">Duration</label>
-							<input type="number" value="2345" id="duration" class="form-control">
+							<input type="number" id="duration" class="form-control">
 						</div>
 					</div><!--.row-->
 
@@ -160,11 +160,11 @@
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="target_temperature">Target Temperature</label>
-							<input type="number" value="2345" id="target_temperature" class="form-control" min="30" step="0.1">
+							<input type="number" id="target_temperature" class="form-control" min="30" step="0.1">
 						</div>
 						<div class="form-group col-md-6">
 							<label for="imaging_frequency">Imaging Frequency</label>
-							<input type="number" value="2345" id="imaging_frequency" class="form-control" min="1">
+							<input type="number" id="imaging_frequency" class="form-control" min="1">
 						</div>
 					</div><!--.row-->
 					
@@ -172,22 +172,37 @@
 						<button type="submit" class="btn btn-primary" id="submit_nfc">Submit</button>
 					</div><!--.row-->
 
-					<div class="row">
+					<div class="row" id="json_sent_row">
 						<div class="form-group col-md-12">
-							<textarea id="json_to_send" readonly></textarea>
-						</div>
-					</div><!--.row-->
-
-					<div class="form-row" id="json_sent_row">
-						<div class="form-group">
 							<label for="json_sent">JSON Sent</label>
-							<textarea class="form-control" id="json_sent" rows="8"></textarea>
+							<textarea class="form-control" id="json_sent" rows="8" readonly></textarea>
 						</div>
 					</div><!--.row-->
 				</form>
 			</div><!--.col-->
 			<div class="col-md-6">
 				<h2>Receive</h2>
+				<form id="request_nfc_form">
+
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="id">ID</label>
+							<input type="text" id="request_id" class="form-control">
+						</div>
+					</div><!--.row-->
+
+					<div class="form-row">
+						<button type="submit" class="btn btn-primary" id="request_nfc">Request</button>
+					</div><!--.row-->
+
+					<div class="row" id="json_received_row">
+						<div class="form-group col-md-12">
+							<label for="json_received">JSON Received</label>
+							<textarea class="form-control" id="json_received" rows="8" readonly></textarea>
+						</div>
+					</div><!--.row-->
+
+				</form>
 			</div><!--.col-->
 		</div><!--.row-->
 	</div><!--.container-->

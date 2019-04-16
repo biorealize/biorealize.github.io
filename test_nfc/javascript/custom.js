@@ -40,7 +40,6 @@ jQuery(document).ready(($) => {
 			experiment.peripheral_type = $this.find('#peripheral_type').val()
 			var load = {}
 			var $plate = $this.find('.form-row.plate:visible').find('table')
-			$c($plate)
 			$plate.find('tr').each((i, row) => {
 				var chr = String.fromCharCode(65 + i)
 				$(row).find('td').each((j, td) => {
@@ -52,8 +51,7 @@ jQuery(document).ready(($) => {
 			experiment.syringe = $this.find('#syringe').val()
 		}
 		nfc_obj.experiment = experiment
-		$('#json_to_send').val(JSON.stringify(nfc_obj))
-		$c(nfc_obj)
+		$('#json_sent').val(JSON.stringify(nfc_obj))
 	})
 })
 
