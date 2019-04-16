@@ -1,4 +1,12 @@
+var pubnub = new PubNub({
+	subscribeKey: "sub-c-0b2aaa44-a779-11e6-be20-0619f8945a4f",
+	publishKey: "pub-c-722b1270-6c2b-423d-98f6-cb21c18a2265",
+})
+
 jQuery(document).ready(($) => {
+
+
+
 	$('input[name=media_type]').click((e) => {
 		var $this = $(e.currentTarget)
 		if ($this.is(':checked')) {
@@ -52,12 +60,48 @@ jQuery(document).ready(($) => {
 		}
 		nfc_obj.experiment = experiment
 		$('#json_sent').val(JSON.stringify(nfc_obj))
+		var testObj = {test: 72}
+		sendTag(nfc_obj)
 	})
+	
+	$c(config().apiUrl)
 })
 
 var $c = (t) => {
 	console.log(t)
 }
+
+var config = () => {
+	const config = {}
+
+	if (window.location.hostname == '') { //this is for local testing with local MongoDB
+		config.apiUrl = 'http://localhost:4001'
+	} else {
+		config.apiUrl = 'http://18.191.34.33:4000'
+	}
+	return config
+}
+
+
+var sendTag = (tagObj) => {
+	const message = {
+		cmnd: 'ADD_NFC',
+		data: tagObj
+	}
+	pubnub.publish({
+		message: message,
+		channel: 'SERVER',
+		meta: getMeta()
+	})
+}
+
+var getMeta = () => {
+	return {
+		'uuid': pubnub.getUUID(),
+		'v': 1
+	}
+}
+
 
 /*
 { "experiment" :
