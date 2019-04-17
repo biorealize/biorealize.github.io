@@ -5,13 +5,24 @@ var pubnub = new PubNub({
 
 jQuery(document).ready(($) => {
 
+	pubnub.subscribe({
+		channels: ['NFC_TAG_CLIENT'] 
+	})
+	
+	pubnub.addListener({
+		message: function (m) {
+			var channelName = m.channel
+			console.log('message came in: ', m)
+			console.log(channelName)
+		}
+	})
 
 
 	$('input[name=media_type]').click((e) => {
 		var $this = $(e.currentTarget)
 		if ($this.is(':checked')) {
 			if ($this.attr('id') == 'media_type_solid') {
-				$('#peripheral_type_group').show()
+				$('#peripheral_type_group, #sealed_row').show()
 				$('#syringe_group').hide()
 				switchPlate()
 				var table = $('.plate').filter((i, d) => {
@@ -20,7 +31,7 @@ jQuery(document).ready(($) => {
 				table.find('input').eq(0).focus()
 				//$('.plate').is(':visible').find('input').eq(0).focus()
 			} else {
-				$('#peripheral_type_group, .form-row.plate').hide()
+				$('#peripheral_type_group, .form-row.plate, #sealed_row').hide()
 				$('#syringe_group').show()
 			}
 		}
@@ -38,7 +49,7 @@ jQuery(document).ready(($) => {
 	
 	$('#submit_nfc_form').submit((e) => {
 		e.preventDefault()
-		var experiment = {}, nfc_obj = {}
+		var experiment = {}
 		var $this = $(e.currentTarget)
 		var fields = ['id', 'client', 'location', 'start_time', 'duration', 'target_temperature', 'imaging_frequency', ]
 		for (var i = 0; i < fields.length; i++) {
@@ -58,13 +69,9 @@ jQuery(document).ready(($) => {
 		} else {
 			experiment.syringe = $this.find('#syringe').val()
 		}
-		nfc_obj.experiment = experiment
-		$('#json_sent').val(JSON.stringify(nfc_obj))
-		var testObj = {test: 72}
-		sendTag(nfc_obj)
+		$('#json_sent').val(JSON.stringify(experiment))
+		sendTag(experiment)
 	})
-	
-	$c(config().apiUrl)
 })
 
 var $c = (t) => {
