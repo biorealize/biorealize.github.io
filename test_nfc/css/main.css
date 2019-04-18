@@ -2533,7 +2533,7 @@ body {
   font-size: 14px;
   line-height: 1.2em; }
 
-h1, h2 {
+h1, h2, h3 {
   font-weight: bold;
   line-height: 1.8em; }
 
@@ -2542,6 +2542,9 @@ h1 {
 
 h2 {
   font-size: 24px; }
+
+h3 {
+  font-size: 16px; }
 
 div.plate {
   display: none;
@@ -2566,4 +2569,6 @@ button[type=submit] {
   background-color: #FDFDFD;
   min-height: 80px;
   max-height: 160px;
-  overflow: auto; }
+  overflow: auto;
+  border: 1px #DDD solid;
+  border-radius: 4px; }
