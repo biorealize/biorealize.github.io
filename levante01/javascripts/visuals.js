@@ -8,7 +8,7 @@
 
     //node-red: once per run
     //node-red2: real-time array data
-    pubnub.subscribe({ channels: ['lavante01s_in', 'lavante01s_out', 'lavante01s_out2'] });
+    pubnub.subscribe({ channels: ['levante01s_in', 'levante01s_out', 'levante01s_out2'] });
     
     //in: Interface sends info to both camera module and reactor
     //out1 is for image link input from camera module
@@ -21,7 +21,7 @@
           console.log('message came in: ', m);
 
 
-            if ( channelName ==='lavante01s_out') {
+            if ( channelName ==='levante01s_out') {
 
               field = String(m.message[0]);
               
@@ -40,7 +40,7 @@
                   console.log("new path arrived");
               }
             }
-            else if (channelName ==='lavante01s_out2') 
+            else if (channelName ==='levante01s_out2') 
             {
                 if (eon in m.message)
                   parseInstructions(m);
@@ -98,7 +98,7 @@
   //the temperature
 
   eon.chart({
-    channels: ['lavante01s_out2'],
+    channels: ['levante01s_out2'],
     generate: {
       bindto: '#temperature', //was #od
       point: {
@@ -147,7 +147,7 @@
 
 
   eon.chart({
-    channels: ['lavante01s_out2'],
+    channels: ['levante01s_out2'],
     
     oninit: function()
     {

@@ -21,7 +21,7 @@
 
         pubnub.publish({
 
-                channel : 'lavante01s_in',
+                channel : 'levante01s_in',
                 message : { device: 'take_img'},
                 callback : function(m){
                     console.log(m)
@@ -33,7 +33,7 @@
 
         pubnub.publish({
 
-                channel : 'lavante01s_in',
+                channel : 'levante01s_in',
                 message : { device: 'take_img_interval'},
                 callback : function(m){
                     console.log(m)
@@ -69,7 +69,7 @@
         var data = m.message[1]+"";
         var url = data.split("/")[2]+"";
         formatted_url = url.split(' ').join('%20');
-        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/lavante01/data/" + data;
+        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/levante01/data/" + data;
         //downloadingImage.src = formatted_url;
         console.log(formatted_url);  
                 
@@ -152,7 +152,7 @@
         if (chkButton.checked){
             //console.log("checked");
             pubnub.publish({
-                channel : 'lavante01s_in',
+                channel : 'levante01s_in',
                 message : { device: 'start'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -161,7 +161,7 @@
         }
         else{
             pubnub.publish({
-                channel : 'lavante01s_in',
+                channel : 'levante01s_in',
                 message : { device: 'stop'},
                 callback : function(m){
                     callbackonsole.log(m)
