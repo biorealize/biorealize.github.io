@@ -81,7 +81,6 @@ jQuery(document).ready(($) => {
 
 	$('#request_nfc_form').submit((e) => {
 		e.preventDefault()
-		$c($('#request_id').val())
 		retrieveTag($('#request_id').val())
 	})
 })
