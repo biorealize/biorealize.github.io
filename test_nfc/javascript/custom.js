@@ -14,8 +14,10 @@ jQuery(document).ready(($) => {
 			var channelName = m.channel
 			console.log('message came in: ', m)
 			console.log(channelName)
-			//$('#log').innerHTML(JSON.stringify(m.message))
 			$('#log').append('<p>' + JSON.stringify(m.message) + '</p>')
+			if (m.message.type == 'get') {
+				$('#json_received').val(JSON.stringify(m.message.tag))
+			}
 		}
 	})
 
@@ -68,13 +70,19 @@ jQuery(document).ready(($) => {
 				})
 			})
 			experiment.load = load
-			$c($this.find('input[name=sealed]:checked').val())
 			experiment.sealed = $this.find('input[name=sealed]:checked').val() == 'true'
 		} else {
 			experiment.syringe = $this.find('#syringe').val()
 		}
 		$('#json_sent').val(JSON.stringify(experiment))
 		sendTag(experiment)
+	})
+
+
+	$('#request_nfc_form').submit((e) => {
+		e.preventDefault()
+		$c($('#request_id').val())
+		retrieveTag($('#request_id').val())
 	})
 })
 
@@ -98,6 +106,18 @@ var sendTag = (tagObj) => {
 	const message = {
 		cmnd: 'ADD_NFC',
 		data: tagObj
+	}
+	pubnub.publish({
+		message: message,
+		channel: 'SERVER',
+		meta: getMeta()
+	})
+}
+
+var retrieveTag = (tag) => {
+	const message = {
+		cmnd: 'GET_NFC',
+		data: tag
 	}
 	pubnub.publish({
 		message: message,

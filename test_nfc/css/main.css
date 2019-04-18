@@ -2564,4 +2564,6 @@ button[type=submit] {
   margin: 0 15px;
   padding: 8px;
   background-color: #FDFDFD;
-  height: 100px; }
+  min-height: 80px;
+  max-height: 160px;
+  overflow: auto; }
