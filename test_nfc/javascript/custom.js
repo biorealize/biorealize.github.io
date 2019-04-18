@@ -14,6 +14,8 @@ jQuery(document).ready(($) => {
 			var channelName = m.channel
 			console.log('message came in: ', m)
 			console.log(channelName)
+			//$('#log').innerHTML(JSON.stringify(m.message))
+			$('#log').append('<p>' + JSON.stringify(m.message) + '</p>')
 		}
 	})
 
@@ -66,6 +68,8 @@ jQuery(document).ready(($) => {
 				})
 			})
 			experiment.load = load
+			$c($this.find('input[name=sealed]:checked').val())
+			experiment.sealed = $this.find('input[name=sealed]:checked').val() == 'true'
 		} else {
 			experiment.syringe = $this.find('#syringe').val()
 		}
