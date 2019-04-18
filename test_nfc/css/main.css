@@ -2547,7 +2547,7 @@ div.plate {
   display: none;
   margin-bottom: 12px; }
 
-#syringe_group {
+.liquid_input {
   display: none; }
 
 #sealed_row {

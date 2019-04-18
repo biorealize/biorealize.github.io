@@ -27,7 +27,7 @@ jQuery(document).ready(($) => {
 		if ($this.is(':checked')) {
 			if ($this.attr('id') == 'media_type_solid') {
 				$('#peripheral_type_group, #sealed_row').show()
-				$('#syringe_group').hide()
+				$('.liquid_input').hide()
 				switchPlate()
 				var table = $('.plate').filter((i, d) => {
 					return $(d).is(':visible')
@@ -36,7 +36,7 @@ jQuery(document).ready(($) => {
 				//$('.plate').is(':visible').find('input').eq(0).focus()
 			} else {
 				$('#peripheral_type_group, .form-row.plate, #sealed_row').hide()
-				$('#syringe_group').show()
+				$('.liquid_input').show()
 			}
 		}
 	})
@@ -55,11 +55,12 @@ jQuery(document).ready(($) => {
 		e.preventDefault()
 		var experiment = {}
 		var $this = $(e.currentTarget)
-		var fields = ['id', 'client', 'location', 'start_time', 'duration', 'target_temperature', 'imaging_frequency', ]
+		var fields = ['id', 'client', 'location', 'start_time', 'expiration_date', 'duration', 'target_temperature', 'imaging_frequency', 'peripheral_payload' ]
 		for (var i = 0; i < fields.length; i++) {
 			experiment[fields[i]] = $this.find('#' + fields[i]).val()
 		}
 		if ($this.find('input[name=media_type]:checked').val() == 'solid') {
+			experiment.media_type = 'solid'
 			experiment.peripheral_type = $this.find('#peripheral_type').val()
 			var load = {}
 			var $plate = $this.find('.form-row.plate:visible').find('table')
@@ -72,6 +73,7 @@ jQuery(document).ready(($) => {
 			experiment.load = load
 			experiment.sealed = $this.find('input[name=sealed]:checked').val() == 'true'
 		} else {
+			experiment.media_type = 'liquid'
 			experiment.syringe = $this.find('#syringe').val()
 		}
 		$('#json_sent').val(JSON.stringify(experiment))
