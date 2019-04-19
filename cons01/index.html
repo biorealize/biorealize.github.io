@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+	<head>
+		<title>Levante: B | reactor | 01 </title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/simplegrid.css" />
+		
+		<style>
+			.content {
+				background: #ccc;
+				padding: 10px;
+			}
+		</style>
+
+		     <!-- PubNub EON -->
+		    <script type="text/javascript" src="https://pubnub.github.io/eon/v/eon/1.0.0/eon.js"></script>
+		     <script type="text/javascript" src="javascripts/functions.js"></script>
+		    <link type="text/css" rel="stylesheet" href="https://pubnub.github.io/eon/v/eon/1.0.0/eon.css" />
+		    <link type="text/css" rel="stylesheet" href="stylesheets/style.css" />
+		</head>
+
+		<body>
+		<!-- Grid 2/3 and 1/3-->
+		<div class="grid grid-pad">
+			<div class="col-1-1">
+				<div id='pageheader'>
+  					<img src="images/biorealizelogo.svg" alt="Dashboard" class="center"> 
+  					
+				</div>
+				<hr class="style_two">
+			</div>
+		</div>
+		<!-- Grid 1/2 
+		<div class="grid grid-pad">
+			<div class="col-1-2 mobile-col-1-2">
+			</div>
+			<div class="col-1-2 mobile-col-1-2">
+			</div>
+			
+			<div class="col-1-2 mobile-col-1-1">
+				<div class="content">
+				</div>
+			</div>
+			<div class="col-1-2 mobile-col-1-2 hide-on-mobile">
+				<div class="content">
+				</div>
+			</div>
+		</div>-->
+
+		<!-- Grid 1/3 -->
+		<div class="grid grid-pad">
+			<div class="col-1-3 mobile-col-1-3">
+				<div id='breactorlogo'> 
+				      <h1>B | reactor </h1>
+				</div>
+				<div id='instructions'> 
+				    <br>
+				    <span class="label syringe_id">Experiment ID </span> <span class="label other">  </span><br><br>
+				    <span class="label date">Date</span><span class="label other">  </span><br><br>
+				    <span class="label organism_media">Organism + Media</span><span class="label other"> <i> </i></span><br><br>
+				    <span class="label volume">Volume</span><span class="label other"> </span><br><br>
+				    <span class="label temperature">Temperature</span><span class="label other"> </span><br><br>
+				    <span class="label duration">Duration</span><span class="label other"> </span><br><br>
+				     <!--<span class="label description">Other</span> -->
+				</div>
+			</div>
+			<div class="col-1-3 mobile-col-1-3">
+					<div id='deviceinfo'> 
+					        <img src="images/breactor_6well_outline_wht.svg" class="left">
+					        <input onclick="takeImgFunction()" type="button" value="Analyze" id="takeImageButton" />
+					        <input onclick="loadNewImgFunction()" type="button" value=" " id="previewImageButton" />
+					       	
+					</div>					
+			</div>
+			<div class="col-1-3 mobile-col-1-3">
+					<div id="currentTemperature"> Temperature:
+					</div>
+					<hr class="style_two"> 
+					<div id='devicetatus'><br> 
+					        <span class="label status">Spec Frequency:</span><span class="label status"></span><br>
+					        <span class="label status">Agitation Mode:</span><span class="label status"></span><br>
+					        <span class="label status">Lid:</span><span class="label status"></span><br>
+					        <span class="label status">LED:</span><span class="label status"></span><br>
+					        <span class="label status">UV:</span><span class="label status"></span><br>
+					         <!--<span class="label description">Other</span> -->
+					</div>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+
+					<label id="button_label" class="switch"><input type="checkbox" id="togBtn" onclick="UpdateButton(this)"><div class="slider round"></div></label>
+
+
+			</div>
+		</div>
+		<!-- Grid 2/3 and 1/3-->
+		<div class="grid grid-pad">
+			<div class="col-1-1">
+				<hr class="style_two">
+			</div>
+		</div>
+
+		<!-- Grid 1/3 -->
+		<div class="grid grid-pad">
+
+			<div class="col-1-3 mobile-col-1-3">
+    			 <div id="temperature"></div>
+			</div>
+			<div class="col-1-3 mobile-col-1-3">
+				<br>	
+				<img src="images/loading.gif">
+
+
+			</div>
+			<div class="col-1-3 mobile-col-1-3">
+	
+			</div>
+
+		</div>
+		<script type="text/javascript" src="javascripts/visuals.js"></script>
+				<!-- Grid 1/3 -->
+		<div class="grid grid-pad">
+			<div class="col-1-3 mobile-col-1-3">
+				<div class="content">
+				</div>
+			</div>
+			<div class="col-1-3 mobile-col-1-3">
+				<div class="content">
+				</div>
+			</div>
+			<div class="col-1-3 mobile-col-1-3">
+				<div class="content">
+				</div>
+			</div>
+		</div>
+		<!-- Grid 2/3 and 1/3-->
+		<div class="grid grid-pad">
+			<div class="col-1-1">
+				<hr class="style_two"><br>
+				<div id="pagefooter">
+					Biorealize Inc. 2019 | B | reactor | CC-BY-SA 4.0 </div>
+				</div>
+		</div>		
+
+		
+	</body>
+
+</html>
