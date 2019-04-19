@@ -9,6 +9,9 @@
     //node-red: once per run
     //node-red2: real-time array data
     pubnub.subscribe({ channels: ['lacolombe01s_in', 'lacolombe01s_out', 'lacolombe01s_out2'] });
+    //xxxx_in - sends input commands to machine
+    //xxxx_out - receive commands from camera
+    //xxxx_out2 - receive commands from machine
     
     //in: Interface sends info to both camera module and reactor
     //out1 is for image link input from camera module
