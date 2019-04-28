@@ -102,7 +102,7 @@
     	var experimentId = m.message.eon.run.syringe_id;
     	var date = m.message.eon.run.date;
     	var organismMedia = m.message.eon.run.instructions.organism_media;
-    	var volume = m.message.eon.run.instructions.volume+ ' ml';
+    	var volume = m.message.eon.run.instructions.volume;
     	var targetTemperature = m.message.eon.run.instructions.target_temperature + ' C';
     	var duration = ((m.message.eon.run.instructions.duration) / 3600) + ' hrs' ;
     	//var obj2 = JSON.parse(obj.message);

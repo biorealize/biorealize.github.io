@@ -1,4 +1,4 @@
-    
+
     var pubnub = new PubNub({
 
         subscribeKey: "sub-c-0b2aaa44-a779-11e6-be20-0619f8945a4f",
@@ -46,7 +46,6 @@
             if (channelName ==='lacolombe01s_out2') 
             {
                 if (eon in m.message)
-                  console.log("Parsing experiment data");
                   parseInstructions(m);
             }
         }
