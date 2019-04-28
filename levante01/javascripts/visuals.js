@@ -40,7 +40,7 @@
                   console.log("new path arrived");
               }
             }
-            else if (channelName ==='levante01s_out2') 
+            if (channelName ==='levante01s_out2') 
             {
                 if (eon in m.message)
                   parseInstructions(m);
@@ -136,7 +136,7 @@
       }
     },
     pubnub: pubnub,
-    limit: 2,
+    limit: 20,
 
     transform: function(m) {
       return { eon: {
