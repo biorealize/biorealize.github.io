@@ -32,7 +32,7 @@
               //if (eon in m.message)
               //parseInstructions(m);
               //else if (m.message[1] + "" === m.message)
-              if (field ==='img_path'){
+                if (field ==='img_path'){
 
                   loadAsyncImage(m); 
 
