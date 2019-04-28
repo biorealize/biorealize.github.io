@@ -46,6 +46,7 @@
             else if (channelName ==='lacolombe01s_out2') 
             {
                 if (eon in m.message)
+                  console.log("Parsing experiment data");
                   parseInstructions(m);
             }
         }
