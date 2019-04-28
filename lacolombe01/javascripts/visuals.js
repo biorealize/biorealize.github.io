@@ -51,7 +51,7 @@
             }
         }
         });  
-
+ 
   //var channel = 'node-red';
 
   eon.chart({
@@ -140,7 +140,7 @@
       }
     },
     pubnub: pubnub,
-    limit: 2,
+    limit: 20,
 
     transform: function(m) {
       return { eon: {
