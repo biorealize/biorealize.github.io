@@ -14,7 +14,7 @@
     //out1 is for image link input from camera module
     //out2 is for data input from reactor
 
-    pubnub.addListener({
+pubnub.addListener({
 
         message: function (m) {
           var channelName = m.channel;
@@ -29,7 +29,7 @@
               //if (eon in m.message)
               //parseInstructions(m);
               //else if (m.message[1] + "" === m.message)
-              if (field ==='img_path'){
+                if (field ==='img_path'){
 
                   loadAsyncImage(m); 
 
