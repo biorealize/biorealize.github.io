@@ -43,14 +43,14 @@
                   console.log("new path arrived");
               }
             }
-            if (channelName ==='lacolombe01s_out2') 
+            if (channelName   ==='lacolombe01s_out2') 
             {
                 if (eon in m.message){
                   console.log(m);
                   parseInstructions(m);
                 }
             }
-        }
+        
         });  
  
   //var channel = 'node-red';
