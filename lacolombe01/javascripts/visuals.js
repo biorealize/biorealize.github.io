@@ -43,7 +43,7 @@
                   console.log("new path arrived");
               }
             }
-            if (channelName ==='lacolombe01s_out2') 
+            else if (channelName ==='lacolombe01s_out2') 
             {
               console.log('parsing instruction');
                 if (eon in m.message){
