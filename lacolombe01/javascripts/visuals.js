@@ -47,7 +47,7 @@
             {
               
                 if (eon in m.message){
-                  console.log('parsing instruction');
+            
                   parseInstructions(m);
                 }
             }
