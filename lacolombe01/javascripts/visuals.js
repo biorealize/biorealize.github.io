@@ -46,7 +46,7 @@
             if (channelName ==='lacolombe01s_out2') 
             {
                 if (eon in m.message){
-                  console.log('parsing instruction';
+                  console.log('parsing instruction');
                   parseInstructions(m);
                 }
             }
