@@ -42,10 +42,10 @@ pubnub.addListener({
             }
             else if (channelName ==='levante01s_out2') 
             {
-                if (eon in m.message){
+                //if (eon in m.message){
                   parseInstructions(m);
                   console.log("parsing");
-                }
+                //}
             }
 
         }
