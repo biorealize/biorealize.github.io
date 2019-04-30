@@ -45,6 +45,7 @@ pubnub.addListener({
                 if (eon in m.message)
                   parseInstructions(m);
             }
+            console.log("eon arrived");
         }
         });  
 
