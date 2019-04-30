@@ -44,8 +44,7 @@ pubnub.addListener({
             {
                 //if (eon in m.message){
                   parseInstructions(m);
-                  console.log("parsing");
-                //}
+                //  }
             }
 
         }
