@@ -40,12 +40,14 @@ pubnub.addListener({
                   console.log("new path arrived");
               }
             }
-            if (channelName ==='levante01s_out2') 
+            else if (channelName ==='levante01s_out2') 
             {
-                if (eon in m.message)
+                if (eon in m.message){
                   parseInstructions(m);
+                  console.log("parsing");
+                }
             }
-            console.log("eon arrived");
+
         }
         });  
 
