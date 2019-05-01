@@ -99,7 +99,7 @@
 
     function parseInstructions(m){
 
-        console.log('parsing instruction');
+        //console.log('parsing instruction');
     	var experimentId = m.message.eon.run.syringe_id;
     	var date = m.message.eon.run.date;
     	var organismMedia = m.message.eon.run.instructions.organism_media;
