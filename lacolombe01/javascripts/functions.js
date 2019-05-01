@@ -1,5 +1,7 @@
     var formatted_url = "";
 
+    var experimentId = "";
+
 
     window.onload = function(){
 
@@ -19,14 +21,27 @@
         document.getElementById("previewImageButton").value=""; 
         document.images[2].src = "images/loading.gif";
 
-        pubnub.publish({
+        if (experimentId !== ""){
+            
+            pubnub.publish({
 
-                channel : 'lacolombe01s_in',
-                message : { device: 'take_img'},
-                callback : function(m){
-                    console.log(m)
-                }
-            });
+                    channel : 'lacolombe01s_in',
+                    message : { device: 'take_img*' + experimentId},
+                    callback : function(m){
+                        console.log(m)
+                    }
+                });
+        }
+        else {
+            pubnub.publish({
+
+                    channel : 'lacolombe01s_in',
+                    message : { device: 'take_img'},
+                    callback : function(m){
+                        console.log(m)
+                    }
+                });
+        }
 
         //after 1 seconds stop the image take and revert back to interval
         setTimeout(function(){ 
@@ -100,7 +115,7 @@
     function parseInstructions(m){
 
         //console.log('parsing instruction');
-    	var experimentId = m.message.eon.run.syringe_id;
+    	experimentId = m.message.eon.run.syringe_id;
     	var date = m.message.eon.run.date;
     	var organismMedia = m.message.eon.run.instructions.organism_media;
     	var volume = m.message.eon.run.instructions.volume;
