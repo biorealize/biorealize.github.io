@@ -8,7 +8,7 @@
 
     //node-red: once per run
     //node-red2: real-time array data
-    pubnub.subscribe({ channels: ['biorealize01l_in', 'biorealize01l_out', 'biorealize01l_out2'] });
+    pubnub.subscribe({ channels: ['br01l_in', 'br01l_out', 'br01l_out2'] });
     //xxxx_in - sends input commands to machine
     //xxxx_out - receive commands from camera
     //xxxx_out2 - receive commands from machine
@@ -24,7 +24,7 @@
           console.log('message came in: ', m);
 
 
-            if ( channelName ==='biorealize01l_out') {
+            if ( channelName ==='br01l_out') {
 
               field = String(m.message[0]);
               
@@ -43,7 +43,7 @@
                   console.log("new path arrived");
               }
             }
-            else if (channelName ==='biorealize01l_out2') 
+            else if (channelName ==='br01l_out2') 
             {
                 //if (eon in m.message){
                   //console.log('parsing instruction');
@@ -103,7 +103,7 @@
   //the temperature
 
   eon.chart({
-    channels: ['biorealize01l_out2'],
+    channels: ['br01l_out2'],
     generate: {
       bindto: '#temperature', //was #od
       point: {
@@ -152,7 +152,7 @@
 
 
   eon.chart({
-    channels: ['biorealize01l_out2'],
+    channels: ['br01l_out2'],
     
     oninit: function()
     {
