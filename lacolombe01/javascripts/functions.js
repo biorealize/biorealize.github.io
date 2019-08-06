@@ -5,6 +5,12 @@
 
     document.getElementById("togBtn").checked=false; 
 
+    setInterval(function(){ 
+
+        takeImgFunction();
+
+    }, 10000);
+
    }
 
    function loadNewImgFunction(){
@@ -14,21 +20,7 @@
 
    }
 
-   function autoImgFunction(){
-        
-        document.getElementById("previewImageButton").value=""; 
-        document.images[2].src = "images/loading.gif";
-
-        pubnub.publish({
-
-                channel : 'lacolombe01s_in',
-                message : { device: 'auto_img'},
-                callback : function(m){
-                    console.log(m)
-                }
-            });
-
-   }
+   
 
     function takeImgFunction(){
         
