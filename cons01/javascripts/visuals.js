@@ -57,7 +57,7 @@
     xType: 'custom',
     xId: 'spectra_timestamp',
     
-    generate: {
+      generate: {
       bindto: '#spectra',
       point: {
         r: 1
