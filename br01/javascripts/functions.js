@@ -161,7 +161,7 @@
         if (chkButton.checked){
             //console.log("checked");
             pubnub.publish({
-                channel : 'lacolombe01s_in',
+                channel : 'br01_in',
                 message : { device: 'start'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -170,7 +170,7 @@
         }
         else{
             pubnub.publish({
-                channel : 'lacolombe01s_in',
+                channel : 'br01_in',
                 message : { device: 'stop'},
                 callback : function(m){
                     callbackonsole.log(m)
