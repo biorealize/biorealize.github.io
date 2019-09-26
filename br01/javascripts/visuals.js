@@ -8,7 +8,7 @@
 
     //node-red: once per run
     //node-red2: real-time array data
-    pubnub.subscribe({ channels: ['br01_in', 'br01_out', 'br01_out2'] });
+    pubnub.subscribe({ channels: ['br01_in', 'br01_out', 'br01_out2', 'c12880MA_16H00363_in', 'c12880MA_16H00363_out'] });
     //xxxx_in - sends input commands to machine
     //xxxx_out - receive commands from camera
     //xxxx_out2 - receive commands from machine
@@ -54,21 +54,19 @@
         });  
  
   //var channel = 'node-red';
+//the temperature
 
   eon.chart({
     channels: ['c12880MA_16H00363_out'],
-    xType: 'custom',
-    xId: 'spectra_timestamp',
-    
     generate: {
-      bindto: '#spectra',
+      bindto: '#spectra', //was #od
       point: {
         r: 1
       },
       data: {
-        type: 'spline',
+        type: 'area-spline',
         colors: {
-          spectra: 'lightblue'
+          temperature: 'lightblue'
         }
       },
       axis: {
@@ -79,12 +77,12 @@
             fit: false
           },
           label: {
-            text: 'Spectral distribution over time'
+            text: 'Spectral distribution over time', //Optical density over time
           }
         },
         y: {
           label: {
-            text: 'Wavelengths',
+            text: 'uU', //Absorbance
             position: 'outer-middle'
           },
           tick: {
@@ -97,7 +95,13 @@
       }
     },
     pubnub: pubnub,
-    limit: 288,
+    limit: 20,
+
+    transform: function(m) {
+      return { eon: {
+        spectra: m.eon.spec
+      }}
+    }
   });
 
   //the temperature

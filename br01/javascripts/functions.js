@@ -78,7 +78,7 @@
                 }
             });
 
-        }, 5000);
+        }, 3000);
 
     //console.log("Spec cleared after 3 secs");
     }
