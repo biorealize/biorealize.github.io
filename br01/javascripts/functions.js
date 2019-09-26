@@ -53,6 +53,20 @@
 
     }
 
+    function readSpecFunction(){
+
+    pubnub.publish({
+
+                channel : 'C12880MA-16H00363_in',
+                message : { spec: 'READ'},
+                callback : function(m){
+                    console.log(m)
+                }
+            });
+
+    }
+
+
     function asyncImageLoader(url){
         return new Promise( (resolve, reject) => {
         var image = new Image()
