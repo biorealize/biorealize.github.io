@@ -56,52 +56,108 @@
   //var channel = 'node-red';
 //the temperature
 
+
+
+  
   eon.chart({
     channels: ['c12880MA_16H00363_out'],
+    history: false,
+    flow: false,
     generate: {
-      bindto: '#spectra', //was #od
-      point: {
-        r: 1
-      },
-      data: {
-        type: 'area-spline',
-        colors: {
-          temperature: 'lightblue'
-        }
-      },
-      axis: {
-        x: {
-          type: 'timeseries',
-          tick: {
-            format: '%H:%m:%S',
-            fit: false
-          },
-          label: {
-            text: 'Spectral distribution over time', //Optical density over time
+          bindto: '#spectra',
+          data: {
+            labels: false,
+            type: "bar"
           }
-        },
-        y: {
-          label: {
-            text: 'uU', //Absorbance
-            position: 'outer-middle'
-          },
-          tick: {
-            format: function (d) {
-              var df = Number( d3.format('.2f')(d) );
-              return df;
-            }
-          }
-        }
-      }
+    },
+    legend: {
+      hide: true
+    },
+    bar: {
+      width: 10
     },
     pubnub: pubnub,
-    limit: 20,
+    limit: 1,
 
     transform: function(m) {
-      return { eon: {
-        spectra: m.eon.spec
-      }}
-    }
+          return {
+            eon: {
+            '0':m.eon.spec[0],
+            '1':m.eon.spec[4],
+            '2':m.eon.spec[8],
+            '3':m.eon.spec[12],
+            '4':m.eon.spec[16],
+            '5':m.eon.spec[20],
+            '6':m.eon.spec[24],
+            '7':m.eon.spec[28],
+            '8':m.eon.spec[32],
+            '9':m.eon.spec[36],
+            '10':m.eon.spec[40],
+            '11':m.eon.spec[44],
+            '12':m.eon.spec[48],
+            '13':m.eon.spec[52],
+            '14':m.eon.spec[56],
+            '15':m.eon.spec[60],
+            '16':m.eon.spec[64],
+            '17':m.eon.spec[68],
+            '18':m.eon.spec[72],
+            '19':m.eon.spec[76],
+            '20':m.eon.spec[80],
+            '21':m.eon.spec[84],
+            '22':m.eon.spec[88],
+            '23':m.eon.spec[92],
+            '24':m.eon.spec[96],
+            '25':m.eon.spec[100],
+            '26':m.eon.spec[104],
+            '27':m.eon.spec[108],
+            '28':m.eon.spec[112],
+            '29':m.eon.spec[116],
+            '30':m.eon.spec[120],
+            '31':m.eon.spec[124],
+            '32':m.eon.spec[128],
+            '33':m.eon.spec[132],
+            '34':m.eon.spec[136],
+            '35':m.eon.spec[140],
+            '36':m.eon.spec[144],
+            '37':m.eon.spec[148],
+            '38':m.eon.spec[152],
+            '39':m.eon.spec[156],
+            '40':m.eon.spec[160],
+            '41':m.eon.spec[164],
+            '42':m.eon.spec[168],
+            '43':m.eon.spec[172],
+            '44':m.eon.spec[176],
+            '45':m.eon.spec[180],
+            '46':m.eon.spec[184],
+            '47':m.eon.spec[188],
+            '48':m.eon.spec[192],
+            '49':m.eon.spec[196],
+            '50':m.eon.spec[200],
+            '51':m.eon.spec[204],
+            '52':m.eon.spec[208],
+            '53':m.eon.spec[212],
+            '54':m.eon.spec[216],
+            '55':m.eon.spec[220],
+            '56':m.eon.spec[224],
+            '57':m.eon.spec[228],
+            '58':m.eon.spec[232],
+            '59':m.eon.spec[236],
+            '60':m.eon.spec[240],
+            '61':m.eon.spec[244],
+            '62':m.eon.spec[248],
+            '63':m.eon.spec[252],
+            '64':m.eon.spec[256],
+            '65':m.eon.spec[260],
+            '66':m.eon.spec[264],
+            '67':m.eon.spec[268],
+            '68':m.eon.spec[272],
+            '69':m.eon.spec[276],
+            '70':m.eon.spec[280],
+            '71':m.eon.spec[284],
+            '72':m.eon.spec[287]
+            }
+          };
+        }
   });
 
   //the temperature
@@ -109,41 +165,41 @@
   eon.chart({
     channels: ['br01_out2'],
     generate: {
-      bindto: '#temperature', //was #od
-      point: {
-        r: 1
-      },
-      data: {
-        type: 'area-spline',
-        colors: {
-          temperature: 'deeppink'
-        }
-      },
-      axis: {
-        x: {
-          type: 'timeseries',
-          tick: {
-            format: '%H:%m:%S',
-            fit: false
-          },
-          label: {
-            text: 'Temperature over time', //Optical density over time
-          }
-        },
-        y: {
-          label: {
-            text: 'Celcius', //Absorbance
-            position: 'outer-middle'
-          },
-          tick: {
-            format: function (d) {
-              var df = Number( d3.format('.2f')(d) );
-              return df;
-            }
-          }
-        }
-      }
-    },
+        bindto: '#temperature', //was #od
+        point: {
+              r: 1
+              },
+        data: {
+          type: 'area-spline',
+          colors: {
+            temperature: 'deeppink'
+              }
+              },
+        axis: {
+            x: {
+              type: 'timeseries',
+              tick: {
+                format: '%H:%m:%S',
+                fit: false
+                    },
+              label: {
+                  text: 'Temperature over time', //Optical density over time
+                   }
+                },
+            y: {
+                label: {
+                text: 'Celcius', //Absorbance
+                position: 'outer-middle'
+                    },
+                tick: {
+                  format: function (d) {
+                  var df = Number( d3.format('.2f')(d) );
+                  return df;
+                      }
+                    }
+                }
+              }//end of axis
+            },//end of generated
     pubnub: pubnub,
     limit: 20,
 
