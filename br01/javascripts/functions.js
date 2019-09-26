@@ -57,7 +57,7 @@
 
     pubnub.publish({
 
-                channel : 'c12880MA_16H00363-in',
+                channel : 'c12880MA_16H00363_in',
                 message : {'spec':'read'},
                 callback : function(m){
                     console.log(m)
@@ -71,7 +71,7 @@
 
         pubnub.publish({
 
-                channel : 'c12880MA_16H00363-in',
+                channel : 'c12880MA_16H00363_in',
                 message : { 'spec': 'clear'},
                 callback : function(m){
                     console.log(m)
