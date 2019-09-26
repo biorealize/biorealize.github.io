@@ -58,7 +58,7 @@
     pubnub.publish({
 
                 channel : 'C12880MA-16H00363_in',
-                message : { spec: 'READ'},
+                message : { 'spec': 'READ'},
                 callback : function(m){
                     console.log(m)
                 }
