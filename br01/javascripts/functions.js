@@ -57,13 +57,30 @@
 
     pubnub.publish({
 
-                channel : 'C12880MA-16H00363_in',
-                message : { 'spec': 'READ'},
+                channel : 'c12880MA-16H00363_in',
+                message : {'spec':'read'},
                 callback : function(m){
                     console.log(m)
                 }
             });
 
+    console.log("Spec reading initiated");
+
+            //after 1 seconds stop the image take and revert back to interval
+    setTimeout(function(){ 
+
+        pubnub.publish({
+
+                channel : 'c12880MA-16H00363_in',
+                message : { 'spec': 'clear'},
+                callback : function(m){
+                    console.log(m)
+                }
+            });
+
+        }, 5000);
+
+    console.log("Spec cleared after 3 secs");
     }
 
 

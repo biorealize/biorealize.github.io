@@ -56,7 +56,7 @@
   //var channel = 'node-red';
 
   eon.chart({
-    channels: ['C12880MA-16H00363-out'],
+    channels: ['c12880MA-16H00363-out'],
     xType: 'custom',
     xId: 'spectra_timestamp',
     
