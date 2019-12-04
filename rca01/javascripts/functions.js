@@ -131,6 +131,7 @@
     //updateColorSensorChart();
     setInterval(function(){updateChart()}, updateInterval);
 
+
     }//end of onload
 
     function updateColorSensorChart(m) {
@@ -377,6 +378,19 @@
         document.getElementById("currentTemperature").innerHTML = 
         '<span class="label status">Temperature:</span><span style="color:#ff9800">'+ currentTemp +
         '</span><br>'
+
+    }
+
+    function initMachineFunction(){
+
+        pubnub.publish({
+
+                channel : 'rca01_in',
+                message : { cmd: 'init'},
+                callback : function(m){
+                    console.log(m)
+                }
+            });
 
     }
 
