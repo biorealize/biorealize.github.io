@@ -1,6 +1,6 @@
     var formatted_url = "";
 
-    var currentTemp = 37.0;
+    var currentTemp = 23.0;
     var chart; 
     var colorSensorChart;
     var dataPoints1 = [];
@@ -175,7 +175,7 @@
 
         pubnub.publish({
 
-                channel : 'rca01_in',
+                channel : 'obnc01s_in',
                 message : { device: 'take_img'},
                 callback : function(m){
                     console.log(m)
@@ -198,7 +198,7 @@
 
         pubnub.publish({
 
-                channel : 'rca01_in',
+                channel : 'obnc01s_in',
                 message : { device: 'take_img_interval'},
                 callback : function(m){
                     console.log(m)
@@ -373,7 +373,10 @@
         '</span><br><span class="label status">Lid:</span><span class="label status">'+ LidStatus +
         '</span><br>'
 
-        currentTemp = m.message.run.current_temp ;
+        currentTemp = m.message.run.current_temp;
+        currentTemp = currentTemp.slice(0,-3);
+        currentTemp = parseFloat(currentTemp);
+        console.log( currentTemp);
         
         document.getElementById("currentTemperature").innerHTML = 
         '<span class="label status">Temperature:</span><span style="color:#ff9800">'+ currentTemp +

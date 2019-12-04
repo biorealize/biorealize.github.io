@@ -40,16 +40,17 @@
                   console.log("new path arrived");
               }
             }
-            else if (channelName ==='rca01_out') 
+            if (channelName ==='rca01_out') 
             {
 
                   try{
-                    parseInformationfromReactor(m);                  }
+                    parseInformationfromReactor(m);   
+                   }
                   catch(err){
                     ;//console.log("parsing run info error");
                   }
             }
-            else if (channelName ==='rca01plate_out') 
+            if (channelName ==='rca01plate_out') 
             {
 
                   try{
@@ -59,7 +60,7 @@
                   }
                   console.log("new message from plate");
             }
-            else if (channelName ==='rca01AS7262_out') 
+            if (channelName ==='rca01AS7262_out') 
             {
 
                   updateColorSensorChart(m);  
