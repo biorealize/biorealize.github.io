@@ -71,7 +71,7 @@
           }
     },
     legend: {
-      hide: true
+      show: false
     },
     bar: {
       width: 10
