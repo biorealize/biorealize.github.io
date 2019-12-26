@@ -1,12 +1,20 @@
     var formatted_url = "";
 
-    var currentTemp = 23.0;
-    var chart; 
+    var currentTemp;
+    var currentOD;
+    var temperatureChart; 
     var colorSensorChart;
-    var dataPoints1 = [];
-    var updateInterval = 10000;
+    var growthChart;
+    var tempDataPoints = [];
+    var spectraHistory = [];
+    var odDataPoints = [];
+    var odHistory = [];
+    var OD_BIAS = 20200;
+    var OD_600INDEX = 117;
+    var tempChartUpdateInterval = 20000;
+    var growthChartUpdateInterval = 5000;
     // initial value
-    var yValue1 = 37; 
+   // var yValue1 = 37; 
     var time = new Date;
 
 
@@ -14,14 +22,14 @@
 
     document.getElementById("togBtn").checked=false; 
 
-    setInterval(function(){ 
+    //setInterval(function(){ 
 
-        takeImgFunction();
+    //    takeImgFunction();
 
-    }, 43200000);
+    //}, 43200000);
 
 
-    chart = new CanvasJS.Chart("temperatureOverview", {
+    temperatureChart = new CanvasJS.Chart("temperatureOverview", {
 
         zoomEnabled: true,
         backgroundColor: 'rgba(0, 0, 0, 0)',
@@ -32,7 +40,7 @@
             fontColor: 'rgba(220, 22, 90, .9)',
         },
         axisX: {
-            title: "Updates every 30 secs",
+            title: "Updates every " + tempChartUpdateInterval/1000 + " secs",
             titleFontColor: "dimGrey",
             labelFontColor: "dimGrey",
             titleFontSize: 12,
@@ -62,9 +70,58 @@
             lineColor: 'rgba(220, 22, 90, .9)',
             lineThickness: .7,
             name: "Temperature",
-            dataPoints: dataPoints1
+            dataPoints: tempDataPoints
             }]
     });
+
+    temperatureChart.render();
+    
+    growthChart = new CanvasJS.Chart("growthOverTime", {
+
+        zoomEnabled: true,
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        title: {
+            text: "Growth",
+            fontFamily: "helvetica",
+            fontSize: 14,
+            fontColor: 'rgba(220, 22, 90, .9)',
+        },
+        axisX: {
+            title: "Updates every " + growthChartUpdateInterval/1000 + " secs",
+            titleFontColor: "dimGrey",
+            labelFontColor: "dimGrey",
+            titleFontSize: 12,
+        },
+        axisY:{
+            suffix: "OD",
+            includeZero: true,
+            labelFontColor: "lightGrey",
+        }, 
+        toolTip: {
+            shared: true
+        },
+        legend: {
+            cursor:"pointer",
+            verticalAlign: "top",
+            fontSize: 22,
+            fontColor: "dimGrey",
+            itemclick : toggleDataSeries
+        },
+        data: [{ 
+            type: "splineArea",
+            lineDashType: "shortDash",
+            xValueType: "dateTime",
+            yValueFormatString: "####.00",
+            xValueFormatString: "hh:mm:ss TT",
+            showInLegend: false,
+            lineColor: 'rgba(220, 22, 90, .9)',
+            lineThickness: .7,
+            name: "Growith",
+            dataPoints: odDataPoints,
+            }]
+    });
+
+    growthChart.render();
 
     colorSensorChart = new CanvasJS.Chart("colorSensorOverview", {
 
@@ -114,23 +171,28 @@
         else {
             e.dataSeries.visible = true;
         }
-        chart.render();
+        temperatureChart.render();
+        growthChart.render();
     }
 
 
 
-    function updateChart() {   
+    function updateTemperatureChart() {   
         // pushing the new values
-        dataPoints1.push({
-                x: time.setTime(time.getTime()+ updateInterval), //time.getTime() + updateInterval,
+        tempDataPoints.push({
+                x: time.setTime(time.getTime()+ tempChartUpdateInterval), 
                 y: currentTemp
                 });
-        chart.render();
+        temperatureChart.render();
     }
 
     //updateColorSensorChart();
-    setInterval(function(){updateChart()}, updateInterval);
+    setInterval(function(){updateTemperatureChart()}, tempChartUpdateInterval);
 
+    
+
+     //updateColorSensorChart();
+    //setInterval(function(){updateGrowthChart()}, growthChartUpdateInterval);
 
     }//end of onload
 
@@ -235,7 +297,12 @@
     //console.log("Spec cleared after 3 secs");
     }
 
+
+
+
     function readSpecFunction(){
+
+    console.log("spec called")
 
     pubnub.publish({
 
@@ -249,6 +316,7 @@
     //console.log("Spec reading initiated");
 
             //after 1 seconds stop the image take and revert back to interval
+    /*
     setTimeout(function(){ 
 
         pubnub.publish({
@@ -261,6 +329,7 @@
             });
 
         }, 3000);
+    */
 
     //console.log("Spec cleared after 3 secs");
     }
@@ -317,6 +386,18 @@
         //downloadingImage.src = "https://www.dropbox.com/s/b4ymnx6io3oh22p/Saturday%2030%20March%202019%2002%3A20%3A12PM.jpg?raw=1";
     }
 
+
+    function updateSpecPeripheralImage(){
+
+        console.log('Connected to the Spec Peripheral');
+
+        document.getElementById("deviceinfo").innerHTML = 
+        '<img src="images/breactor_60mlsyringe_wSpec_outline_wht.svg" class="left">'+
+        '<input onclick="readSpecFunction()" type="button" value="Spec " id="readSpecButton" />'
+
+    }   
+
+
     function parseInformationfromPlatePeripheral(m){
 
         console.log('parsing plate peripheral information');
@@ -327,12 +408,14 @@
         '<input onclick="loadNewImgFunction()" type="button" value=" " id="previewImageButton" />'
     }
 
+
     function parseInformationfromReactor(m){
 
-        //console.log('parsing reactor information');
+        console.log('parsing reactor information');
 
 
-        try{
+        if (m.message.hasOwnProperty("experiment") ){
+                    //console.log(m.message.hasOwnProperty("experiment"));
         	var experimentId = m.message.experiment.id;
         	var expDate = m.message.experiment.expiration_date;
         	var organismMedia = m.message.experiment.organism_media;
@@ -352,35 +435,50 @@
             '</span><br><br><span class="label temperature">Temperature</span><span class="label other">'+ targetTemperature +
             '</span><br><br><span class="label duration">Duration</span><span class="label other">'+ duration + 
             '</span><br><br>'
+
+
+            //document.getElementsByClassName(".switch").style.opacity = "1"; 
+            document.getElementById("button_label").style.opacity = "1"; 
+            document.getElementById("togBtn").checked=true;
+            document.getElementById("spin_box_id").checked=false;
+            checkBox = document.getElementById("spin_box_id"); 
+            checkBox.style="display:visible";
+            label = document.getElementById("spin_check_label");
+            label.innerHTML="Spin"; 
         }
-        catch(err)
-            {
-                ;//console.log('parsing reactor experiment info error');
-            }
 
+        if (m.message.hasOwnProperty("run") ) {
 
-        //document.getElementsByClassName(".switch").style.opacity = "1"; 
-        document.getElementById("button_label").style.opacity = "1"; 
-        //document.getElementById("togBtn").checked=true; 
+            //console.log(m.message.run.elapsed_time);
 
-        var specFreq = m.message.run.spec_frequency;
-        var spinSpeed = m.message.run.spin_speed; 
-        var LidStatus = m.message.run.lid ;
+            var specFreq = m.message.run.spec_frequency;
+            var spinSpeed = m.message.run.spin_speed; 
+            var lidStatus = m.message.run.lid ;
+            var elapsedTime = m.message.run.elapsed_time;
+            var runStatus = m.message.run.status;
 
-        document.getElementById("devicetatus").innerHTML = 
-        '<span class="label status">Spec Frequency:</span><span class="label status">'+ specFreq +
-        '</span><br><span class="label status">Agitation Mode:</span><span class="label status">'+ spinSpeed +
-        '</span><br><span class="label status">Lid:</span><span class="label status">'+ LidStatus +
-        '</span><br>'
+            document.getElementById("devicetatus").innerHTML = 
+            '<span class="label status">Spec Frequency:</span><span class="label status">'+ specFreq +
+            '</span><br><span class="label status">Agitation Mode:</span><span class="label status">'+ spinSpeed +
+            '</span><br><span class="label status">Lid:</span><span class="label status">'+ lidStatus +
+            '</span><br>'
 
-        currentTemp = m.message.run.current_temp;
-        currentTemp = currentTemp.slice(0,-3);
-        currentTemp = parseFloat(currentTemp);
-        console.log( currentTemp);
-        
-        document.getElementById("currentTemperature").innerHTML = 
-        '<span class="label status">Temperature:</span><span style="color:#ff9800">'+ currentTemp +
-        '</span><br>'
+            currentTemp = m.message.run.current_temp;
+            //currentTemp = currentTemp.slice(0,-4);
+            currentTemp = parseFloat(currentTemp);
+            elapsedTime = parseFloat(  elapsedTime/60 ).toFixed(2);
+            //console.log(currentTemp);
+            
+            document.getElementById("currentTemperature").innerHTML = 
+            '<span class="label status">Chamber is </span><span style="color:#F0F0F0">'+ currentTemp + ' °C' + ' (and ' + runStatus + ')'
+            '</span><br><br>'
+            document.getElementById("elapsedTime").innerHTML = 
+            '<span class="label status"> Elapsed Time:</span><span style="color:#ff9800">'+ elapsedTime + ' min' +
+            '</span><br>'
+
+    }
+ 
+
 
     }
 
@@ -397,10 +495,43 @@
 
     }
 
+    function UpdateSpinStatus(chkButton){
+
+        if (chkButton.checked){
+            //console.log("checked called");
+            pubnub.publish({
+                channel : 'rca01_in',
+                message : { cmd: 'spin'},
+                callback : function(m){
+                    callbackonsole.log(m)
+                }
+            });
+    
+    }
+        else{
+            //console.log("unchecked called");
+            pubnub.publish({
+                channel : 'rca01_in',
+                message : { cmd: 'nospin'},
+                callback : function(m){
+                    callbackonsole.log(m)
+                }
+            });
+            //console.log("not checked");
+        }
+
+
+    }
 
     function UpdateButton(chkButton) {
+
         if (chkButton.checked){
             //console.log("checked");
+            checkBox = document.getElementById("spin_box_id"); 
+            checkBox.style="display:visible";
+            label = document.getElementById("spin_check_label");
+            label.innerHTML="Spin";
+
             pubnub.publish({
                 channel : 'rca01_in',
                 message : { cmd: 'start'},
@@ -410,6 +541,11 @@
             });
         }
         else{
+            checkBox = document.getElementById("spin_box_id"); 
+            checkBox.style="display:none";
+            label = document.getElementById("spin_check_label");
+            label.innerHTML="";
+            
             pubnub.publish({
                 channel : 'rca01_in',
                 message : { cmd: 'stop'},
@@ -421,3 +557,108 @@
         }
 
     }
+
+    function updateSpecChart(m){
+
+                var RAW_SCAN = m.message.RAW_SCAN;
+
+                //Replace this show with an actual reading from the spec
+                var SHOW = {specState:6, specReady:1, specDataIndex:158, specBufferFilling:1, video_bias:0, video_max:40000, whiteLED:0, laserLED:0, whitePct:0.00, laserPct:0.00, clockPeriod:14, integrationTime:672, serialNum:"16a00106", A0:3.112979665E+02, B1:2.682851027E+00, B2:-7.479508945E-04, B3:-1.104274866E-05, B4:2.175770976E-08, B5:-1.189582572E-11};
+                // make an empty array to hold the wavelength values for each sample
+                // load the array with calculated wavelengths, using a 5th order polynomial calculation
+       
+                var wavelengths = [];
+                for (var i=1;i<=RAW_SCAN.length;i++) {
+                    wavelengths.push(SHOW.A0 + SHOW.B1*i + SHOW.B2 * Math.pow(i,2) + SHOW.B3 * Math.pow(i,3) + SHOW.B4 * Math.pow(i,4) + SHOW.B5 * Math.pow(i,5));
+                }
+
+                var dataPoints=[];
+                for (var i = 0; i < RAW_SCAN.length; i++) { 
+                    dataPoints.push({y:RAW_SCAN[i]});
+                }
+                
+                //pass latest Raw Scan for OD 600 calculation
+                updateGrowthChart(RAW_SCAN[OD_600INDEX]);
+                
+                var chrt = document.getElementById('colorSensorOverview');
+                //var chart = new CanvasJS.Chart("chartContainer", {
+                var chart = new CanvasJS.Chart(chrt, {
+
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    title:{
+                        text: "Raw Spectrum",
+                        fontFamily: 'helvetica',
+                        fontSize: 14,
+                        fontColor: 'rgba(220, 22, 90, .9)',              
+                    },
+          
+                      axisX:{
+                        title: 'Wavelength',
+                        titleFontFamily: 'helvetica',
+                        tickThickness: .5,
+                        tickLength: 5,
+                        gridThickness: .5,
+                        lineThickness: .5,
+                        titleFontColor: "dimGrey",
+                        labelFontColor: "dimGrey",
+                        titleFontSize: 12,
+
+                      },
+
+                      axisY:{
+                        title: "AD count",
+                        titleFontFamily: 'helvetica',
+                        tickThickness: .5,
+                        tickLength: 5,
+                        gridThickness: .5,
+                        lineThickness: .5,
+                        titleFontColor: "dimGrey",
+                        labelFontColor: "lightGrey",
+                        titleFontSize: 12,
+
+                      },
+                    animationEnabled: true,   // change to true
+                    
+
+                    data: [              
+                    {
+                        // Change type to "bar", "area", "spline", "pie",etc.
+                        //type: "splineArea",
+                        type: "line",
+                        lineThickness: 1,
+                        dataPoints: dataPoints,//wavelengths
+                    }
+                    ]
+                });
+                chart.render();
+            }
+
+function updateGrowthChart(currentRawSpectra){
+
+        //currentOD = Math.round(2 + Math.random() *(-2-2));        
+        
+        //currentOD = Math.max(-Math.log10((spec_data[syringe][i].dataPoints[j] - BIAS) / (spec_data[syringe][0].dataPoints[j] - BIAS)), 0);
+        if (spectraHistory.length>0){
+            //lastOD= odHistory[odHistory.length - 1];
+            firstSpectra = spectraHistory[0];
+            lastSpectra = currentRawSpectra-OD_BIAS;
+            currentOD = Math.max(-Math.log10( lastSpectra / firstSpectra ), 0);
+            console.log(currentRawSpectra)
+            console.log(OD_BIAS)
+            console.log(currentOD)
+        }
+        else{
+            currentOD = 0.0
+        }
+
+        odHistory.push(currentOD);
+        spectraHistory.push(currentRawSpectra);
+
+        //Push the newly calculated OD to the graph to visualize
+        odDataPoints.push({
+                x: time.setTime(time.getTime()+ growthChartUpdateInterval), 
+                y: currentOD
+                });
+        growthChart.render();
+
+    }//end of updateGrowthChart

@@ -23,6 +23,8 @@
         message: function (m) {
           var channelName = m.channel;
 
+            //console.log(m.message.RAW_SCAN);
+
 
 
             if ( channelName ==='rca01_out') {
@@ -42,23 +44,25 @@
             }
             if (channelName ==='rca01_out') 
             {
+                //console.log("parsing info from reactor");
 
                   try{
                     parseInformationfromReactor(m);   
                    }
-                  catch(err){
-                    ;//console.log("parsing run info error");
+                    catch(err){
+                    console.log("parsing run info error");
                   }
             }
             if (channelName ==='rca01plate_out') 
             {
 
+                  //console.log("new message from plate");
                   try{
                      parseInformationfromPlatePeripheral(m);                   }
                   catch(err){
                     ;//console.log("parsing run info error");
                   }
-                  console.log("new message from plate");
+                  
             }
             if (channelName ==='rca01AS7262_out') 
             {
@@ -66,6 +70,15 @@
                   updateColorSensorChart(m);  
                   console.log("new message from sensor");
             }
+            if (channelName ==='c12880MA_16H00363_out') 
+            {
+
+                  updateSpecChart(m);
+                  updateSpecPeripheralImage();  
+                  console.log("new message from spec");
+                  //console.log(m.message.RAW_SCAN);
+            }
+
 
 
         }
