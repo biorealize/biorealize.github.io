@@ -5,6 +5,7 @@
     var temperatureChart; 
     var colorSensorChart;
     var growthChart;
+    var colorSensorGrowthChart;
     var tempDataPoints = [];
     var spectraHistory = [];
     var odDataPoints = [];
@@ -93,7 +94,7 @@
             titleFontSize: 12,
         },
         axisY:{
-            suffix: "OD",
+            suffix: " OD",
             includeZero: true,
             labelFontColor: "lightGrey",
         }, 
@@ -116,7 +117,7 @@
             showInLegend: false,
             lineColor: 'rgba(220, 22, 90, .9)',
             lineThickness: .7,
-            name: "Growith",
+            name: "Growth",
             dataPoints: odDataPoints,
             }]
     });
@@ -192,7 +193,7 @@
     
 
      //updateColorSensorChart();
-    //setInterval(function(){updateGrowthChart()}, growthChartUpdateInterval);
+    //setInterval(function(){updategrowthChart()}, growthChartUpdateInterval);
 
     }//end of onload
 
@@ -206,7 +207,7 @@
                     { label: "600", y: m.message.orange, color: '#ff6c00' },//orange
                     { label: "650", y: m.message.red, color: '#ff0000' }//red
                 ];
-
+        updateGrowthChart(m.message.orange, 'AS7262');        
         /*
         var boilerColor, deltaY, yVal;
         var dps = chart.options.data[0].dataPoints;
@@ -283,6 +284,8 @@
     }
 
     function readColorFunction(){
+
+    console.log("color sensor called")    
 
     pubnub.publish({
 
@@ -387,6 +390,16 @@
     }
 
 
+    function updateColorSensorPeripheralImage(){
+
+        console.log('Connected to the Color Sensor Peripheral');
+
+        document.getElementById("deviceinfo").innerHTML = 
+        '<img src="images/breactor_60mlsyringe_wSpec_outline_wht.svg" class="left">'+
+        '<input onclick="readColorFunction()" type="button" value="Color Sense" id="readColorSensorButton" />'
+
+    }   
+
     function updateSpecPeripheralImage(){
 
         console.log('Connected to the Spec Peripheral');
@@ -395,8 +408,7 @@
         '<img src="images/breactor_60mlsyringe_wSpec_outline_wht.svg" class="left">'+
         '<input onclick="readSpecFunction()" type="button" value="Spec " id="readSpecButton" />'
 
-    }   
-
+    }  
 
     function parseInformationfromPlatePeripheral(m){
 
@@ -577,12 +589,13 @@
                     dataPoints.push({y:RAW_SCAN[i]});
                 }
                 
-                //pass latest Raw Scan for OD 600 calculation
-                updateGrowthChart(RAW_SCAN[OD_600INDEX]);
+                //pass latest Raw Scan for OD 600 calculation, which updates the growth chart
+                updateGrowthChart( RAW_SCAN[OD_600INDEX], 'SPEC');
                 
+                //this raw_spec_chart
                 var chrt = document.getElementById('colorSensorOverview');
                 //var chart = new CanvasJS.Chart("chartContainer", {
-                var chart = new CanvasJS.Chart(chrt, {
+                var rawSpectrumChart = new CanvasJS.Chart(chrt, {
 
                     backgroundColor: 'rgba(0, 0, 0, 0)',
                     title:{
@@ -630,10 +643,11 @@
                     }
                     ]
                 });
-                chart.render();
+                rawSpectrumChart.render();
             }
 
-function updateGrowthChart(currentRawSpectra){
+
+function updateGrowthChart(currentRawSpectra, source){
 
         //currentOD = Math.round(2 + Math.random() *(-2-2));        
         
@@ -641,14 +655,28 @@ function updateGrowthChart(currentRawSpectra){
         if (spectraHistory.length>0){
             //lastOD= odHistory[odHistory.length - 1];
             firstSpectra = spectraHistory[0];
+            
+            if(source.includes('SPEC')){
+                OD_BIAS = 20200;
+            }else{
+                OD_BIAS = 1000;
+            }
+
             lastSpectra = currentRawSpectra-OD_BIAS;
             currentOD = Math.max(-Math.log10( lastSpectra / firstSpectra ), 0);
-            console.log(currentRawSpectra)
-            console.log(OD_BIAS)
-            console.log(currentOD)
+            /*
+            console.log("spectral History length: " + spectraHistory.length);
+            console.log("CurrentRaw: " + currentRawSpectra);
+            console.log("OD_BIAS: " +  OD_BIAS);
+            console.log("last Spectra: " + lastSpectra);
+            console.log("first Spectra: " + firstSpectra)
+            console.log("currentOD: " + currentOD);
+            */
+            
         }
         else{
-            currentOD = 0.0
+            //this should be replaced by a calibration reading
+            currentOD = 0.001;
         }
 
         odHistory.push(currentOD);

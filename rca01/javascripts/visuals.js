@@ -68,6 +68,7 @@
             {
 
                   updateColorSensorChart(m);  
+                  updateColorSensorPeripheralImage();
                   console.log("new message from sensor");
             }
             if (channelName ==='c12880MA_16H00363_out') 
