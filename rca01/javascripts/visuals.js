@@ -46,12 +46,12 @@
             {
                 //console.log("parsing info from reactor");
 
-                  try{
+                  //try{
                     parseInformationfromReactor(m);   
-                   }
-                    catch(err){
-                    console.log("parsing run info error");
-                  }
+                   //}
+                   // catch(err){
+                    //console.log("parsing run info error");
+                  //}
             }
             if (channelName ==='rca01plate_out') 
             {

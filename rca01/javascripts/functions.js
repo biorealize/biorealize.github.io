@@ -468,18 +468,23 @@
             var lidStatus = m.message.run.lid ;
             var elapsedTime = m.message.run.elapsed_time;
             var runStatus = m.message.run.status;
+            var recordID = m.message.run.record_id;
+            var timestamp = m.message.run.ts;
 
             document.getElementById("devicetatus").innerHTML = 
-            '<span class="label status">Spec Frequency:</span><span class="label status">'+ specFreq +
+            '<span class="label status">Sensor Frequency:</span><span class="label status">'+ specFreq +
             '</span><br><span class="label status">Agitation Mode:</span><span class="label status">'+ spinSpeed +
-            '</span><br><span class="label status">Lid:</span><span class="label status">'+ lidStatus +
+            '</span><br><span class="label status">Lid:</span><span class="label status">'+ lidStatus + 
+            '</span><br><br><span class="label status">Record ID:</span><span class="label status">'+ recordID + 
+            '</span><br><span class="label status">Timestamp:</span><span class="label status">'+ timestamp +
             '</span><br>'
 
             currentTemp = m.message.run.current_temp;
             //currentTemp = currentTemp.slice(0,-4);
             currentTemp = parseFloat(currentTemp);
             elapsedTime = parseFloat(  elapsedTime/60 ).toFixed(2);
-            //console.log(currentTemp);
+            console.log(m.message.run.record_id);
+            console.log(m.message.run.ts);
             
             document.getElementById("currentTemperature").innerHTML = 
             '<span class="label status">Chamber is </span><span style="color:#F0F0F0">'+ currentTemp + ' °C' + ' (and ' + runStatus + ')'
