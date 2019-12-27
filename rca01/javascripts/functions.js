@@ -499,8 +499,8 @@
 
     }
 
-    function initMachineFunction(){
-
+    function initNewExperiment(){
+        //console.log("initNewExperiment called");
         pubnub.publish({
 
                 channel : 'rca01_in',
