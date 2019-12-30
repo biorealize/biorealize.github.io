@@ -23,12 +23,6 @@
 
     document.getElementById("togBtn").checked=false; 
 
-    //setInterval(function(){ 
-
-    //    takeImgFunction();
-
-    //}, 43200000);
-
 
     temperatureChart = new CanvasJS.Chart("temperatureOverview", {
 
@@ -225,8 +219,10 @@
 
    function loadNewImgFunction(){
 
-       if (formatted_url !== "")
-            document.images[2].src = formatted_url;
+        var newImage = document.getElementById("loadingImg");
+
+        if (formatted_url !== "")
+            newImage.src = formatted_url;
 
    }
    
@@ -234,11 +230,13 @@
     function takeImgFunction(){
         
         document.getElementById("previewImageButton").value=""; 
-        document.images[2].src = "images/loading.gif";
+        var image = document.getElementsByClassName("loadingImg");
+        image = "images/loading.gif";
+        //document.images[3].src = "images/loading.gif";
 
         pubnub.publish({
 
-                channel : 'obnc01s_in',
+                channel : 'rca01cam_in',
                 message : { device: 'take_img'},
                 callback : function(m){
                     console.log(m)
@@ -256,12 +254,12 @@
 
 
 
-        //after 1 seconds stop the image take and revert back to interval
+        //after 5 seconds stop the image take and revert back to interval
         setTimeout(function(){ 
 
         pubnub.publish({
 
-                channel : 'obnc01s_in',
+                channel : 'rca01_in',
                 message : { device: 'take_img_interval'},
                 callback : function(m){
                     console.log(m)
@@ -337,56 +335,16 @@
     //console.log("Spec cleared after 3 secs");
     }
 
-    function asyncImageLoader(url){
-        return new Promise( (resolve, reject) => {
-        var image = new Image()
-        image.src = url
-        image.onload = () => resolve(image)
-        image.onerror = () => reject(new Error('could not load image'))
-        })
-    }
 
-    function loadAsyncImage(m){
+    function formatURLforNewImg(m){
  
-
-        var image = document.images[2]; //2 corresponds to the clear image
-        var downloadingImage = new Image();
-        downloadingImage.onload = function(){
-            image.src = this.src;   
-            };
-
-
-
-
         var data = m.message[1]+"";
         var url = data.split("/")[2]+"";
         formatted_url = url.split(' ').join('%20');
         formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01/data/" + data;
-        //downloadingImage.src = formatted_url;
+
         console.log(formatted_url);  
                 
-
-
-
-        //downloadingImage.src = "https://www.dropbox.com/s/b4ymnx6io3oh22p/Saturday%2030%20March%202019%2002%3A20%3A12PM.jpg?raw=1";
-        
-        //convert message into string
-        //var url = data.split("/")[2] + "";
-        //formatted_url = url.split(' ').join('%20') + '?raw=1';
-        //console.log(formatted_url);
-
-        //downloadingImage.src = "https://www.dropbox.com/s/b4ymnx6io3oh22p/" + formatted_url;
-        
-        //downloadingImage.src = "https://www.dropbox.com/preview/BR_Imaging/" +formatted_url;
-        
-        //setTimeout(function(){ 
-
-
-
-        //}, 1000);
-
-
-        //downloadingImage.src = "https://www.dropbox.com/s/b4ymnx6io3oh22p/Saturday%2030%20March%202019%2002%3A20%3A12PM.jpg?raw=1";
     }
 
 
@@ -396,7 +354,7 @@
 
         document.getElementById("deviceinfo").innerHTML = 
         '<img src="images/breactor_60mlsyringe_wSpec_outline_wht.svg" class="left">'+
-        '<input onclick="readColorFunction()" type="button" value="Color Sense" id="readColorSensorButton" />'
+        '<input onclick="readColorFunction()" type="button" value="Analyze Color" id="readColorSensorButton" />'
 
     }   
 
@@ -416,10 +374,10 @@
 
         document.getElementById("deviceinfo").innerHTML = 
         '<img src="images/breactor_nowell_outline_wht.svg" class="left">'+
-        '<input onclick="takeImgFunction()" type="button" value="Analyze" id="takeImageButton" />'+
-        '<input onclick="loadNewImgFunction()" type="button" value=" " id="previewImageButton" />'
-    }
+        '<br><input onclick="takeImgFunction()" type="button" value="New Img" id="takeImageButton" />'+
+        '<input onclick="loadNewImgFunction()" type="button" value=">" style="display:none" id="previewImageButton" />'
 
+    }
 
     function parseInformationfromReactor(m){
 

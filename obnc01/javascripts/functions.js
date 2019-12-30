@@ -17,6 +17,9 @@
     function takeImgFunction(){
         
         document.getElementById("previewImageButton").value=""; 
+
+        var image = document.getElementsByClassName("loadinImg");
+        image.src = "image1.jpg"
         document.images[2].src = "images/loading.gif";
 
         pubnub.publish({
