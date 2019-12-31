@@ -43,6 +43,10 @@
                       document.getElementById("previewImageButton").style="display:visible";
                    }, 500);
 
+                  //setTimeout(function(){ 
+                  //    
+                  // }, 2000);
+
                   console.log("new path arrived");
               }
             }

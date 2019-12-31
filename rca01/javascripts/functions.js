@@ -224,6 +224,13 @@
         if (formatted_url !== "")
             newImage.src = formatted_url;
 
+        //also make new image button visible
+        document.getElementById("takeImageButton").style="display:visible";
+
+        setTimeout(function(){ 
+            document.getElementById("previewImageButton").style="display:none";
+        }, 1000);
+        //newImage.src = "images/loading.gif";
    }
    
 
@@ -243,6 +250,7 @@
                 }
             });
 
+
         pubnub.publish({
 
                 channel : 'rca01plate_in',
@@ -256,7 +264,7 @@
 
         //after 5 seconds stop the image take and revert back to interval
         setTimeout(function(){ 
-
+        /*    
         pubnub.publish({
 
                 channel : 'rca01_in',
@@ -265,7 +273,7 @@
                     console.log(m)
                 }
             });
-
+        */
         pubnub.publish({
 
                 channel : 'rca01plate_in',
@@ -374,8 +382,9 @@
 
         document.getElementById("deviceinfo").innerHTML = 
         '<img src="images/breactor_nowell_outline_wht.svg" class="left">'+
-        '<br><input onclick="takeImgFunction()" type="button" value="New Img" id="takeImageButton" />'+
-        '<input onclick="loadNewImgFunction()" type="button" value=">" style="display:none" id="previewImageButton" />'
+        '<br><input onclick="loadNewImgFunction()" type="button" value=">" style="display:none" id="previewImageButton" />' + 
+        '<input onclick="takeImgFunction()" type="button" value="Take New Img" style="display:none" id="takeImageButton" />'
+        
 
     }
 
