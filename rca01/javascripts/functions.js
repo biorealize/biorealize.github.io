@@ -244,7 +244,7 @@
         pubnub.publish({
 
                 channel : 'rca01cam_in',
-                message : { device: 'take_img'},
+                message : { 'device': 'take_img'},
                 callback : function(m){
                     console.log(m)
                 }
@@ -254,7 +254,7 @@
         pubnub.publish({
 
                 channel : 'rca01plate_in',
-                message : { LEDstatus: 'colorAllWhite'},
+                message : { 'LEDstatus' : 'colorAllWhite'},
                 callback : function(m){
                     console.log(m)
                 }
@@ -351,6 +351,12 @@
         formatted_url = url.split(' ').join('%20');
         formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01/data/" + data;
 
+        var updatedStatus = document.getElementById("devicetatus").innerHTML
+
+        document.getElementById("devicetatus").innerHTML  = updatedStatus +
+            '</span><br><br><span class="label status">Image Record:</span><span class="label status">'+ data +  
+            '</span><br>'
+
         console.log(formatted_url);  
                 
     }
@@ -442,7 +448,7 @@
             '<span class="label status">Sensor Frequency:</span><span class="label status">'+ specFreq +
             '</span><br><span class="label status">Agitation Mode:</span><span class="label status">'+ spinSpeed +
             '</span><br><span class="label status">Lid:</span><span class="label status">'+ lidStatus + 
-            '</span><br><br><span class="label status">Record ID:</span><span class="label status">'+ recordID + 
+            '</span><br><br><span class="label status">Data Record:</span><span class="label status">'+ recordID + 
             '</span><br><span class="label status">Timestamp:</span><span class="label status">'+ timestamp +
             '</span><br>'
 
