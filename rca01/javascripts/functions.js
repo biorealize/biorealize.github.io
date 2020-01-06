@@ -21,6 +21,8 @@
 
     window.onload = function () {
 
+    pingPeripherals();    
+
     document.getElementById("togBtn").checked=false; 
 
 
@@ -52,8 +54,8 @@
             cursor:"pointer",
             verticalAlign: "top",
             fontSize: 22,
-            fontColor: "dimGrey",
-            itemclick : toggleDataSeries
+            fontColor: "dimGrey"
+            //itemclick : toggleDataSeries
         },
         data: [{ 
             type: "spline",
@@ -71,93 +73,7 @@
 
     temperatureChart.render();
     
-    growthChart = new CanvasJS.Chart("growthOverTime", {
-
-        zoomEnabled: true,
-        backgroundColor: 'rgba(0, 0, 0, 0)',
-        title: {
-            text: "Growth",
-            fontFamily: "helvetica",
-            fontSize: 14,
-            fontColor: 'rgba(220, 22, 90, .9)',
-        },
-        axisX: {
-            title: "Updates every " + growthChartUpdateInterval/1000 + " secs",
-            titleFontColor: "dimGrey",
-            labelFontColor: "dimGrey",
-            titleFontSize: 12,
-        },
-        axisY:{
-            suffix: " OD",
-            includeZero: true,
-            labelFontColor: "lightGrey",
-        }, 
-        toolTip: {
-            shared: true
-        },
-        legend: {
-            cursor:"pointer",
-            verticalAlign: "top",
-            fontSize: 22,
-            fontColor: "dimGrey",
-            itemclick : toggleDataSeries
-        },
-        data: [{ 
-            type: "splineArea",
-            lineDashType: "shortDash",
-            xValueType: "dateTime",
-            yValueFormatString: "####.00",
-            xValueFormatString: "hh:mm:ss TT",
-            showInLegend: false,
-            lineColor: 'rgba(220, 22, 90, .9)',
-            lineThickness: .7,
-            name: "Growth",
-            dataPoints: odDataPoints,
-            }]
-    });
-
-    growthChart.render();
-
-    colorSensorChart = new CanvasJS.Chart("colorSensorOverview", {
-
-            zoomEnabled: false,
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            title: {
-                text: "Spectral Distribution",
-                fontSize: 14,
-                fontColor: 'rgba(220, 22, 90, .9)',
-                fontFamily: "helvetica",
-            },
-            axisX: {
-                titleFontColor: "lightGrey",
-                labelFontColor: "lightGrey",
-                titleFontSize: 12,
-
-            },
-            axisY: {
-                title: "Spectra",
-                labelFontColor: "lightGrey",
-                titleFontSize: 12,
-                fontFamily: "helvetica",
-            },
-            data: [{
-                type: "column", 
-                yValueFormatString: "###",
-                lineColor: 'rgba(220, 22, 90, .9)',
-                lineThickness: .7,
-                name: "Wavelength",
-                indexLabel: "{y}",
-                dataPoints: [
-                    { label: "450", y: 206 },//violet
-                    { label: "500", y: 163 },//blue
-                    { label: "550", y: 154 },//green
-                    { label: "570", y: 176 },//yellow
-                    { label: "600", y: 184 },//orange
-                    { label: "650", y: 122 }//red
-                ]
-            }]
-        });
-
+    
 
     function toggleDataSeries(e) {
         if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
@@ -201,6 +117,10 @@
                     { label: "600", y: m.message.orange, color: '#ff6c00' },//orange
                     { label: "650", y: m.message.red, color: '#ff0000' }//red
                 ];
+
+        colorSensorChart.options.data[0].dataPoints = dps; 
+        colorSensorChart.render();
+
         updateGrowthChart(m.message.orange, 'AS7262');        
         /*
         var boilerColor, deltaY, yVal;
@@ -212,8 +132,7 @@
             boilerColor = yVal > 200 ? "#FF2500" : yVal >= 170 ? "#FF6000" : yVal < 170 ? "#6B8E23 " : null;
             dps[i] = {label: "Boiler "+(i+1) , y: yVal, color: boilerColor};
         }*/
-        colorSensorChart.options.data[0].dataPoints = dps; 
-        colorSensorChart.render();
+
     };
 
 
@@ -241,51 +160,63 @@
         image = "images/loading.gif";
         //document.images[3].src = "images/loading.gif";
 
+        
+        console.log("Taking image")
+        
         pubnub.publish({
 
                 channel : 'rca01cam_in',
-                message : { 'device': 'take_img'},
+                message : { 
+                            'device': {
+                                        'cmd':'take_img',
+                                        'exposure': 2000,
+                                        'ring_led_brightness': 0 
+                                        }
+                            }, //take_img_with_ring
                 callback : function(m){
                     console.log(m)
                 }
             });
 
+        /*
+       pubnub.publish({
 
-        pubnub.publish({
-
-                channel : 'rca01plate_in',
-                message : { 'LEDstatus' : 'colorAllWhite'},
-                callback : function(m){
-                    console.log(m)
-                }
-            });
-
-
-
-        //after 5 seconds stop the image take and revert back to interval
-        setTimeout(function(){ 
-        /*    
-        pubnub.publish({
-
-                channel : 'rca01_in',
-                message : { device: 'take_img_interval'},
+                channel : 'rca01cam_in',
+                message : { 'device': 'take_img'}, //take_img_with_ring
                 callback : function(m){
                     console.log(m)
                 }
             });
         */
+         
+
         pubnub.publish({
 
                 channel : 'rca01plate_in',
-                message : { LEDstatus: 'colorAllOff'},
+                message : { 'device' : 'colorAllWhite'},
                 callback : function(m){
                     console.log(m)
                 }
             });
 
 
-        }, 5000);
 
+        setTimeout(function(){ 
+
+                pubnub.publish({
+
+                        channel : 'rca01plate_in',
+                        message : { 'device' : 'colorAllOff'},
+                        callback : function(m){
+                            console.log(m)
+                        }
+                    });
+
+                console.log("Taking image completed")
+                
+                }, 3000);
+    
+        
 
     }
 
@@ -296,7 +227,7 @@
     pubnub.publish({
 
                 channel : 'rca01AS7262_in',
-                message : {'AS7262status':'read'},
+                message : {'device':'read'},
                 callback : function(m){
                     console.log(m)
                 }
@@ -316,7 +247,7 @@
     pubnub.publish({
 
                 channel : 'c12880MA_16H00363_in',
-                message : {'spec':'read'},
+                message : {'device':'read'},
                 callback : function(m){
                     console.log(m)
                 }
@@ -325,20 +256,7 @@
     //console.log("Spec reading initiated");
 
             //after 1 seconds stop the image take and revert back to interval
-    /*
-    setTimeout(function(){ 
 
-        pubnub.publish({
-
-                channel : 'c12880MA_16H00363_in',
-                message : { 'spec': 'clear'},
-                callback : function(m){
-                    console.log(m)
-                }
-            });
-
-        }, 3000);
-    */
 
     //console.log("Spec cleared after 3 secs");
     }
@@ -351,11 +269,10 @@
         formatted_url = url.split(' ').join('%20');
         formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01/data/" + data;
 
-        var updatedStatus = document.getElementById("devicetatus").innerHTML
+        //var updatedStatus = document.getElementById("devicestatus").innerHTML
 
-        document.getElementById("devicetatus").innerHTML  = updatedStatus +
-            '</span><br><br><span class="label status">Image Record:</span><span class="label status">'+ data +  
-            '</span><br>'
+        document.getElementById("imagerecordstatus").innerHTML  = 
+            '<br><span class="label status">Image</span><span class="label data">'+ data + '</span><br>'
 
         console.log(formatted_url);  
                 
@@ -386,18 +303,102 @@
 
         console.log('parsing plate peripheral information');
 
-        document.getElementById("deviceinfo").innerHTML = 
-        '<img src="images/breactor_nowell_outline_wht.svg" class="left">'+
-        '<br><input onclick="loadNewImgFunction()" type="button" value=">" style="display:none" id="previewImageButton" />' + 
-        '<input onclick="takeImgFunction()" type="button" value="Take New Img" style="display:none" id="takeImageButton" />'
-        
+        field = String(m.message.hw);
+
+        if (field ==='connected'){
+
+            existingStatus = document.getElementById("devicestatus").innerHTML
+            document.getElementById("devicestatus").innerHTML = existingStatus + 
+            '<br><span class="label status">Backlit Plate</span><span class="label data">' + field + '</span><br>';
+        }
+        else {
+
+            document.getElementById("deviceinfo").innerHTML = 
+            '<img src="images/breactor_nowell_outline_wht.svg" class="left">'+
+            '<br><input onclick="loadNewImgFunction()" type="button" value=">" style="display:none" id="previewImageButton" />' + 
+            '<input onclick="takeImgFunction()" type="button" value="Take New Img" style="display:none" id="takeImageButton" />'
+           
+        }
 
     }
+
+    function parseInformationfromColorSensor(m){
+
+        field = String(m.message.hw);
+
+        if (field ==='connected'){
+
+            existingStatus = document.getElementById("devicestatus").innerHTML
+            document.getElementById("devicestatus").innerHTML = existingStatus + 
+            '<br><span class="label status">Color Sensor</span><span class="label data">' + field + '</span><br>'
+        }
+        else {
+
+            loadColorSensorChart();
+            loadGrowthChart();
+            
+            updateColorSensorChart(m);  
+            updateColorSensorPeripheralImage();
+        }
+    }
+
+    function parseInformationfromSpec(m){
+
+        field = String(m.message.hw);
+
+        if (field ==='connected'){
+            //console.log("camera connected");
+            existingStatus = document.getElementById("devicestatus").innerHTML
+            document.getElementById("devicestatus").innerHTML = existingStatus + 
+            '<br><span class="label status">Spec</span><span class="label data">' + field + '</span><br>'
+        }
+        else {
+
+            loadGrowthChart();
+            updateSpecChart(m);
+            updateSpecPeripheralImage();  
+        }
+
+
+    }
+
+
+    function parseInformationfromCamera(m){
+
+        field = String(m.message[0]);
+              
+        if (field ==='img_path'){
+
+            formatURLforNewImg(m); 
+
+            setTimeout(function(){ 
+                document.getElementById("previewImageButton").value="Load ->";
+                document.getElementById("previewImageButton").style="display:visible";
+            }, 500);
+
+            console.log("new path arrived");
+        }
+
+        else if (field ==='hw'){
+
+            //console.log("camera connected");
+            existingStatus = document.getElementById("devicestatus").innerHTML
+            document.getElementById("devicestatus").innerHTML = existingStatus + 
+            '<br><span class="label status">Camera</span><span class="label data">' + m.message[1]+'<br>';
+
+        }
+
+    }//end of parseInformationfromCamera
 
     function parseInformationfromReactor(m){
 
         console.log('parsing reactor information');
 
+        if (m.message[0] === "hw" ){
+            existingStatus = document.getElementById("devicestatus").innerHTML
+            document.getElementById("devicestatus").innerHTML = existingStatus + 
+            '<br><span class="label status">Reactor</span><span class="label data">' + m.message[1] + '<br>';
+        }
 
         if (m.message.hasOwnProperty("experiment") ){
                     //console.log(m.message.hasOwnProperty("experiment"));
@@ -444,13 +445,10 @@
             var recordID = m.message.run.record_id;
             var timestamp = m.message.run.ts;
 
-            document.getElementById("devicetatus").innerHTML = 
-            '<span class="label status">Sensor Frequency:</span><span class="label status">'+ specFreq +
-            '</span><br><span class="label status">Agitation Mode:</span><span class="label status">'+ spinSpeed +
-            '</span><br><span class="label status">Lid:</span><span class="label status">'+ lidStatus + 
-            '</span><br><br><span class="label status">Data Record:</span><span class="label status">'+ recordID + 
-            '</span><br><span class="label status">Timestamp:</span><span class="label status">'+ timestamp +
-            '</span><br>'
+            document.getElementById("devicestatus").innerHTML = 
+            '<br><span class="label status">Sensor Frequency:</span><span class="label data">'+ specFreq + '</span><br>' +
+            '<br><span class="label status">Agitation Mode:</span><span class="label data">'+ spinSpeed + '</span><br>' +  
+            '<br><span class="label status">Lid:</span><span class="label data">'+ lidStatus + '</span><br>'
 
             currentTemp = m.message.run.current_temp;
             //currentTemp = currentTemp.slice(0,-4);
@@ -459,21 +457,21 @@
             console.log(m.message.run.record_id);
             console.log(m.message.run.ts);
             
-            document.getElementById("currentTemperature").innerHTML = 
-            '<span class="label status">Chamber is </span><span style="color:#F0F0F0">'+ currentTemp + ' °C' + ' (and ' + runStatus + ')'
+            document.getElementById("currenttemperature").innerHTML = 
+            '<span class="label other">Chamber is </span><span style="color:#F0F0F0">'+ currentTemp + ' °C' + ' (and ' + runStatus + ')'
             '</span><br><br>'
-            document.getElementById("elapsedTime").innerHTML = 
-            '<span class="label status"> Elapsed Time:</span><span style="color:#ff9800">'+ elapsedTime + ' min' +
-            '</span><br>'
+            document.getElementById("elapsedtime").innerHTML = 
+            '<span class="label other"> Elapsed Time:</span><span style="color:#ff9800">'+ elapsedTime + ' min' + '</span><br>'
+            document.getElementById("datarecordstatus").innerHTML = 
+            '<br><span class="label status">Data Record:</span><span class="label data">'+ recordID + '</span><br>' +   
+            '<br><span class="label status">Timestamp:</span><span class="label data">'+ timestamp + '</span><br>' 
 
-    }
+        }
  
-
-
-    }
+    }//parseInformationfromReactor
 
     function initNewExperiment(){
-        //console.log("initNewExperiment called");
+        console.log("initNewExperiment called");
         pubnub.publish({
 
                 channel : 'rca01_in',
@@ -635,21 +633,20 @@ function updateGrowthChart(currentRawSpectra, source){
             firstSpectra = spectraHistory[0];
             
             if(source.includes('SPEC')){
-                OD_BIAS = 20200;
+                OD_BIAS = 5500; //20200
             }else{
                 OD_BIAS = 1000;
             }
 
             lastSpectra = currentRawSpectra-OD_BIAS;
             currentOD = Math.max(-Math.log10( lastSpectra / firstSpectra ), 0);
-            /*
+            
             console.log("spectral History length: " + spectraHistory.length);
             console.log("CurrentRaw: " + currentRawSpectra);
             console.log("OD_BIAS: " +  OD_BIAS);
             console.log("last Spectra: " + lastSpectra);
             console.log("first Spectra: " + firstSpectra)
             console.log("currentOD: " + currentOD);
-            */
             
         }
         else{
@@ -660,6 +657,9 @@ function updateGrowthChart(currentRawSpectra, source){
         odHistory.push(currentOD);
         spectraHistory.push(currentRawSpectra);
 
+        console.log(spectraHistory.length);
+        console.log(currentOD);
+
         //Push the newly calculated OD to the graph to visualize
         odDataPoints.push({
                 x: time.setTime(time.getTime()+ growthChartUpdateInterval), 
@@ -668,3 +668,189 @@ function updateGrowthChart(currentRawSpectra, source){
         growthChart.render();
 
     }//end of updateGrowthChart
+
+function pingPeripherals(){
+        
+        //pings each peripheral with 2 sec delays.
+
+        setTimeout(function() {
+
+        console.log("pinging reactor");
+        
+        pubnub.publish({
+                channel : 'rca01_in',
+                message : { cmd: 'echo'},
+                callback : function(m){
+                    callbackonsole.log(m)
+                }
+        });
+
+        }, 500);
+
+        setTimeout(function() {
+
+        console.log("pinging camera");
+            
+        pubnub.publish({
+
+                channel : 'rca01cam_in',
+                message : { 
+                            'device': {
+                                        'cmd':'echo'
+                                        }
+                            }, //take_img_with_ring
+                callback : function(m){
+                    console.log(m)
+                }
+            });
+
+        }, 1000);
+
+
+        setTimeout(function() {
+
+        console.log("pinging plate");
+            
+        pubnub.publish({
+
+                channel : 'rca01plate_in',
+                message : { 'device' : 'echo'},
+                callback : function(m){
+                    console.log(m)
+                }
+            });
+
+        }, 1500);
+
+
+        setTimeout(function() {
+
+        console.log("pinging color sensor");
+            
+
+        pubnub.publish({
+
+                channel : 'rca01AS7262_in',
+                message : {'device':'echo'},
+                callback : function(m){
+                    console.log(m)
+                }
+            });
+
+        }, 2000);
+
+
+        setTimeout(function() {
+
+        console.log("pinging spec");
+            
+        pubnub.publish({
+
+                channel : 'c12880MA_16H00363_in',
+                message : {'device':'echo'},
+                callback : function(m){
+                    console.log(m)
+                }
+            });
+
+        }, 2500);
+
+        
+        
+}//end of ping peripherals
+
+function loadGrowthChart(){
+
+        growthChart = new CanvasJS.Chart("growthOverTime", {
+
+        zoomEnabled: true,
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        title: {
+            text: "Growth",
+            fontFamily: "helvetica",
+            fontSize: 14,
+            fontColor: 'rgba(220, 22, 90, .9)',
+        },
+        axisX: {
+            title: "Updates every " + growthChartUpdateInterval/1000 + " secs",
+            titleFontColor: "dimGrey",
+            labelFontColor: "dimGrey",
+            titleFontSize: 12,
+        },
+        axisY:{
+            suffix: " OD",
+            includeZero: true,
+            labelFontColor: "lightGrey",
+        }, 
+        toolTip: {
+            shared: true
+        },
+        legend: {
+            cursor:"pointer",
+            verticalAlign: "top",
+            fontSize: 22,
+            fontColor: "dimGrey"
+            //itemclick : toggleDataSeries
+        },
+        data: [{ 
+            type: "splineArea",
+            lineDashType: "shortDash",
+            xValueType: "dateTime",
+            yValueFormatString: "####.00",
+            xValueFormatString: "hh:mm:ss TT",
+            showInLegend: false,
+            lineColor: 'rgba(220, 22, 90, .9)',
+            lineThickness: .7,
+            name: "Growth",
+            dataPoints: odDataPoints,
+            }]
+    });
+
+    growthChart.render();
+
+}
+
+function loadColorSensorChart(){
+
+    colorSensorChart = new CanvasJS.Chart("colorSensorOverview", {
+
+                zoomEnabled: false,
+                backgroundColor: 'rgba(0, 0, 0, 0)',
+                title: {
+                    text: "Spectral Distribution",
+                    fontSize: 14,
+                    fontColor: 'rgba(220, 22, 90, .9)',
+                    fontFamily: "helvetica",
+                },
+                axisX: {
+                    titleFontColor: "lightGrey",
+                    labelFontColor: "lightGrey",
+                    titleFontSize: 12,
+
+                },
+                axisY: {
+                    title: "Spectra",
+                    labelFontColor: "lightGrey",
+                    titleFontSize: 12,
+                    fontFamily: "helvetica",
+                },
+                data: [{
+                    type: "column", 
+                    yValueFormatString: "###",
+                    lineColor: 'rgba(220, 22, 90, .9)',
+                    lineThickness: .7,
+                    name: "Wavelength",
+                    indexLabel: "{y}",
+                    dataPoints: [
+                        { label: "450", y: 206 },//violet
+                        { label: "500", y: 163 },//blue
+                        { label: "550", y: 154 },//green
+                        { label: "570", y: 176 },//yellow
+                        { label: "600", y: 184 },//orange
+                        { label: "650", y: 122 }//red
+                    ]
+                }]
+            });
+
+    colorSensorChart.render(); 
+}

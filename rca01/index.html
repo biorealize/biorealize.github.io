@@ -69,14 +69,14 @@
 				    <span class="label volume">Volume</span><span class="label other"> </span><br><br>
 				    <span class="label temperature">Temperature</span><span class="label other"> </span><br><br>
 				    <span class="label duration">Duration</span><span class="label other"> </span><br><br><br>
-				    <input onclick="initNewExperiment()" type="button" value="New" id="initNewExperimentButton" />
+				    <input onclick="initNewExperiment()" type="button2" value="New Experiment" id="initNewExperimentButton" />
 				     <!--<span class="label description">Other</span> -->
 				</div>
 			</div>
 			<div class="col-1-3 mobile-col-1-3">
 					<div id='deviceinfo'> 
 					        <img src="images/breactor_empty_outline_wht.svg" class="left">
-					        <br> 
+					        <br><br>  
 					        <input onclick="takeImgFunction()" type="button" value="Take Img" id="takeImageButton" />
 					        <input onclick="loadNewImgFunction()" type="button" value=">" style="display:none" id="previewImageButton" />
 					       	<input onclick="readColorFunction()" type="button" value="Analyze Color" id="readColorSensorButton" />
@@ -87,22 +87,17 @@
 					</div>					
 			</div>
 			<div class="col-1-3 mobile-col-1-3">
-					<div id="elapsedTime"> Elapsed Time
-					</div>
-					<div id="currentTemperature"> Chamber Temperature
-					</div>
+					<div id="elapsedtime"> Elapsed Time </div>
+					<div id="currenttemperature"> Chamber Temperature </div>
 					<hr class="style_two"> 
-					<div id='devicetatus'><br> 
-					        <span class="label status">Spec Frequency:</span><span class="label status"></span><br>
+					<div id='devicestatus'></div> 
+					<div id='datarecordstatus'></div> 
+					<div id='imagerecordstatus'></div> 	
+					        <!--<span class="label status">Spec Frequency:</span><span class="label status"></span><br>
 					        <span class="label status">Agitation Mode:</span><span class="label status"></span><br>
 					        <span class="label status">Lid:</span><span class="label status"></span><br>
-					         <!--<span class="label description">Other</span> -->
-					</div>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
+					        <span class="label description">Other</span> -->
+					
 					<br>
 					<br>
 
@@ -127,8 +122,8 @@
     			 <div id="temperatureOverview" style="height: 370px; width: 100;"></div>
 			</div>
 			<div class="col-1-3 mobile-col-1-3">
-				<img width="100" height="50"  src="images/1px.gif">
-				<img id="loadingImg" src="images/loading.gif" alt="loading">
+				<!--<img id="transImg" width="100" height="50"  src="images/1px.gif">-->
+				<img id="loadingImg">
 				<!--<img src="images/loading.gif">-->
 				<div id="colorSensorOverview" style="height: 370px; width: 100;"></div>
 			</div>

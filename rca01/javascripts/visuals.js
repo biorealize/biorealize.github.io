@@ -24,36 +24,13 @@
     pubnub.addListener({
 
         message: function (m) {
-          var channelName = m.channel;
+            
+            var channelName = m.channel;
 
-            //console.log(m.message.RAW_SCAN);
-
-
-
-            if ( channelName ==='rca01cam_out') {
-
-              field = String(m.message[0]);
-              
-                if (field ==='img_path'){
-
-                  formatURLforNewImg(m); 
-
-                  setTimeout(function(){ 
-                      document.getElementById("previewImageButton").value="Load ->";
-                      document.getElementById("previewImageButton").style="display:visible";
-                   }, 500);
-
-                  //setTimeout(function(){ 
-                  //    
-                  // }, 2000);
-
-                  console.log("new path arrived");
-              }
-            }
             if (channelName ==='rca01_out') 
             {
                 //console.log("parsing info from reactor");
-
+                //console.log(m.message);
                   //try{
                     parseInformationfromReactor(m);   
                    //}
@@ -61,6 +38,13 @@
                     //console.log("parsing run info error");
                   //}
             }
+
+            if ( channelName ==='rca01cam_out') {
+
+                //console.log(m.message);
+                parseInformationfromCamera(m)
+            }
+
             if (channelName ==='rca01plate_out') 
             {
 
@@ -74,18 +58,15 @@
             }
             if (channelName ==='rca01AS7262_out') 
             {
-
-                  updateColorSensorChart(m);  
-                  updateColorSensorPeripheralImage();
+                  //console.log(m.message);
+                  parseInformationfromColorSensor(m);
                   console.log("new message from sensor");
             }
             if (channelName ==='c12880MA_16H00363_out') 
             {
-
-                  updateSpecChart(m);
-                  updateSpecPeripheralImage();  
-                  console.log("new message from spec");
-                  //console.log(m.message.RAW_SCAN);
+                 //console.log(m.message); 
+                 parseInformationfromSpec(m);
+                 console.log("new message from spec");
             }
 
 
