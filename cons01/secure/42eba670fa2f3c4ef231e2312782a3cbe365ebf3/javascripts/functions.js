@@ -267,7 +267,7 @@
         var data = m.message[1]+"";
         var url = data.split("/")[2]+"";
         formatted_url = url.split(' ').join('%20');
-        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01/data/" + data;
+        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01/secure/42eba670fa2f3c4ef231e2312782a3cbe365ebf3/data/" + data;
 
         //var updatedStatus = document.getElementById("devicestatus").innerHTML
 
