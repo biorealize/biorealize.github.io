@@ -165,7 +165,7 @@
         
         pubnub.publish({
 
-                channel : 'rca01cam_in',
+                channel : 'cons01cam_in',
                 message : { 
                             'device': {
                                         'cmd':'take_img',
@@ -181,7 +181,7 @@
         /*
        pubnub.publish({
 
-                channel : 'rca01cam_in',
+                channel : 'cons01cam_in',
                 message : { 'device': 'take_img'}, //take_img_with_ring
                 callback : function(m){
                     console.log(m)
@@ -192,7 +192,7 @@
 
         pubnub.publish({
 
-                channel : 'rca01plate_in',
+                channel : 'cons01plate_in',
                 message : { 'device' : 'colorAllWhite'},
                 callback : function(m){
                     console.log(m)
@@ -205,7 +205,7 @@
 
                 pubnub.publish({
 
-                        channel : 'rca01plate_in',
+                        channel : 'cons01plate_in',
                         message : { 'device' : 'colorAllOff'},
                         callback : function(m){
                             console.log(m)
@@ -226,7 +226,7 @@
 
     pubnub.publish({
 
-                channel : 'rca01AS7262_in',
+                channel : 'cons01AS7262_in',
                 message : {'device':'read'},
                 callback : function(m){
                     console.log(m)
@@ -474,7 +474,7 @@
         console.log("initNewExperiment called");
         pubnub.publish({
 
-                channel : 'rca01_in',
+                channel : 'cons01_in',
                 message : { cmd: 'init'},
                 callback : function(m){
                     console.log(m)
@@ -488,7 +488,7 @@
         if (chkButton.checked){
             //console.log("checked called");
             pubnub.publish({
-                channel : 'rca01_in',
+                channel : 'cons01_in',
                 message : { cmd: 'spin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -499,7 +499,7 @@
         else{
             //console.log("unchecked called");
             pubnub.publish({
-                channel : 'rca01_in',
+                channel : 'cons01_in',
                 message : { cmd: 'nospin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -521,7 +521,7 @@
             label.innerHTML="Spin";
 
             pubnub.publish({
-                channel : 'rca01_in',
+                channel : 'cons01_in',
                 message : { cmd: 'start'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -535,7 +535,7 @@
             label.innerHTML="";
             
             pubnub.publish({
-                channel : 'rca01_in',
+                channel : 'cons01_in',
                 message : { cmd: 'stop'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -678,7 +678,7 @@ function pingPeripherals(){
         console.log("pinging reactor");
         
         pubnub.publish({
-                channel : 'rca01_in',
+                channel : 'cons01_in',
                 message : { cmd: 'echo'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -693,7 +693,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'rca01cam_in',
+                channel : 'cons01cam_in',
                 message : { 
                             'device': {
                                         'cmd':'echo'
@@ -713,7 +713,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'rca01plate_in',
+                channel : 'cons01plate_in',
                 message : { 'device' : 'echo'},
                 callback : function(m){
                     console.log(m)
@@ -730,7 +730,7 @@ function pingPeripherals(){
 
         pubnub.publish({
 
-                channel : 'rca01AS7262_in',
+                channel : 'cons01AS7262_in',
                 message : {'device':'echo'},
                 callback : function(m){
                     console.log(m)
