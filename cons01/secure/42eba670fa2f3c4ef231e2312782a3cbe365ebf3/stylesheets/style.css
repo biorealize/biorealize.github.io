@@ -169,7 +169,7 @@
 
 .spin_check{
   font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
-  color: #666666;
+  color: #626262; /*#f0f0f0*/
 }
 
 input[type=button] {
