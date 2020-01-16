@@ -517,6 +517,7 @@
             //console.log("checked");
             checkBox = document.getElementById("spin_box_id"); 
             checkBox.style="display:visible";
+            checkBox.opacity=0.3;
             checkBox.disabled = true;
             label = document.getElementById("spin_check_label");
             label.innerHTML="Spin";
