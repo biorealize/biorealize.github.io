@@ -516,7 +516,7 @@
         if (chkButton.checked){
             //console.log("checked");
             checkBox = document.getElementById("spin_box_id"); 
-            checkBox.style="display:visible";
+            checkBox.style="display:none";
             checkBox.opacity=0.3;
             checkBox.disabled = true;
             label = document.getElementById("spin_check_label");
