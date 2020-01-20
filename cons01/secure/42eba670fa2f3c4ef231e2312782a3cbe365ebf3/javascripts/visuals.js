@@ -8,10 +8,10 @@
 
     //node-red: once per run
     //node-red2: real-time array data
-    pubnub.subscribe({ channels: ['cons01_in', 'cons01_out', 
-                                  'cons01cam_in','cons01cam_out', 
-                                  'cons01plate_in', 'cons01plate_out',
-                                  'cons01AS7262_in','cons01AS7262_out',
+    pubnub.subscribe({ channels: ['obnc01_in', 'obnc01_out', 
+                                  'obnc01cam_in','obnc01cam_out', 
+                                  'obnc01plate_in', 'obnc01plate_out',
+                                  'obnc01AS7262_in','obnc01AS7262_out',
                                   'c12880MA_16H00363_in', 'c12880MA_16H00363_out'] });
     //xxxx_in - sends input commands to machine
     //xxxx_out - receive commands from camera
@@ -27,7 +27,7 @@
             
             var channelName = m.channel;
 
-            if (channelName ==='cons01_out') 
+            if (channelName ==='obnc01_out') 
             {
                 //console.log("parsing info from reactor");
                 //console.log(m.message);
@@ -39,13 +39,13 @@
                   //}
             }
 
-            if ( channelName ==='cons01cam_out') {
+            if ( channelName ==='obnc01cam_out') {
 
                 //console.log(m.message);
                 parseInformationfromCamera(m)
             }
 
-            if (channelName ==='cons01plate_out') 
+            if (channelName ==='obnc01plate_out') 
             {
 
                   //console.log("new message from plate");
@@ -56,7 +56,7 @@
                   }
                   
             }
-            if (channelName ==='cons01AS7262_out') 
+            if (channelName ==='obnc01AS7262_out') 
             {
                   //console.log(m.message);
                   parseInformationfromColorSensor(m);

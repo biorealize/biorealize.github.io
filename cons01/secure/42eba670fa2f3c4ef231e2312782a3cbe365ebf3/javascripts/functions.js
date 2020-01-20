@@ -165,7 +165,7 @@
         
         pubnub.publish({
 
-                channel : 'cons01cam_in',
+                channel : 'obnc01cam_in',
                 message : { 
                             'device': {
                                         'cmd':'take_img',
@@ -181,7 +181,7 @@
         /*
        pubnub.publish({
 
-                channel : 'cons01cam_in',
+                channel : 'obnc01cam_in',
                 message : { 'device': 'take_img'}, //take_img_with_ring
                 callback : function(m){
                     console.log(m)
@@ -192,7 +192,7 @@
 
         pubnub.publish({
 
-                channel : 'cons01plate_in',
+                channel : 'obnc01plate_in',
                 message : { 'device' : 'colorAllWhite'},
                 callback : function(m){
                     console.log(m)
@@ -205,7 +205,7 @@
 
                 pubnub.publish({
 
-                        channel : 'cons01plate_in',
+                        channel : 'obnc01plate_in',
                         message : { 'device' : 'colorAllOff'},
                         callback : function(m){
                             console.log(m)
@@ -226,7 +226,7 @@
 
     pubnub.publish({
 
-                channel : 'cons01AS7262_in',
+                channel : 'obnc01AS7262_in',
                 message : {'device':'read'},
                 callback : function(m){
                     console.log(m)
@@ -267,7 +267,7 @@
         var data = m.message[1]+"";
         var url = data.split("/")[2]+"";
         formatted_url = url.split(' ').join('%20');
-        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/cons01/secure/42eba670fa2f3c4ef231e2312782a3cbe365ebf3/data/" + data;
+        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/obnc01/secure/42eba670fa2f3c4ef231e2312782a3cbe365ebf3/data/" + data;
 
         //var updatedStatus = document.getElementById("devicestatus").innerHTML
 
@@ -474,7 +474,7 @@
         console.log("initNewExperiment called");
         pubnub.publish({
 
-                channel : 'cons01_in',
+                channel : 'obnc01_in',
                 message : { cmd: 'init'},
                 callback : function(m){
                     console.log(m)
@@ -488,7 +488,7 @@
         if (chkButton.checked){
             //console.log("checked called");
             pubnub.publish({
-                channel : 'cons01_in',
+                channel : 'obnc01_in',
                 message : { cmd: 'spin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -499,7 +499,7 @@
         else{
             //console.log("unchecked called");
             pubnub.publish({
-                channel : 'cons01_in',
+                channel : 'obnc01_in',
                 message : { cmd: 'nospin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -523,7 +523,7 @@
             label.innerHTML="Spin";
 
             pubnub.publish({
-                channel : 'cons01_in',
+                channel : 'obnc01_in',
                 message : { cmd: 'start'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -537,7 +537,7 @@
             label.innerHTML="";
             
             pubnub.publish({
-                channel : 'cons01_in',
+                channel : 'obnc01_in',
                 message : { cmd: 'stop'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -680,7 +680,7 @@ function pingPeripherals(){
         console.log("pinging reactor");
         
         pubnub.publish({
-                channel : 'cons01_in',
+                channel : 'obnc01_in',
                 message : { cmd: 'echo'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -695,7 +695,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'cons01cam_in',
+                channel : 'obnc01cam_in',
                 message : { 
                             'device': {
                                         'cmd':'echo'
@@ -715,7 +715,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'cons01plate_in',
+                channel : 'obnc01plate_in',
                 message : { 'device' : 'echo'},
                 callback : function(m){
                     console.log(m)
@@ -732,7 +732,7 @@ function pingPeripherals(){
 
         pubnub.publish({
 
-                channel : 'cons01AS7262_in',
+                channel : 'obnc01AS7262_in',
                 message : {'device':'echo'},
                 callback : function(m){
                     console.log(m)
