@@ -226,7 +226,7 @@
 
     pubnub.publish({
 
-                channel : 'rca01AS7262_in',
+                channel : 'rca01a_AS7262_in',
                 message : {'device':'read'},
                 callback : function(m){
                     console.log(m)
@@ -267,7 +267,7 @@
         var data = m.message[1]+"";
         var url = data.split("/")[2]+"";
         formatted_url = url.split(' ').join('%20');
-        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01a/secure/266cad019cf4ab68b9af7d39e4aa0163e621ca7a/data/" + data;
+        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01a/secure/d44a2887c57e1da37c8c573d077c32579b865b18/data/" + data;
 
         //var updatedStatus = document.getElementById("devicestatus").innerHTML
 
