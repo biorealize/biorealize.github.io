@@ -1,0 +1,285 @@
+    * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+    html, body { margin: 0; padding:0 }
+    body {
+        font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', 'Segoe UI', sans-serif; font-weight: lighter;
+        background-image: url("../images/bg.jpg");
+        background-repeat: no-repeat;
+        background-position: right top;
+      }
+      h1 {
+      color: #F3F3F3;
+      font-weight: 150;
+      }
+
+    hr{
+     border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    hr.style_one{
+     border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+     margin: 4px;
+    }
+
+    hr.style_two{
+     border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+     margin: 0px;
+    }
+
+
+    #pageheader {
+    /*Only has the logo, which determines the width*/
+    width: 180px ;
+    margin-left: auto ;
+    margin-right: auto ;
+   }
+
+    #pagedivider {
+    /*Only has the logo, which determines the width*/
+    width: 100%;
+   }
+
+    #breactorlogo{
+
+    }
+
+    #deviceinfo{
+
+    height: 330 ;
+    width: 245 ;
+    margin-right: auto ;
+    }
+
+
+   #instructions{
+ 
+    text-align:left;  
+    font-size: 16px; 
+    font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
+    opacity: 0.85;
+   }
+
+    
+    .c3 .c3-axis-x path, .c3 .c3-axis-x line{
+      stroke: darkred;
+    }
+    .c3 .c3-axis-y path, .c3 .c3-axis-y line  {
+      stroke: darkred;
+    }
+    .c3 .tick text { stroke: grey; }
+
+    .c3 .legend-item text { fill: grey; }
+    .c3 .c3-axis-x-label { fill:grey; }
+    .c3 .c3-axis-y-label { fill:grey; }
+    .c3 .c3-chart-arcs-background{fill:grey;stroke:none} 
+
+    #chart {
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    #time{
+      opacity: 0.70;
+    }
+
+
+    #elapsedtime{
+    font-size: 18px;
+    color: #F3F3F3;
+    padding: 6px;
+    font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif;  
+    opacity: 0.75;
+    }
+
+    #currenttemperature{
+    font-size: 16px;
+    color: #e7e7e7;
+    padding: 6px;
+    font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif;  
+    opacity: 0.55;
+    }
+
+    #devicestatus{
+    font-size: 12px;
+    color: #e7e7e7; 
+    font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif; font-weight: lighter; 
+    opacity: 0.45;
+    padding: 6px; 
+    }
+
+    #imagerecordstatus{
+    font-size: 12px;
+    color: #e7e7e7;
+    padding: 6px;
+    font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif; font-weight: lighter;  
+    opacity: 0.45;
+    }
+    #datarecordstatus{
+    font-size: 12px;
+    color: #e7e7e7;
+    padding: 6px;
+    font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif; font-weight: lighter;  
+    opacity: 0.45;
+    }
+
+
+  .label {
+    color: white;
+    padding: 4px;
+    font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif;
+    }
+  .syringe_id {background-color: #314ae3;} /* Purple */
+  .date {background-color: #4CAF50} /* Green */
+  .organism_media {background-color: #2196F3;} /* Blue */
+  .temperature {background-color: #ff9800;} /* Orange */
+  .volume {background-color: #8547ad;} /* Violet */
+  .duration {background-color: #f44336;} /* Red */ 
+  .description {background-color: #F3F3F3; color: black;} /* Gray */ 
+  .other {background-color: transparent;} /* Gray */ 
+  .status {background-color: #454545; color: #e7e7e7;} /* Gray */ 
+  .data {color: #F7F7F7;} /* Gray */ 
+  .timelabel {color: #8b0000; opacity: 0.55;}
+
+
+  .content {
+    color: #F3F3F3;
+    padding: 6px;
+    font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif;
+  }
+
+
+#pagefooter {
+  width: 100%;
+  font-size: 14px; 
+  font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
+  color: #1f7ac2;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  opacity:0.2;
+  width: 90px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.spin_check{
+  font-family: 'SegoeUILight', sans-serif; font-weight: lighter;
+  color: #f0f0f0;
+}
+
+input[type=button] {
+  background-color: transparent;
+  color: #f0f0f0;
+  border: 1px solid darkgray; /*#006400*/
+  padding: 6px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 34px;
+  opacity: 0.75;
+
+}
+
+input[type=button2] {
+  background-color: transparent;
+  color: #f0f0f0;
+  border: 1.75px solid #314ae3; /*#006400*/
+  padding: 6px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 34px;
+  opacity: 1;
+
+}
+
+input[type=button]:hover{
+ background-color: #454545;/**/ 
+ color: white;
+ opacity: 1;
+}
+
+input[type=button2]:hover{
+ background-color: #314ae3; 
+ color: white;
+ opacity: 1;
+}
+
+input[type=button]:active{
+  background-color: #454545;
+  transform: translateY(2px);
+}
+
+input[type=button2]:active{
+  background-color: #314ae3;
+  transform: translateY(2px);
+}
+
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ca2222;
+  -webkit-transition: .4s;
+  transition: .4s;
+   border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #006400;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(55px);
+}
+
+/*------ ADDED CSS ---------*/
+.slider:after
+{
+ content:'OFF';
+ color: white;
+ display: block;
+ position: absolute;
+ transform: translate(-50%,-50%);
+ top: 50%;
+ left: 50%;
+ font-size: 10px;
+ font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif;
+}
+
+input:checked + .slider:after
+{  
+  content:'ON';
+}
