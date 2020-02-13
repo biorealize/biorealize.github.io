@@ -165,7 +165,7 @@
         
         pubnub.publish({
 
-                channel : 'rca01cam_in',
+                channel : 'rca01a_cam_in',
                 message : { 
                             'device': {
                                         'cmd':'take_img',
@@ -192,7 +192,7 @@
 
         pubnub.publish({
 
-                channel : 'rca01plate_in',
+                channel : 'rca01a_plate_in',
                 message : { 'device' : 'colorAllWhite'},
                 callback : function(m){
                     console.log(m)
@@ -205,7 +205,7 @@
 
                 pubnub.publish({
 
-                        channel : 'rca01plate_in',
+                        channel : 'rca01a_plate_in',
                         message : { 'device' : 'colorAllOff'},
                         callback : function(m){
                             console.log(m)
@@ -267,7 +267,7 @@
         var data = m.message[1]+"";
         var url = data.split("/")[2]+"";
         formatted_url = url.split(' ').join('%20');
-        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01/secure/377151c7fa556b946acc5f618ff398b972c99826/data/" + data;
+        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01a/secure/266cad019cf4ab68b9af7d39e4aa0163e621ca7a/data/" + data;
 
         //var updatedStatus = document.getElementById("devicestatus").innerHTML
 
@@ -474,7 +474,7 @@
         console.log("initNewExperiment called");
         pubnub.publish({
 
-                channel : 'rca01_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'init'},
                 callback : function(m){
                     console.log(m)
@@ -488,7 +488,7 @@
         if (chkButton.checked){
             //console.log("checked called");
             pubnub.publish({
-                channel : 'rca01_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'spin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -499,7 +499,7 @@
         else{
             //console.log("unchecked called");
             pubnub.publish({
-                channel : 'rca01_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'nospin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -521,7 +521,7 @@
             label.innerHTML="Spin";
 
             pubnub.publish({
-                channel : 'rca01_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'start'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -535,7 +535,7 @@
             label.innerHTML="";
             
             pubnub.publish({
-                channel : 'rca01_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'stop'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -678,7 +678,7 @@ function pingPeripherals(){
         console.log("pinging reactor");
         
         pubnub.publish({
-                channel : 'rca01_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'echo'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -693,7 +693,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'rca01cam_in',
+                channel : 'rca01a_cam_in',
                 message : { 
                             'device': {
                                         'cmd':'echo'
@@ -713,7 +713,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'rca01plate_in',
+                channel : 'rca01a_plate_in',
                 message : { 'device' : 'echo'},
                 callback : function(m){
                     console.log(m)
