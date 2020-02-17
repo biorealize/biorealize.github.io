@@ -170,7 +170,7 @@
                             'device': {
                                         'cmd':'take_img',
                                         'exposure': 2000,
-                                        'ring_led_brightness': 100 
+                                        'ring_led_brightness': 0
                                         }
                             }, //take_img_with_ring
                 callback : function(m){
