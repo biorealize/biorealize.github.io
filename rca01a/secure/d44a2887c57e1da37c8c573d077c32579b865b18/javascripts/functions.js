@@ -214,7 +214,7 @@
 
                 console.log("Taking image completed")
                 
-                }, 6000);
+                }, 4000);
     
         
 
