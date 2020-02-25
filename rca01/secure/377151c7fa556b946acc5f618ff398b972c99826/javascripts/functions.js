@@ -713,7 +713,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'rca01plate_in',
+                channel : 'rca01_plate_in',
                 message : { 'device' : 'echo'},
                 callback : function(m){
                     console.log(m)

@@ -10,7 +10,7 @@
     //node-red2: real-time array data
     pubnub.subscribe({ channels: ['rca01_in', 'rca01_out', 
                                   'rca01cam_in','rca01cam_out', 
-                                  'rca01plate_in', 'rca01plate_out',
+                                  'rca01_plate_in', 'rca01_plate_out',
                                   'rca01AS7262_in','rca01AS7262_out',
                                   'c12880MA_16H00363_in', 'c12880MA_16H00363_out'] });
     //xxxx_in - sends input commands to machine
