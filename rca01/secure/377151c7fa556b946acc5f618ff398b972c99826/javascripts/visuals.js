@@ -45,7 +45,7 @@
                 parseInformationfromCamera(m)
             }
 
-            if (channelName ==='rca01plate_out') 
+            if (channelName ==='rca01_plate_out') 
             {
 
                   //console.log("new message from plate");
