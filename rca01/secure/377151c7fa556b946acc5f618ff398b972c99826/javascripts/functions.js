@@ -192,7 +192,7 @@
 
         pubnub.publish({
 
-                channel : 'rca01plate_in',
+                channel : 'rca01_plate_in',
                 message : { 'device' : 'colorAllWhite'},
                 callback : function(m){
                     console.log(m)
@@ -205,7 +205,7 @@
 
                 pubnub.publish({
 
-                        channel : 'rca01plate_in',
+                        channel : 'rca01_plate_in',
                         message : { 'device' : 'colorAllOff'},
                         callback : function(m){
                             console.log(m)
