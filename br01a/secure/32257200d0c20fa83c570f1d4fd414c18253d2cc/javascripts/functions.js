@@ -730,7 +730,7 @@ function pingPeripherals(){
 
         pubnub.publish({
 
-                channel : 'rca01AS7262_in',
+                channel : 'br01_AS7262_in',
                 message : {'device':'echo'},
                 callback : function(m){
                     console.log(m)
