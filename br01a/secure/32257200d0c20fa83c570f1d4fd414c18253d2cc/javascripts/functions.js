@@ -226,7 +226,7 @@
 
     pubnub.publish({
 
-                channel : 'rca01AS7262_in',
+                channel : 'br01a_AS7262_in',
                 message : {'device':'read'},
                 callback : function(m){
                     console.log(m)
