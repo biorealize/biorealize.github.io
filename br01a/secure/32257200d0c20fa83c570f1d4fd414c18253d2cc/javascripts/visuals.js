@@ -11,7 +11,7 @@
     pubnub.subscribe({ channels: ['br01a_in', 'br01a_out', 
                                   'br01a_cam_in','br01a_cam_out', 
                                   'br01a_plate_in', 'br01a_plate_out',
-                                  'br01a_AS7262_in','br01a_AS7262_out',
+                                  'rca01AS7262_in','rca01AS7262_out',
                                   'c12880MA_16H00363_in', 'c12880MA_16H00363_out'] });
     //xxxx_in - sends input commands to machine
     //xxxx_out - receive commands from camera
