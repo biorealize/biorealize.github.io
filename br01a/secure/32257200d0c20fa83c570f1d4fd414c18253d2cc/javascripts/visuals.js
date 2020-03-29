@@ -56,7 +56,7 @@
                   }
                   
             }
-            if (channelName ==='rcaAS7262_out') 
+            if (channelName ==='br01a_AS7262_out') 
             {
                   //console.log(m.message);
                   parseInformationfromColorSensor(m);
