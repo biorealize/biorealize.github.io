@@ -151,11 +151,11 @@ var getMeta = () => {
 
 function loadDB(){
 
-	console.log("load DB Called");
+  console.log("load DB Called");
 
-  const client = stitch.Stitch.initializeDefaultAppClient('experimentdesign-clijb');
+  var client = stitch.Stitch.initializeDefaultAppClient('experimentdesign-clijb');
 
-  const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('BR_internal');
+  var db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('BR_internal');
 
   client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
     db.collection('Experiments').updateOne({owner_id: client.auth.user.id}, {$set:{number:42}}, {upsert:true})
