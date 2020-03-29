@@ -5,8 +5,9 @@ var pubnub = new PubNub({
 
 
 $( document ).ready(function() {
+	    loadDB();
     console.log( "ready!" );
-    loadDB();
+
 });
 
 jQuery(document).ready(($) => {
