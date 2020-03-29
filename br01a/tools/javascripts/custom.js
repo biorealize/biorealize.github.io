@@ -10,7 +10,6 @@ $( document ).ready(function() {
 
 jQuery(document).ready(($) => {
 
-	loadDB();
 
 	pubnub.subscribe({
 		channels: ['NFC_TAG_CLIENT'] 
@@ -63,6 +62,9 @@ jQuery(document).ready(($) => {
 	
 	$('#submit_nfc_form').submit((e) => {
 		e.preventDefault()
+
+		loadDB();
+
 		var experiment = {}
 		var $this = $(e.currentTarget)
 		var fields = ['id', 'client', 'location', 'start_time', 'expiration_date', 'duration', 'target_temperature', 'imaging_frequency', 'peripheral_payload' ]
