@@ -64,6 +64,7 @@ jQuery(document).ready(($) => {
 		e.preventDefault()
 
 		loadDB();
+		console.log("nfc submitted");
 
 		var experiment = {}
 		var $this = $(e.currentTarget)
