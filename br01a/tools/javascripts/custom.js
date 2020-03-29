@@ -3,6 +3,11 @@ var pubnub = new PubNub({
 	publishKey: "pub-c-722b1270-6c2b-423d-98f6-cb21c18a2265",
 })
 
+
+$( document ).ready(function() {
+    console.log( "ready!" );
+});
+
 jQuery(document).ready(($) => {
 
 	loadDB();
