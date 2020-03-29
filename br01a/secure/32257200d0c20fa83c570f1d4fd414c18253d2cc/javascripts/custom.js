@@ -9,8 +9,6 @@ var db;
 jQuery(document).ready(($) => {
 
 
-	displayOnLoad();
-
 	pubnub.subscribe({
 		channels: ['NFC_TAG_CLIENT'] 
 	})
@@ -30,7 +28,8 @@ jQuery(document).ready(($) => {
 
 	$('input[name=media_type]').click((e) => {
 
-
+		displayOnLoad();
+		
 		var $this = $(e.currentTarget)
 		if ($this.is(':checked')) {
 			console.log('solid clicked');
