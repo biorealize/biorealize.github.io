@@ -144,6 +144,8 @@ var getMeta = () => {
 }
 
 function displayOnLoad(){
+
+		console.log('Display on load');
 	
 	  client = stitch.Stitch.initializeDefaultAppClient('experimentdesign-clijb');
 
@@ -163,6 +165,7 @@ function displayOnLoad(){
 }
 	
 function displayRecordsOnLoad() {
+
  		clientPromise.then(stitchClient => {
      	client = stitchClient;
      	db = client.service('mongodb', 'mongodb-atlas').db('your-database-name');
