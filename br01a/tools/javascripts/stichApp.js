@@ -1,4 +1,10 @@
 
+
+  window.onload = function () {
+
+    loadDB();
+  }
+
   function loadDB(){
 
   console.log("load DB Called");
