@@ -1,3 +1,6 @@
+var db;
+var client;
+
 var pubnub = new PubNub({
 	subscribeKey: "sub-c-0b2aaa44-a779-11e6-be20-0619f8945a4f",
 	publishKey: "pub-c-722b1270-6c2b-423d-98f6-cb21c18a2265",
@@ -5,8 +8,18 @@ var pubnub = new PubNub({
 
 
 $( document ).ready(function() {
-	    loadDB();
+
     console.log( "ready!" );
+    d = new Date();
+    document.getElementById("start_time").value = d;
+    d.setMonth(6);
+    document.getElementById("expiration_date").value = d;
+
+    client = stitch.Stitch.initializeDefaultAppClient('experimentdesign-roriu');
+
+	db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('BR_internal');
+
+    
 
 });
 
@@ -37,7 +50,8 @@ jQuery(document).ready(($) => {
 		if ($this.is(':checked')) {
 			if ($this.attr('id') == 'media_type_solid') {
 				console.log('solid clicked');
-				$('#peripheral_type_group, #sealed_row').show()
+
+				$('#plate_type_group, #sealed_row').show()
 				$('.liquid_input').hide()
 				switchPlate()
 				var table = $('.plate').filter((i, d) => {
@@ -46,7 +60,7 @@ jQuery(document).ready(($) => {
 				table.find('input').eq(0).focus()
 				//$('.plate').is(':visible').find('input').eq(0).focus()
 			} else {
-				$('#peripheral_type_group, .form-row.plate, #sealed_row').hide()
+				$('#plate_type_group, .form-row.plate, #sealed_row').hide()
 				$('.liquid_input').show()
 			}
 		}
@@ -56,16 +70,15 @@ jQuery(document).ready(($) => {
 	var switchPlate = () => {
 		$('.form-row.plate').hide()
 		if ($('#media_type_solid').is(':checked')) {
-			var plate = $('#peripheral_type').val()
+			var plate = $('#plate_type').val()
 			$('#' + plate).show()
 		}
 	}
-	$('#peripheral_type').change(switchPlate).change()
+	$('#plate_type').change(switchPlate).change()
 	
 	$('#submit_nfc_form').submit((e) => {
 		e.preventDefault()
 
-		loadDB();
 		console.log("nfc submitted");
 
 		var experiment = {}
@@ -76,7 +89,7 @@ jQuery(document).ready(($) => {
 		}
 		if ($this.find('input[name=media_type]:checked').val() == 'solid') {
 			experiment.media_type = 'solid'
-			experiment.peripheral_type = $this.find('#peripheral_type').val()
+			experiment.plate_type = $this.find('#plate_type').val()
 			var load = {}
 			var $plate = $this.find('.form-row.plate:visible').find('table')
 			$plate.find('tr').each((i, row) => {
@@ -97,6 +110,7 @@ jQuery(document).ready(($) => {
 
 
 	$('#request_nfc_form').submit((e) => {
+		//loadDB();
 		e.preventDefault()
 		retrieveTag($('#request_id').val())
 	})
@@ -149,24 +163,128 @@ var getMeta = () => {
 	}
 }
 
-function loadDB(){
+function requestExperiment(){
 
-  console.log("load DB Called");
+ console.log("request Called");
 
-  const client = stitch.Stitch.initializeDefaultAppClient('experimentdesign-clijb');
+ client.auth
+    .loginWithCredential(new stitch.AnonymousCredential())
+    .then(displayExperiment)
+    .catch(console.error)
+}
 
-  const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('BR_internal');
 
-  client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
-    db.collection('Experiments').updateOne({owner_id: client.auth.user.id}, {$set:{number:42}}, {upsert:true})
-  ).then(() =>
-    db.collection('Experiments').find({owner_id: client.auth.user.id}, { limit: 100}).asArray()
-  ).then(docs => {
-      console.log("Found docs", docs)
-      console.log("[MongoDB Stitch] Connected to Stitch")
-  }).catch(err => {
-    console.error(err)
-  });
+//.find({}, {limit: 1000})
+
+function displayExperiment() {
+
+var query = document.getElementById("experiment_id").value;
+
+db.collection("UserExperiments")
+    .find({ "_id": query }, {limit: 1000})
+    .toArray()
+    .then(docs => {
+      var html = docs.map(doc => 
+`user_id: ${doc.user_id}, _id: ${doc._id}, start_time: ${doc.start_time}, expiration_date: ${doc.expiration_date}, duration: ${doc.duration}, target_temperature: ${doc.target_temperature}, sensing_type: ${doc.sensing_interval}`);
+      document.getElementById("json_received").innerHTML = html;
+      console.log(docs);
+    });
+
+}
+
+function submitExperiment(){
+
+ console.log("submit Called");
+
+ client.auth
+    .loginWithCredential(new stitch.AnonymousCredential())
+    .then(recordExperiment)
+    .catch(console.error)
+}
+
+
+function recordExperiment(){
+
+	id =  document.getElementById("id").value;
+	userid =  document.getElementById("user_id").value;
+	start = document.getElementById("start_time").value;
+	expiration = document.getElementById("expiration_date").value;
+	org_media = "";
+	temp = document.getElementById("temperature").value;
+	//volume = document.getElementById("volume").value;
+	duration = document.getElementById("duration").value;
+	plateType = document.getElementById("plate_type").value;
+	tubeType = document.getElementById("tube_type").value;
+	sensorType = document.getElementById("sensor_type").value;
+	//payload = document.getElementById("peripheral_payload").value;
+	//payload = {};
+	interval = document.getElementById("sensing_interval").value;
+
+	
+	const newRecord = {
+			"user_id" : userid,
+			"_id" : id,
+			"start_time" : start, 
+			"expiration_date" : expiration,
+			"organism_media" : org_media,
+			"duration" : duration,
+			"target_temperature" : temp,
+			"plate_type" : plateType,  
+			'tube_type': tubeType, 
+			'sensor_type': sensorType,
+			'payload': {},
+			'sensing_interval': interval,
+			}; 
+			
+
+	//collection.find({Name: msg.Name}, {$exists: true}).toArray(function(err, doc) //find if a value exists
+
+	//var checkKey = db.collection('UserExperiments').find({"user_id": id}, {$exists: true})
+	
+	/*db.collection('UserExperiments').find({'id': "61F23E1C"}, {$exists: true}).toArray(function(err, doc) //find if a value exists
+	{     
+	    if(doc) //if it does
+	    {
+	        console.log(doc); // print out what it sends back
+	    }
+	    else if(!doc) // if it does not 
+	    {
+	        console.log("Not in docs");
+	    }
+	});*/
+
+
+	//db.collection("UserExperiments")
+	//	.insertOne(newRecord)
+  	//	.then(result => console.log(`Successfully inserted item with _id: ${result.insertedId}`))
+  	//	.catch(err => console.error(`Failed to insert item: ${err}`))
+	db.collection("UserExperiments")
+		.insertOne(newRecord)
+  		.then(result => {
+  			console.log(`Successfully inserted item with _id: ${result.insertedId}`)
+  			document.getElementById("datarecordstatus").innerHTML = result.insertedId + " recorded successfully";
+  			})
+  		.catch(err => {
+  			if (err.message.indexOf("11000") != -1)
+  				document.getElementById("datarecordstatus").innerHTML = id + " exists";
+  			console.error(`Failed to insert item: ${err}`)
+			}
+  			)
+
+	/*
+	db.collection("UserExperiments")
+		.insertOne({'user_id': id, 'name': name, 
+			'start_time': start, 
+			'expiration_date': expiration,
+			'organism_media': org_media,
+			'duration': duration,
+			'temp': temperature,
+			'plate_type': plateType,  
+			'tube_type': tubeType, 
+			'sensor_type': sensorType,
+			'payload': {},     
+			'expiration_date': expiration})
+		.catch(console.error)*/
 
 
 }
@@ -179,7 +297,7 @@ function loadDB(){
 	"location" : 19102,
 	"start_time:" : Monday08April2019_09/37/28AM,
 	"duration" : 3600,
-	"peripheral_type" : "6_well_plate",
+	"plate_type" : "6_well_plate",
 	"load":
 	     [
 {

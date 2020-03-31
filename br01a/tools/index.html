@@ -46,15 +46,13 @@
 
 			<div class="row">
 				<div class="form-check form-check-inline col-md-6">
-				<span class="label other">Client ID </span>
-				<input type="text" id="client_id" size = "3"class="form-control" required>
+				<span class="label other">User ID </span>
+				<input type="text" id="user_id" size = "3"class="form-control" value= "br01a" required>
 
 				</div>
 				<div class="form-check form-check-inline col-md-6">
 				<span class="label other">Password </span>
-				<input type="password" id="client_pass" minlength="16" size = "6"class="form-control" required>
-
-
+				<input type="password" id="client_pass" minlength="16" size = "6" value= "xxxxxxxx" class="form-control" required>
 				</div>
 
 				<hr class="style_two">
@@ -101,33 +99,36 @@
 							<div class="form-group col-md-8">
 								<span class="label experiment_id">Experiment ID </span>
 								
-								<input type="text" id="experiment_id" class="form-control" required>
+								<input type="text" id="id" value= "61F23E1C" class="form-control"  required>
 							</div>
 							</div><!--.row-->
-						<div class="row">
-							<div class="form-group col-md-8">
-								<span class="label expiration_date">Expiration Date</span>
-								<input type="text" id="expiration_date" class="form-control">
-							</div>
-						</div><!--.row-->
 
 						<div class="row">
 							<div class="form-group col-md-8">
 								<span class="label start_time">Start Time</span>
-								<input type="text" id="start_time" class="form-control">
+								<input type="text" id="start_time" value= "Today's time" class="form-control">
 							</div>
 						</div><!--.row-->
 
 						<div class="row">
 							<div class="form-group col-md-8">
+								<span class="label expiration_date">Expiration Date</span>
+								<input type="text" id="expiration_date" value= "61F23E1C" class="form-control">
+							</div>
+						</div><!--.row-->
+
+
+
+						<div class="row">
+							<div class="form-group col-md-8">
 								<span class="label temperature">Temperature</span>
-								<input type="number" id="temperature" class="form-control">
+								<input type="number" id="temperature" value= "28.0" class="form-control">
 							</div>
 						</div><!--.row-->
 						<div class="row">
 							<div class="form-group col-md-8">
 								<span class="label duration">Duration</span>
-								<input type="number" id="duration" class="form-control">
+								<input type="number" id="duration" value= "2400" class="form-control">
 							</div>
 						</div><!--.row-->
 
@@ -153,9 +154,9 @@
 							</div>
 						</div>	
 						<div class="col-md-4">
-							<div class="form-group" id="peripheral_type_group">
+							<div class="form-group" id="Fpla">
 								<span class="label other">Plate Type </span> 
-								<select id="peripheral_type" class="form-control">
+								<select id="plate_type" class="form-control">
 									<option value="plate_6_well" selected>6-Well </option>
 									<option value="plate_12_well">12-Well </option>
 									<option value="plate_24_well">24-Well </option>
@@ -164,8 +165,8 @@
 
 							<div class="form-group liquid_input" id="Tube_group">
 								<span class="label other">Tube</span> 
-								<select id="Tube" class="form-control">
-									<option value="60ml_Tube">60ml Tube</option>
+								<select id="tube_type" class="form-control">
+									<option value="60">60ml</option>
 								</select>
 							</div><!--.form-group-->
 						</div>
@@ -174,7 +175,7 @@
 					<div class="row liquid_input">
 						<div class="form-group col-md-6">
 							<span class="label other">Tube Payload </span> 
-							<input type="text" id="peripheral_payload" class="form-control">
+							<input type="text" id="tube_payload" class="form-control">
 						</div>
 					</div><!--.row-->
 
@@ -290,7 +291,7 @@
 			<div class="row">
 				<div class="form-group col-md-5">
 					<span class="label other">Frequency</span>
-					<input type="number" id="sensing_freq" class="form-control" min="1">
+					<input type="number" id="sensing_interval" value= "30" class="form-control" min="1">
 				</div>
 			</div><!--.row-->
 		
@@ -301,17 +302,13 @@
 			<div class="col-1-2">
 				<hr class="style_two">
 				<h1> 4.Record </h1><br>
-				<br><br><br>
+
 				<div class="form-row">
-						<button type="submit" class="btn btn-primary" id="submit_nfc">Submit</button>
+					<input  onclick="submitExperiment()" type="button" value="Submit Experiment" id="previewImageButton"/>
+					<div id='datarecordstatus'>Waiting for Recording</div> 
 				</div><!--.row-->
 
 				<div class="row" id="json_sent_row">
-					<div class="form-group col-md-8">
-						<span class="label other">Recorded Experiment</span>
-						<textarea class="form-control" id="json_sent" rows="4" readonly></textarea>
-					</div>
-
 				</div><!--.row-->
 			</div>
 
@@ -322,21 +319,23 @@
 				<form id="request_nfc_form">
 
 					<div class="row">
-						<div class="form-group col-md-4">
-							<span class="label other">Enter existing ID</span>
-							<input type="text" id="request_id" class="form-control" required>
-						</div>
-					</div><!--.row-->
+						<div class="form-check form-check-inline col-md-4">
+						<span class="label other">Enter Experiment ID </span>
+						<input type="text" id="experiment_id" size = "3"class="form-control" value= "61F23E1C" required>
 
-					<div class="form-row">
-						<button type="submit" class="btn btn-primary" id="request_nfc">Request</button>
-					</div><!--.row-->
+						</div>
+						<div class="form-check form-check-inline col-md-4">
+						<br>	
+						<input  onclick="requestExperiment()" type="button" value="Verify Experiment" id="previewImageButton"/>
+						</div>
+					</div>
 
 				</form>
 
 				<div class="row" id="json_received_row">
 					<div id="json_received_row">
 						<div class="form-group col-md-8">
+							<br>
 							<span class="label other">From Database</span>
 							<textarea class="form-control" id="json_received" rows="4" readonly></textarea>
 						</div>
