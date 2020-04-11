@@ -120,7 +120,7 @@
     color: #e7e7e7;
     padding: 6px;
     font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif; font-weight: lighter;  
-    opacity: 0.85;
+    opacity: 0.45;
     }
 
 
@@ -143,8 +143,6 @@
   .status {background-color: #454545; color: #e7e7e7;} /* Gray */ 
   .data {color: #F7F7F7;} /* Gray */ 
   .timelabel {color: #8b0000; opacity: 0.55;}
-  .ahref_rewrite{color: #f44336; opacity: 1; font-weight: 500}
-  .ahref_rewrite_success{color: #f44336; opacity: 1; font-weight: 500;}
 
 
   .content {
@@ -163,7 +161,7 @@
 
 
 .switch {
-  position: relative;d
+  position: relative;
   display: inline-block;
   opacity:0.2;
   width: 90px;

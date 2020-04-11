@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+	<head>
+		<title>Biorealize: Report Generation Tool</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/simplegrid.css" />
+		
+		<style>
+			.content {
+				background: #ccc;
+				padding: 10px;
+			}
+		</style>
+
+		    <!-- PubNub EON -->
+		    <script type="text/javascript" src="https://pubnub.github.io/eon/v/eon/1.0.0/eon.js"></script>
+		    <!-- MongoDB Stich Dependency -->
+		    <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.6.0/stitch.js"></script>
+				<!--<script src="https://s3.amazonaws.com/stitch-sdks/js/library/v3/stable/stitch.min.js"></script>-->
+		    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+		    
+		    <!-- Canvas JS -->
+		    <script type="text/javascript" src="javascripts/jquery.canvasjs.min.js"></script>
+		    <!-- BR custom -->
+			<script type="text/javascript" src="javascripts/custom.js"></script>	
+
+		   <!--  <link type="text/css" rel="stylesheet" href="https://pubnub.github.io/eon/v/eon/1.0.0/eon.css" /> -->
+		    <link rel="stylesheet" type="text/css" href="css/main.min.css">
+		   <link type="text/css" rel="stylesheet" href="stylesheets/style.css" />
+
+		</head>
+
+		<body>
+
+
+		<!-- Grid 2/3 and 1/3-->
+		<div class="grid grid-pad">
+			<div class="col-1-1">
+				<div id='pageheader'>
+  					<img src="images/biorealizelogo.svg" alt="Dashboard" class="center"> 
+  					
+				</div>
+				<hr class="style_two">
+			</div>
+		</div>
+
+		<div class="grid grid-pad">
+			<div class="col-1-5">
+
+			<div class="row">
+				<div class="form-check form-check-inline col-md-7">
+				<span class="label other">Experiment ID </span>
+				<input type="text" id="experiment_id" size = "3"class="form-control" value= "61Ff3E9C">
+				</div>
+
+				<div class="form-check form-check-inline col-md-4">
+				<br>
+				<input  onclick="requestExperiment()" type="button" value="Report Experiment" id="requestExperimentButton"/>
+				</div>
+
+			</div>
+
+		</div>
+
+				<!-- Grid 2/3 and 1/3-->
+		<div class="grid grid-pad">
+			<div class="col-1-1">
+			
+				<hr class="style_two">
+			</div>
+		</div>
+
+		<!-- Grid 1/2 
+		<div class="grid grid-pad">
+			<div class="col-1-2 mobile-col-1-2">
+			</div>
+			<div class="col-1-2 mobile-col-1-2">
+			</div>
+			
+			<div class="col-1-2 mobile-col-1-1">
+				<div class="content">
+				</div>
+			</div>
+			<div class="col-1-2 mobile-col-1-2 hide-on-mobile">
+				<div class="content">
+				</div>
+			</div>
+		</div>-->
+
+		<!-- Grid 1/3 -->
+		<div class="grid grid-pad">
+			<div class="col-1-3 mobile-col-1-3">
+
+				<div id='breactorlogo'> 
+				      <h1>Experiment Info</h1>
+				</div>
+				<br>
+
+			<div id='experiment_info'> 
+				    <br>
+				    <span class="label experiment_id">Experiment ID </span> <span class="label other">  </span><br><br>
+				    <span class="label expiration_date">Expiration Date</span><span class="label other">  </span><br><br>
+				    <span class="label organism_media">Organism + Media</span><span class="label other"> <i> </i></span><br><br>
+				    <span class="label volume">Volume</span><span class="label other"> </span><br><br>
+				    <span class="label temperature">Temperature</span><span class="label other"> </span><br><br>
+				    <span class="label duration">Duration</span><span class="label other"> </span><br><br><br>
+				     <!--<input onclick="initNewExperiment()" type="button2" value="New Experiment" id="initNewExperimentButton" />-->
+				     <!--<span class="label description">Other</span> -->
+				</div>
+
+			</div>
+			<div class="col-1-3 mobile-col-1-3">
+
+				 <h1> Tempeature </h1><br>
+				 	<br>
+					<div class="row">
+
+						<div class="form-group col-md-4">
+							<input type="text" id="tempChartInput" value= "2400" class="form-control">
+						</div>					
+					</div><!--.row-->
+
+					<div class="row">
+						<div id="temperatureChartDiv" style="height: 370px; width: 100;">
+								<input  onclick="getTempData()" type="button" value="Generate Chart" id="generateTempChart"/>
+						</div>	
+
+					</div><!--.row-->
+
+
+					
+				
+			</div>
+
+			<div class="col-1-3 mobile-col-1-3">
+				 <h1> 3. Sensor Type </h1><br>
+				 <div class="rowcol-md-5">
+							<div class="form-group" id="sensor_type_group">
+								<span class="label other">Sensor</span> 
+								<select id="sensor_type" class="form-control">
+									<option value="camera" selected>Camera</option>
+									<option value="spectrophotometer">C12880MA</option>
+									<option value="color sensor">AS7262</option>
+								</select>
+							</div><!--.form-group-->
+				</div>
+
+			<div class="row">
+				<div class="form-group col-md-5">
+					<span class="label other">Frequency</span>
+					<input type="number" id="sensing_interval" value= "30" class="form-control" min="1">
+				</div>
+			</div><!--.row-->
+		
+		</div>
+		<!-- Grid 2/3 and 1/3-->
+		<div class="grid grid-pad">
+
+			<div class="col-1-2">
+				<hr class="style_two">
+				<h1> 4.Record </h1><br>
+
+				<div class="form-row">
+					<!--<input  onclick="submitExperiment()" type="button" value="Submit Experiment" id="previewImageButton"/>-->
+					<div id='datarecordstatus'>Waiting for Recording</div> 
+				</div><!--.row-->
+
+				<div class="form-row">
+						<button type="submit" class="btn btn-primary" id="submit_nfc">Submit</button>
+				</div><!--.row-->
+
+				<div class="row" id="json_sent_row">
+				</div><!--.row-->
+			
+
+			</div>
+
+			<div class="col-1-2">
+				<hr class="style_two">
+				<h1> 5.Verify </h1>
+
+				<form id="request_nfc_form">
+
+					<div class="row">
+						<div class="form-check form-check-inline col-md-4">
+						<span class="label other">Enter Experiment ID </span>
+						<input type="text" id="experiment_id" size = "3"class="form-control" value= "61F23E1C" required>
+
+						</div>
+						<div class="form-check form-check-inline col-md-4">
+						<br>	
+						<input  onclick="requestExperiment()" type="button" value="Verify Experiment" id="previewImageButton"/>
+						</div>
+					</div>
+
+				</form>
+
+				<div class="row" id="json_received_row">
+					<div id="json_received_row">
+						<div class="form-group col-md-8">
+							<br>
+							<span class="label other">From Database</span>
+							<textarea class="form-control" id="json_received" rows="4" readonly></textarea>
+						</div>
+					</div>
+				</div><!--.row-->
+			</div>
+
+
+		</div>
+
+		<!-- Grid 2/3 and 1/3-->
+		<div class="grid grid-pad">
+			<div class="col-1-1">
+				<hr class="style_two"><br>
+				<span class="label other">Log</span><br><br>
+				<div id="log">
+				</div>
+		</div>	
+
+		<!-- Grid 2/3 and 1/3-->
+		<div class="grid grid-pad">
+			<div class="col-1-1">
+				<hr class="style_two">
+				<div id="pagefooter">
+					Biorealize Inc. 2020 • B | experiment programming interface | CC-BY-SA 4.0 </div>
+				</div>
+				<br><br>
+				<hr class="style_two"><br>
+		</div>		
+
+
+		
+	</body>
+
+</html>
