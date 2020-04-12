@@ -85,7 +85,7 @@ jQuery(document).ready(($) => {
 
 		e.preventDefault()
 
-		collectExperimentData(e);
+		collectExperimentData();
 
 		console.log("nfc submitted");
 		
@@ -198,7 +198,7 @@ function collectExperimentData(){
 		for (var i = 0; i < fields.length; i++) {
 			experiment[fields[i]] = document.getElementById(fields[i]).value;
 			//experiment[fields[i]] = $this.find('#' + fields[i]).val()
-			//console.log()
+			//console.log(document.getElementById(fields[i]).value);
 		}
 
 		sensorType = document.getElementById("sensor_type");
@@ -298,7 +298,7 @@ function rewriteNFC(){
 
 	collectExperimentData();
 
-	const query = { "_id": document.getElementById("experiment_id").value };
+	const query = { "_id": document.getElementById("_id").value };
 	const options = { "upsert": false };
 
 	db.collection("UserExperiments")
