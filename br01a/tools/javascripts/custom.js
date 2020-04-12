@@ -330,7 +330,14 @@ db.collection("UserExperiments")
     .toArray()
     .then(docs => {
       var html = docs.map(doc => 
-`user_id: ${doc.user_id}, _id: ${doc._id}, start_time: ${doc.start_time}, expiration_date: ${doc.expiration_date}, duration: ${doc.duration}, target_temperature: ${doc.target_temperature}, sensing_type: ${doc.sensing_interval}`);
+`user_id: ${doc.user_id}, 
+_id: ${doc._id}, 
+start_time: ${doc.start_time}, 
+expiration_date: ${doc.expiration_date}, 
+duration: ${doc.duration}, 
+target_temperature: ${doc.target_temperature}, 
+sensor_type: ${doc.sensor_type},
+sensing_interval: ${doc.sensing_interval}`);
       document.getElementById("json_received").innerHTML = html;
       console.log(docs);
     });
