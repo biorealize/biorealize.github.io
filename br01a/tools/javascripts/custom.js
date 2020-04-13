@@ -323,7 +323,7 @@ function rewriteNFC(){
 
 function displayExperiment() {
 
-var query = document.getElementById("experiment_id").value;
+var query = document.getElementById("_id").value;
 
 db.collection("UserExperiments")
     .find({ "_id": query }, {limit: 1000})
