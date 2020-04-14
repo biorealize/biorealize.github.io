@@ -11,10 +11,10 @@ var pubnub = new PubNub({
 $( document ).ready(function() {
 
     console.log( "ready!" );
-    d = new Date();
-    document.getElementById("start_time").value = d;
-    d.setMonth(6);
-    document.getElementById("expiration_date").value = d;
+    //d = new Date();
+    //document.getElementById("start_time").value = d;
+    //d.setMonth(6);
+    //document.getElementById("expiration_date").value = d;
 
     client = stitch.Stitch.initializeDefaultAppClient('experimentdesign-roriu');
 
@@ -187,7 +187,7 @@ function collectExperimentData(){
 
 		//var $this = $(e.currentTarget)
 		var fields = ['_id', 'user_id',
-					'start_time', 
+					//'start_time', 
 					'expiration_date', 
 					//'organism_media',
 					'duration', 

@@ -2,7 +2,7 @@
     html, body { margin: 0; padding:0 }
     body {
         font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', 'Segoe UI', sans-serif; font-weight: lighter;
-        background-image: url("../images/bg.jpg");
+        background-image: url("../images/bgl.jpg");
         background-repeat: no-repeat;
         background-position: right top;
       }
@@ -72,6 +72,22 @@
     .c3 .c3-axis-y-label { fill:grey; }
     .c3 .c3-chart-arcs-background{fill:grey;stroke:none} 
 
+    .preview_imgs{
+        float:left;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-right: 5px;
+        margin-left: 5px;
+        border: .5px solid darkgray;
+        width:320px;
+        height:240px; 
+    }
+
+    #latest_analysis_img{
+        width:256px;
+        height:192px; 
+    }
+
     #chart {
       left: 0;
       right: 0;
@@ -126,7 +142,7 @@
 
   .label {
     color: white;
-    padding: 3px;
+    padding: 4px;
     font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif;
     font-size: 14px; 
     font-weight: 200;
