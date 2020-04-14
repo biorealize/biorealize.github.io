@@ -219,10 +219,12 @@ function renderExperimentImgs(){
 
 function loadLatestAnalysis(){
 
+	var transImage = document.getElementById("trans_gif");
 	var latestAnalysisImage = document.getElementById("latest_analysis_img");
 	latestAnalysisImage.src = "images/6well_inv.png"; //adding a cache breaker to the end
 	latestAnalysisImage.width = 256;
-	latestAnalysisImage.height = 192; 	
+	latestAnalysisImage.height = 192;	
+
 	console.log("latest analysis loaded");
 
 }
