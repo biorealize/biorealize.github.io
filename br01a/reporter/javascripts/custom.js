@@ -4,7 +4,7 @@ var date;
 
 
 
-var tempChartDuration = "2600 hrs";
+var tempChartDuration = "2600 mins";
 var tempDataPointsFromDB =[];
 var imgFileNames = []
 var imgFileLocations = []
