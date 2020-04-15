@@ -1,5 +1,6 @@
     var formatted_url = "";
-
+    var experimentId="";
+    
     var currentTemp;
     var currentOD;
     var temperatureChart; 
@@ -14,6 +15,8 @@
     var OD_600INDEX = 117;
     var tempChartUpdateInterval = 20000;
     var growthChartUpdateInterval = 5000;
+
+
     // initial value
    // var yValue1 = 37; 
     var time = new Date;
@@ -170,7 +173,8 @@
                             'device': {
                                         'cmd':'take_img',
                                         'exposure': 2000,
-                                        'ring_led_brightness': 0
+                                        'ring_led_brightness': 0,
+                                        'experiment_id': experimentId,
                                         }
                             }, //take_img_with_ring
                 callback : function(m){
@@ -402,7 +406,7 @@
 
         if (m.message.hasOwnProperty("experiment") ){
                     //console.log(m.message.hasOwnProperty("experiment"));
-        	var experimentId = m.message.experiment.id;
+        	experimentId = m.message.experiment.id;
         	var expDate = m.message.experiment.expiration_date;
         	var organismMedia = m.message.experiment.organism_media;
         	var volume = m.message.experiment.volume + ' ml' ;
