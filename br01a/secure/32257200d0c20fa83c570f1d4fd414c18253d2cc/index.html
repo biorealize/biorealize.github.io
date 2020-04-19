@@ -63,8 +63,9 @@
 				</div>
 				<div id='instructions'> 
 				    <br>
-				    <span class="label syringe_id">Experiment ID </span> <span class="label other">  </span><br><br>
-				    <span class="label date">Expiration Date</span><span class="label other">  </span><br><br>
+				    <span class="label experiment_id">Experiment ID </span> <span class="label other">  </span><br><br>
+				    <span class="label name">Name</span><span class="label other">  </span><br><br>
+				    <span class="label expiration_date">Expiration Date</span><span class="label other"> <i> </i></span><br><br>
 				    <span class="label organism_media">Organism + Media</span><span class="label other"> <i> </i></span><br><br>
 				    <span class="label volume">Volume</span><span class="label other"> </span><br><br>
 				    <span class="label temperature">Temperature</span><span class="label other"> </span><br><br>
@@ -78,6 +79,7 @@
 					        <img src="images/breactor_empty_outline_wht.svg" class="left">
 					        <br><br>  
 					        <input onclick="takeImgFunction()" type="button" value="Take Img" id="takeImageButton" />
+					        <input type="text" id="imgExposureField" value=2000 style="display:none" />
 					        <input onclick="loadNewImgFunction()" type="button" value=">" style="display:none" id="previewImageButton" />
 					       	<input onclick="readColorFunction()" type="button" value="Analyze Color" id="readColorSensorButton" />
 					       	<input onclick="readSpecFunction()" type="button" value="Analyze w. Spec" id="readSpecButton" />

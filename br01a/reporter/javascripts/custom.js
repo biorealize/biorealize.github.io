@@ -4,7 +4,7 @@ var date;
 
 
 
-var tempChartDuration = "2600 mins";
+var tempChartDuration = " 2400 mins";
 var tempDataPointsFromDB =[];
 var imgFileNames = []
 var imgFileLocations = []
@@ -36,20 +36,20 @@ $( document ).ready(function() {
 function getTempData(){
 
 	query = {
-				elapsedTime: {
+				"elapsed_time": {
 					$gte: 0.1,
 					$lt: 2400
 					}
 				}
 	options = {};
-
+	//console.log ("getTempData called")
 
 	db.collection("UserDeviceData")
 	    .find(query, {limit: 1000})
 	    .toArray()
 	    .then(docs => {
 	      //var html = docs.map(doc => `currentTemp: ${doc.currentTemp}`);
-	       tempDataPointsFromDB = docs.map(doc => parseInt(`${doc.currentTemp}`));
+	       tempDataPointsFromDB = docs.map(doc => parseFloat(`${doc.current_temp}`));
 	      //console.log(tempDataPointsFromDB);
 	      renderTemperatureChart();
 	    });
@@ -228,24 +228,49 @@ function loadLatestAnalysis(){
 	console.log("latest analysis loaded");
 
 }
-
+//Wednesday15April2020_07:21:15PM.png
 function visualizePreviews(){
 
 	var html = "";
+
+	for (var i = 0; i < imgFileNames.length; i++) {
+
+		var data = String(imgFileNames[i]);
+
+		var url = data.split("/")[2]+"";
+        //formatted_url = url.split(' ').join('%20');
+        //console.log(arrayItem);
+        //formatted_url = data.replace(/\//g, '%3A');
+        formatted_url = data.replace(/\//g, ':');
+		//console.log(String(imgFileLocations[0]) + formatted_url + ".png");
+		if (formatted_url.indexOf("Bad") == -1)
+			html += "<img id=loading_"+ String(imgFileNames[i]) +" class='preview_imgs' src="+ String(imgFileLocations[0]) + formatted_url + " >";
+	 	//console.log(String(imgFileLocations[0]) + formatted_url + ".png");
+	 	//console.log(String(imgFileLocations[0]) + url + ".png");
+	}
+	
+
+	/*
 	imgFileNames.forEach(function (arrayItem) {
 
 		var data = String(arrayItem);
 
-        formatted_url = data.replace(/\//g, '%3A');
-        //console.log(formatted_url);
-	 	html += "<img id=loading"+ String(arrayItem) +" class='preview_imgs' src="+ String(imgFileLocations[0]) + formatted_url + ".png>";
+		var url = data.split("/")[2]+"";
+        //formatted_url = url.split(' ').join('%20');
+        //console.log(arrayItem);
+        //formatted_url = data.replace(/\//g, '%3A');
+        formatted_url = data.replace(/\//g, ':');
+		//console.log(formatted_url);
+
+	 	html += "<img id=loading"+ String(arrayItem) +" class='preview_imgs' src="+ String(imgFileLocations[0]) + formatted_url + ".png";
 	 	//console.log(String(imgFileLocations[0]) + formatted_url + ".png");
 	 	//console.log(String(imgFileLocations[0]) + url + ".png");
 
 	});
+	*/
 
 	document.getElementById("experiment_images").innerHTML = html;
-	console.log("visualizing previews");	
+	//console.log(html);	
 
 //ttps://raw.githubusercontent.com/biorealize/biorealize.github.io/master/br01a/secure/32257200d0c20fa83c570f1d4fd414c18253d2cc/data/Tuesday03March2020_05%3A08%3A04PM.png
 
@@ -294,9 +319,9 @@ function displayExperimentInfo() {
 		${doc.expiration_date}</span><br><br><span class="label organism_media">Organism + Media</span><span class="label other">
 		${doc.media_type}</span><br><br><span class="label volume">Volume</span><span class="label other"> 
 		${doc.plate_type}</span><br><br><span class="label temperature">Temperature</span><span class="label other">
-		${doc.target_temperature} </span><br><br><span class="label duration">Duration</span><span class="label other">
+		${doc.target_temp} </span><br><br><span class="label duration">Duration</span><span class="label other">
 		${doc.duration} </span><br><br>`);
-		document.getElementById("experiment_info").innerHTML = html;
+		document.getElementById("experiment_info").innerHTML = html
 		console.log(docs);
 	    });
 

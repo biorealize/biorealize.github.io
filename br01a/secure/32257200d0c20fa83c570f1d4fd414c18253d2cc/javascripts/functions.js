@@ -1,6 +1,5 @@
     var formatted_url = "";
-    var experimentId="";
-    
+    var experimentId;
     var currentTemp;
     var currentOD;
     var temperatureChart; 
@@ -148,7 +147,8 @@
 
         //also make new image button visible
         document.getElementById("takeImageButton").style="display:visible";
-
+        document.getElementById("imgExposureField").style="display:visible";
+        
         setTimeout(function(){ 
             document.getElementById("previewImageButton").style="display:none";
         }, 1000);
@@ -159,6 +159,7 @@
     function takeImgFunction(){
         
         document.getElementById("previewImageButton").value=""; 
+
         var image = document.getElementsByClassName("loadingImg");
         image = "images/loading.gif";
         //document.images[3].src = "images/loading.gif";
@@ -166,15 +167,19 @@
         
         console.log("Taking image")
         
+        imgExposure = document.getElementById("imgExposureField").value;
+
+        console.log("Exposure: " + imgExposure);
+
         pubnub.publish({
 
                 channel : 'br01a_cam_in',
                 message : { 
                             'device': {
                                         'cmd':'take_img',
-                                        'exposure': 2000,
+                                        'exposure': imgExposure,
                                         'ring_led_brightness': 0,
-                                        'experiment_id': experimentId,
+                                        'experiment_id': experimentId
                                         }
                             }, //take_img_with_ring
                 callback : function(m){
@@ -218,7 +223,7 @@
 
                 console.log("Taking image completed")
                 
-                }, 4000);
+                }, 5000);
     
         
 
@@ -320,7 +325,8 @@
             document.getElementById("deviceinfo").innerHTML = 
             '<img src="images/breactor_nowell_outline_wht.svg" class="left">'+
             '<br><input onclick="loadNewImgFunction()" type="button" value=">" style="display:none" id="previewImageButton" />' + 
-            '<input onclick="takeImgFunction()" type="button" value="Take New Img" style="display:none" id="takeImageButton" />'
+            '<input onclick="takeImgFunction()" type="button" value="Take New Img" style="display:none" id="takeImageButton" />' +
+            '<input type="text" id="imgExposureField" value=2000 style="display:none" />';
            
         }
 
@@ -378,6 +384,8 @@
             setTimeout(function(){ 
                 document.getElementById("previewImageButton").value="Load ->";
                 document.getElementById("previewImageButton").style="display:visible";
+                document.getElementById("imgExposureField").style="display:none";
+
             }, 500);
 
             console.log("new path arrived");
@@ -405,21 +413,26 @@
         }
 
         if (m.message.hasOwnProperty("experiment") ){
-                    //console.log(m.message.hasOwnProperty("experiment"));
-        	experimentId = m.message.experiment.id;
+            
+            //console.log(m.message.hasOwnProperty("experiment"));
+            //console.log(m.message.experiment);
+        	
+            experimentId = m.message.experiment._id;
         	var expDate = m.message.experiment.expiration_date;
-        	var organismMedia = m.message.experiment.organism_media;
-        	var volume = m.message.experiment.volume + ' ml' ;
+            var name = m.message.experiment.name;
+        	var organismMedia = m.message.experiment.media_type;
+        	var volume = m.message.experiment.plate_type;
         	var targetTemperature = m.message.experiment.target_temp + ' °C';
         	var duration = m.message.experiment.duration + ' mins' ;
         	//var obj2 = JSON.parse(obj.message);
         	//var obj3 = JSON.parse(obj2.eon);
         	//var temp = JSON.parse(obj3.Temperature);
             //document.getElementById("instructions").innerHTML =  "<span style=\"color:#355ea3\">" + "Syringe ID" + "</span>" + '&nbsp &nbsp &nbsp &nbsp'+ "<span style=\"color:black\">" + data + "</span>"; ; 
-            
+
             document.getElementById("instructions").innerHTML = 
-            '<br> <span class="label syringe_id">Experiment ID </span> <span class="label other">' + experimentId +  
-            '</span><br><br> <span class="label date">Expiration Date</span><span class="label other">'+ expDate +
+            '<br> <span class="label experiment_id">Experiment ID </span> <span class="label other">' + experimentId +  
+            '</span><br><br> <span class="label name">Name</span><span class="label other">'+ name +
+            '</span><br><br> <span class="label expiration_date">Expiration Date</span><span class= "label other">'+ expDate +
             '</span><br><br><span class="label organism_media">Organism + Media</span><span class="label other"> <i>'+ organismMedia +
             '</i> </span><br><br><span class="label volume">Volume</span><span class="label other">'+ volume +
             '</span><br><br><span class="label temperature">Temperature</span><span class="label other">'+ targetTemperature +
@@ -441,17 +454,19 @@
 
             //console.log(m.message.run.elapsed_time);
 
-            var specFreq = m.message.run.spec_frequency;
-            var spinSpeed = m.message.run.spin_speed; 
+            //var specFreq = m.message.run.spec_frequency;
+            //var spinSpeed = m.message.run.spin_speed;
+            //var sensingInterval = m.message.run.sensor.interval; 
             var lidStatus = m.message.run.lid ;
             var elapsedTime = m.message.run.elapsed_time;
             var runStatus = m.message.run.status;
             var recordID = m.message.run.record_id;
             var timestamp = m.message.run.ts;
 
+
             document.getElementById("devicestatus").innerHTML = 
-            '<br><span class="label status">Sensor Frequency:</span><span class="label data">'+ specFreq + '</span><br>' +
-            '<br><span class="label status">Agitation Mode:</span><span class="label data">'+ spinSpeed + '</span><br>' +  
+            //'<br><span class="label status">Sensor Frequency:</span><span class="label data">'+ specFreq + '</span><br>' +
+            //'<br><span class="label status">Sensing Interval:</span><span class="label data">'+ sensing_interval + '</span><br>' +  
             '<br><span class="label status">Lid:</span><span class="label data">'+ lidStatus + '</span><br>'
 
             currentTemp = m.message.run.current_temp;

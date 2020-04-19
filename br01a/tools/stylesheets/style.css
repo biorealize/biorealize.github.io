@@ -137,7 +137,7 @@
   .temperature {background-color: #ff9800;} /* Orange */
   .volume {background-color: #8547ad;} /* Violet */
   .duration {background-color: #f44336;} /* Red */ 
-  .start_time{background-color: #4682bf;} /* Gray */ 
+  .name{background-color: #4682bf;} /* Gray */ 
   .description {background-color: #F3F3F3; color: black;} /* Gray */ 
   .other {background-color: transparent;} /* Gray */ 
   .status {background-color: #454545; color: #e7e7e7;} /* Gray */ 

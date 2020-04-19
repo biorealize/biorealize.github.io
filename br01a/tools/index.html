@@ -103,12 +103,12 @@
 							</div>
 							</div><!--.row-->
 
-						<!--<div class="row">
+						<div class="row">
 							<div class="form-group col-md-8">
-								<span class="label start_time">Start Time</span>
-								<input type="text" id="start_time" value= "Today's time" class="form-control">
+								<span class="label name">Name</span>
+								<input type="text" id="name" value= "Calibration Kit" class="form-control">
 							</div>
-						</div>-->
+						</div>
 
 						<div class="row">
 							<div class="form-group col-md-8">
@@ -275,23 +275,65 @@
 			</div>
 
 			<div class="col-1-3 mobile-col-1-3">
-				 <h1> 3. Sensor Type </h1><br>
+				 <h1> 3. Device Config</h1><br>
 				 <div class="rowcol-md-5">
 							<div class="form-group" id="sensor_type_group">
 								<span class="label other">Sensor</span> 
-								<select id="sensor_type" class="form-control">
-									<option value="camera" selected>Camera</option>
-									<option value="spectrophotometer">C12880MA</option>
-									<option value="color sensor">AS7262</option>
+								<select id="sensor_type" class="form-control device_config_form">
+									<option value="camera" selected>Camera (w)</option>
+									<!--<option value="spectrophotometer">C12880MA</option>-->
+									<!--<option value="color sensor">AS7262</option>-->
 								</select>
 							</div><!--.form-group-->
 				</div>
 
 			<div class="row">
 				<div class="form-group col-md-5">
-					<span class="label other">Frequency</span>
-					<input type="number" id="sensing_interval" value= "30" class="form-control" min="1">
+					<span class="label other">Sensing Interval</span>
+					<input type="number" id="sensing_interval" value= "30" class="form-control" min=0>
+					<br>
+					<span class="label other">Exposure</span>
+					<input type="number" id="camera_exposure" value= "2000" class="form-control" min="1">
+					<br>
+					<span class="label other">Ring Brightness</span>
+					<input type="number" id="ring_led" value= "0" class="form-control" min="0">
 				</div>
+
+				<div class="form-group col-md-5">
+							<div class="form-group" id="agitation_config" style="display:none">
+								<span class="label other">Agitation Speed</span> 
+								<select id="agitation_speed" class="form-control">
+									<option value="100" selected>Slow</option>
+									<option value="150">Medium</option>
+									<option value="255">Fast</option>
+								</select>
+							</div><!--.form-group-->
+				</div>
+
+				<div class="form-group col-md-5">
+									<br> <br><br>
+							<div class="form-group" id="heater_speed_config">
+								<span class="label other">Heater Speed</span> 
+								<select id="heater_speed" class="form-control">
+									<option value="100" selected>Slow</option>
+									<option value="255"selected>Fast</option>
+								</select>
+							</div><!--.form-group-->
+
+							<div class="form-group" id="cooler_speed_config">
+								<span class="label other">Cooler Speed</span> 
+								<select id="cooler_speed" class="form-control">
+									<option value="100" selected>Slow</option>
+									<option value="255"selected>Fast</option>
+								</select>
+							</div><!--.form-group-->
+
+				</div>
+
+
+
+
+
 			</div><!--.row-->
 		
 		</div>
@@ -342,7 +384,7 @@
 						<div class="form-group col-md-8">
 							<br>
 							<span class="label other">From Database</span>
-							<textarea class="form-control" id="json_received" rows="4" readonly></textarea>
+							<textarea class="form-control" id="json_received" style="background-color: transparent;" rows="4" readonly ></textarea>
 						</div>
 					</div>
 				</div><!--.row-->

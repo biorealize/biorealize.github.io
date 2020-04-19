@@ -58,6 +58,33 @@
     opacity: 0.85;
    }
 
+
+  #img_range_from{
+
+  background-color: transparent;
+  color: #ff9800;
+  width:80px;
+  height: 10px;
+  padding: 10px;
+  border: 0px;
+  -webkit-appearance: none;
+
+  }
+
+  #img_range_to{
+
+  background-color: transparent;
+  color: #ff9800;
+  width:80px;
+  height: 10px;
+  padding: 10px;
+  border: 0px;
+  -webkit-appearance: none;
+  
+  }
+
+
+
     
     .c3 .c3-axis-x path, .c3 .c3-axis-x line{
       stroke: darkred;

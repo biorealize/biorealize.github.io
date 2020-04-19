@@ -57,14 +57,18 @@ jQuery(document).ready(($) => {
 
 				$('#plate_type_group, #sealed_row').show()
 				$('.liquid_input').hide()
+				$('#agitation_config').hide()
 				switchPlate()
 				var table = $('.plate').filter((i, d) => {
 					return $(d).is(':visible')
 				})
 				table.find('input').eq(0).focus()
 				//$('.plate').is(':visible').find('input').eq(0).focus()
-			} else {
+
+			} else {//activate the liquid related features
+
 				$('#plate_type_group, .form-row.plate, #sealed_row').hide()
+				$('#agitation_config').show()
 				$('.liquid_input').show()
 			}
 		}
@@ -186,8 +190,9 @@ function collectExperimentData(){
 
 
 		//var $this = $(e.currentTarget)
+		/*
 		var fields = ['_id', 'user_id',
-					//'start_time', 
+					'name', 
 					'expiration_date', 
 					//'organism_media',
 					'duration', 
@@ -200,9 +205,24 @@ function collectExperimentData(){
 			//experiment[fields[i]] = $this.find('#' + fields[i]).val()
 			//console.log(document.getElementById(fields[i]).value);
 		}
+		*/
+
+		experiment._id = document.getElementById('_id').value;
+		experiment.name = document.getElementById('name').value;
+		
+		experiment.expiration_date = document.getElementById('expiration_date').value;
+		
+		experiment.duration = parseInt(document.getElementById('duration').value);
+		experiment.target_temp = parseFloat(document.getElementById('target_temperature').value);
 
 		sensorType = document.getElementById("sensor_type");
-		experiment.sensor_type = sensorType.options[sensorType.selectedIndex].text;
+
+		sensorInfo = {	"type": sensorType.options[sensorType.selectedIndex].value,
+							"interval": parseInt(document.getElementById('sensing_interval').value),
+							"exposure": parseInt(document.getElementById('camera_exposure').value),
+							"ring_led": parseInt(document.getElementById('ring_led').value)
+							}
+		experiment.sensor = sensorInfo;
 		//experiment.sensor_type = $this.find('#sensor_type').val()
 		
 		if (document.getElementById('media_type_solid').checked == true){
@@ -247,6 +267,11 @@ function collectExperimentData(){
 			experiment.tube_type =  "";
 			experiment.tube_payload =  "";
 
+			//make sure that agitation speed is 0 if we work with solid media
+			agitationSpeed = document.getElementById("agitation_speed");
+			experiment.spin_speed = 0;
+
+
 		} else {
 			experiment.media_type = 'liquid'
 			experiment.tube_payload = document.getElementById("tube_payload").value;
@@ -259,7 +284,23 @@ function collectExperimentData(){
 			experiment.sealed = "";
 			console.log(tube_payload);
 			//experiment.tube = $this.find('#tube_type').val()
+
+			agitationSpeed = document.getElementById("agitation_speed");
+			experiment.spin_speed =  parseInt(agitationSpeed.options[agitationSpeed.selectedIndex].value);
+
 		}
+
+		//Get more device setting data
+
+			heaterSpeed = document.getElementById("heater_speed");
+			experiment.heater_speed =  parseInt(heaterSpeed.options[heaterSpeed.selectedIndex].value);
+
+			coolerSpeed = document.getElementById("cooler_speed");
+			experiment.cooler_speed =  parseInt(coolerSpeed.options[coolerSpeed.selectedIndex].value);
+
+			experiment.temp_check_interval = 30
+			experiment.temp_hysteresis = 0.2
+
 		/*
 		if ($this.find('input[name=media_type]:checked').val() == 'solid') {
 			experiment.media_type = 'solid'
@@ -332,10 +373,10 @@ db.collection("UserExperiments")
       var html = docs.map(doc => 
 `user_id: ${doc.user_id}, 
 _id: ${doc._id}, 
-start_time: ${doc.start_time}, 
+name: ${doc.name}, 
 expiration_date: ${doc.expiration_date}, 
 duration: ${doc.duration}, 
-target_temperature: ${doc.target_temperature}, 
+target_temp: ${doc.target_temperature}, 
 sensor_type: ${doc.sensor_type},
 sensing_interval: ${doc.sensing_interval}`);
       document.getElementById("json_received").innerHTML = html;
@@ -344,6 +385,7 @@ sensing_interval: ${doc.sensing_interval}`);
 
 }
 
+/*
 function submitExperiment(){
 
  console.log("submit Called");
@@ -353,7 +395,7 @@ function submitExperiment(){
     .then(recordExperiment)
     .catch(console.error)
 }
-
+*/
 
 
 // function recordExperiment(){
