@@ -19,6 +19,10 @@ $( document ).ready(function() {
 
 	db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('BR_internal');
 
+	
+	document.getElementById("img_range_from").value = date.toUTCString();
+	date.setMinutes(2400);
+	document.getElementById("img_range_to").value = date.toUTCString();
 
 	
 	client.auth
