@@ -1,13 +1,15 @@
 var db;
 var client;
 var date;
+var imgFileNames;
+var imgFileLocations;
 
 
-
-var tempChartDuration = " 2400 mins";
+var tempChartDuration = " 2400 secs";
 var tempDataPointsFromDB =[];
-var imgFileNames = []
-var imgFileLocations = []
+var tempDatePointsFromDB = [];
+//var imgFileNames;
+//var imgFileLocations;
 
 $( document ).ready(function() {
 
@@ -20,13 +22,15 @@ $( document ).ready(function() {
 	db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('BR_internal');
 
 	
-	document.getElementById("img_range_from").value = date.toUTCString();
-	date.setMinutes(2400);
-	document.getElementById("img_range_to").value = date.toUTCString();
+	//document.getElementById("img_range_from").value = date.toISOString();
+	//date.setMinutes(2400);
+	//document.getElementById("img_range_to").value = date.toISOString();
 
 	
 	client.auth
 	    .loginWithCredential(new stitch.AnonymousCredential())
+	    .then(findFirstImgEntry)
+	    .then(findLastImgEntry)
 	    //.then(generateImgData())
 	    //.then(generateTempData(3))
 	    .catch(console.error)
@@ -39,10 +43,13 @@ $( document ).ready(function() {
 
 function getTempData(){
 
+	timeRangeFrom = document.getElementById("temp_range_from").value;
+	timeRangeTo = document.getElementById("temp_range_to").value;
+
 	query = {
 				"elapsed_time": {
-					$gte: 0.1,
-					$lt: 2400
+					$gte: parseFloat(timeRangeFrom),
+					$lt: parseInt(timeRangeTo)
 					}
 				}
 	options = {};
@@ -54,6 +61,7 @@ function getTempData(){
 	    .then(docs => {
 	      //var html = docs.map(doc => `currentTemp: ${doc.currentTemp}`);
 	       tempDataPointsFromDB = docs.map(doc => parseFloat(`${doc.current_temp}`));
+	       tempDatePointsFromDB = docs.map(doc => `${doc.ts}`);
 	      //console.log(tempDataPointsFromDB);
 	      renderTemperatureChart();
 	    });
@@ -134,14 +142,15 @@ function renderTemperatureChart(){
 
 	tempDataPoints =[]
 
-	tempDataPointsFromDB.forEach(function (arrayItem) {
-	 
+	for(var i=0; i<tempDataPointsFromDB.length;i++){
+
+		//console.log(tempDatePointsFromDB[i]);
 		tempDataPoints.push({
-                x: date.setTime(date.getTime()+ 20000 ), //tempChartUpdateInterval
-                y: arrayItem
+                x: new Date(tempDatePointsFromDB[i]), //tempChartUpdateInterval
+                y: tempDataPointsFromDB[i]
                 })
     	//console.log(arrayItem);
-	});
+	}
 
 	//console.log(tempDataPointsFromDB.length);
 	
@@ -156,7 +165,7 @@ function renderTemperatureChart(){
             fontColor: 'rgba(220, 22, 90, .9)',
         },
         axisX: {
-            title: "Range:" + tempChartDuration + " ",
+            //title: "Range:" + tempChartDuration + " ",
             titleFontColor: "dimGrey",
             labelFontColor: "dimGrey",
             titleFontSize: 12,
@@ -196,15 +205,70 @@ function renderTemperatureChart(){
 
 }
 
+function findFirstImgEntry(){
+
+	db.collection("UserImgs")
+		.find({}, {limit: 1, sort: {$natural:1} })
+	    .toArray()
+	    .then(docs => {
+	       firstImgName = docs.map(doc => `${doc._id}`);
+	       //console.log(imgFileNames);
+
+	       	//remove the Eastern Standard Time from the date
+	      	var index = firstImgName[0].indexOf("GMT");
+			// if the index exists
+			if(~index) {
+			  str = firstImgName[0].substr(0, index);
+			}
+
+	      document.getElementById("img_range_from").value = str;
+	    });
+
+}
+
+function findLastImgEntry(){
+
+	db.collection("UserImgs")
+		.find({}, {limit: 1, sort: {$natural:-1} })
+	    .toArray()
+	    .then(docs => {
+	       lastImageName = docs.map(doc => `${doc._id}`);
+	       //console.log(imgFileNames);
+
+	      	//remove the Eastern Standard Time from the date
+	      	var index = lastImageName[0].indexOf("GMT");
+			// if the index exists
+			if(~index) {
+			  str = lastImageName[0].substr(0, index);
+			}
+
+	      document.getElementById("img_range_to").value = str;
+	    });
+
+}
+
 function renderExperimentImgs(){
+
+
+	client.auth
+	    .loginWithCredential(new stitch.AnonymousCredential())
+	    .catch(console.error)
 
 	//https://steveridout.github.io/mongo-object-time/
 	exp_id = document.getElementById("experiment_id").value;
 
+	/*
 	query = { "experiment_id": exp_id,
 			  "_id" : {
 			  		"$gte": new Date("2015-07-07T00:00:00.000Z"),
 			        "$lt": new Date("2020-07-08T00:00:00.000Z")}
+			}
+	*/
+	//console.log(new Date(document.getElementById("img_range_from").value))
+	query = { "experiment_id": exp_id,
+			  "_id" : {
+			  		"$gte": new Date(document.getElementById("img_range_from").value),
+			        "$lt": new Date(document.getElementById("img_range_to").value)}
 			}
 
 	db.collection("UserImgs")
@@ -213,14 +277,19 @@ function renderExperimentImgs(){
 	    .then(docs => {
 	       imgFileNames = docs.map(doc => `${doc.file_name}`);
 	       imgFileLocations = docs.map(doc => `${doc.file_location}`);
-	      //console.log(imgFileNames);
-	      //console.log(imgFileLocations);
+	       visualizePreviews();
 	    })
-	    .then(renderPreviewsButton(true))
 	    ;
+
+	    //console.log(imgFileNames.length);
 
 }
 
+function visualizeTemperature(){
+
+	getTempData();
+
+}
 function loadLatestAnalysis(){
 
 	var transImage = document.getElementById("trans_gif");
@@ -235,7 +304,10 @@ function loadLatestAnalysis(){
 //Wednesday15April2020_07:21:15PM.png
 function visualizePreviews(){
 
+
 	var html = "";
+	
+	//console.log(imgFileNames.length);
 
 	for (var i = 0; i < imgFileNames.length; i++) {
 
@@ -243,16 +315,20 @@ function visualizePreviews(){
 
 		var url = data.split("/")[2]+"";
         //formatted_url = url.split(' ').join('%20');
-        //console.log(arrayItem);
+        //console.log(imgFileNames[i]);
         //formatted_url = data.replace(/\//g, '%3A');
         formatted_url = data.replace(/\//g, ':');
 		//console.log(String(imgFileLocations[0]) + formatted_url + ".png");
+		//console.log(String(imgFileLocations[0]) + formatted_url + ".png");
+
 		if (formatted_url.indexOf("Bad") == -1)
 			html += "<img id=loading_"+ String(imgFileNames[i]) +" class='preview_imgs' src="+ String(imgFileLocations[0]) + formatted_url + " >";
-	 	//console.log(String(imgFileLocations[0]) + formatted_url + ".png");
+	 	
 	 	//console.log(String(imgFileLocations[0]) + url + ".png");
 	}
 	
+	document.getElementById("experiment_images").innerHTML = html;
+
 
 	/*
 	imgFileNames.forEach(function (arrayItem) {
@@ -273,23 +349,28 @@ function visualizePreviews(){
 	});
 	*/
 
-	document.getElementById("experiment_images").innerHTML = html;
+	
 	//console.log(html);	
 
 //ttps://raw.githubusercontent.com/biorealize/biorealize.github.io/master/br01a/secure/32257200d0c20fa83c570f1d4fd414c18253d2cc/data/Tuesday03March2020_05%3A08%3A04PM.png
 
 }
 
-function renderPreviewsButton(visible){
-experiment_imgs_settings
+function reloadButtonsEnable(visible){
 
 	if (visible==true){
 		document.getElementById("experiment_imgs_settings").style="display:visible";
-		document.getElementById("loadPreviewsButton").value="Load ->";
+		document.getElementById("loadPreviewsButton").value="->";
+
+		document.getElementById("temp_graph_settings").style="display:visible";
+		document.getElementById("loadPreviewsButton").value="->";
     }
     else{
 		document.getElementById("loadPreviewsButton").value="";
-		document.getElementById("experiment_imgs_settings").style="display:visible";
+		document.getElementById("experiment_imgs_settings").style="display:none";
+
+		document.getElementById("temp_graph_settings").style="display:none";
+		document.getElementById("loadPreviewsButton").value="";
 
     }
 
@@ -304,7 +385,8 @@ function reportExperiment(){
     .then(displayExperimentInfo)
     .then(getTempData)
     .then(loadLatestAnalysis)
-    .then(renderExperimentImgs)
+    .then(reloadButtonsEnable(true)) 
+    //.then(renderExperimentImgs)
     .catch(console.error)
 }
 
@@ -325,8 +407,13 @@ function displayExperimentInfo() {
 		${doc.plate_type}</span><br><br><span class="label temperature">Temperature</span><span class="label other">
 		${doc.target_temp} </span><br><br><span class="label duration">Duration</span><span class="label other">
 		${doc.duration} </span><br><br>`);
-		document.getElementById("experiment_info").innerHTML = html
-		console.log(docs);
+
+	    var duration = docs.map(doc => parseInt(`${doc.duration}`));
+
+	    document.getElementById("temp_range_to").value = duration[0];
+	    //console.log(duration[0]);
+		document.getElementById("experiment_info").innerHTML = html;
+		//console.log(docs);
 	    });
 
 }
