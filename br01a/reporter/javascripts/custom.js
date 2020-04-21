@@ -211,17 +211,19 @@ function findFirstImgEntry(){
 		.find({}, {limit: 1, sort: {$natural:1} })
 	    .toArray()
 	    .then(docs => {
-	       firstImgName = docs.map(doc => `${doc._id}`);
-	       //console.log(imgFileNames);
+	       firstImageName = docs.map(doc => `${doc._id}`);
+	       //console.log(firstImageName);
 
 	       	//remove the Eastern Standard Time from the date
-	      	var index = firstImgName[0].indexOf("GMT");
-			// if the index exists
-			if(~index) {
-			  str = firstImgName[0].substr(0, index);
-			}
+	      	/*
+	      	var index = firstImageName[0].indexOf("GMT");
 
-	      document.getElementById("img_range_from").value = str;
+			if(~index) {
+			  str = firstImageName[0].substr(0, index);
+			}*/
+			d = new Date(firstImageName[0]).toLocaleString('en-US');
+			//console.log(d);
+	      document.getElementById("img_range_from").value = d;
 	    });
 
 }
@@ -233,16 +235,20 @@ function findLastImgEntry(){
 	    .toArray()
 	    .then(docs => {
 	       lastImageName = docs.map(doc => `${doc._id}`);
-	       //console.log(imgFileNames);
+	       //console.log(lastImageName);
 
 	      	//remove the Eastern Standard Time from the date
+	      	
+	      	/*
 	      	var index = lastImageName[0].indexOf("GMT");
-			// if the index exists
+			
 			if(~index) {
 			  str = lastImageName[0].substr(0, index);
-			}
+			}*/
 
-	      document.getElementById("img_range_to").value = str;
+			d = new Date(lastImageName[0]).toLocaleString('en-US');
+			//console.log(d);
+	      document.getElementById("img_range_to").value = d;
 	    });
 
 }
