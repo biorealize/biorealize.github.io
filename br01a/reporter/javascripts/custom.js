@@ -382,9 +382,27 @@ function reloadButtonsEnable(visible){
 
 }
 
+function deleteDeviceData(){
+
+//console.log("request Called");
+ client.auth
+    .loginWithCredential(new stitch.AnonymousCredential())
+    .then(deleteDeviceDataInfo)
+    .catch(console.error)
+}
+
+function deleteImgData(){
+
+//console.log("request Called");
+ client.auth
+    .loginWithCredential(new stitch.AnonymousCredential())
+    .then(deleteImgInfo)
+    .catch(console.error)
+}
+
 function reportExperiment(){
 
- console.log("request Called");
+ //console.log("request Called");
 
  client.auth
     .loginWithCredential(new stitch.AnonymousCredential())
@@ -394,6 +412,32 @@ function reportExperiment(){
     .then(reloadButtonsEnable(true)) 
     //.then(renderExperimentImgs)
     .catch(console.error)
+}
+
+function deleteDeviceDataInfo(){
+
+	expId = document.getElementById("experiment_id").value;
+
+	const query = { "experiment_id": expId };
+
+	db.collection("UserImgs").deleteMany(query)
+	  .then(result => console.log(`Deleted ${result.deletedCount} item(s).`))
+	  .catch(err => console.error(`Delete failed with error: ${err}`))
+
+	 console.log("all device data cleared");
+}
+
+function deleteImgInfo(){
+
+	expId = document.getElementById("experiment_id").value;
+
+	const query = { "experiment_id": expId };
+
+	db.collection("UserDeviceData").deleteMany(query)
+	  .then(result => console.log(`Deleted ${result.deletedCount} item(s).`))
+	  .catch(err => console.error(`Delete failed with error: ${err}`))
+
+	console.log("all img data cleared");
 }
 
 function displayExperimentInfo() {

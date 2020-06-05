@@ -46,20 +46,36 @@
 		</div>
 
 		<div class="grid grid-pad">
-			<div class="col-1-5">
+			
+			<div class="col-1-4">
 
-			<div class="row">
-				<div class="form-check form-check-inline col-md-7">
-				<span class="label other">Experiment ID </span>
-				<input type="text" id="experiment_id" class="form-control" value= "97BB859"> </input>
-				</div>
 
-				<div class="form-check form-check-inline col-md-4">
-				<br>
-				<input  onclick="reportExperiment()" type="button" value="Report Experiment" id="requestExperimentButton"> </input>
-				</div>
+					<div class="form-check form-check-inline col-md-7">
+						<span class="label other">Experiment ID </span>
+						<input type="text" id="experiment_id" class="form-control" value= "97BB859"> </input>
+					</div>
+					<div class="form-check form-check-inline col-md-4">
+						<br>
+						<input  onclick="reportExperiment()" type="button" value="Report Experiment" id="requestExperimentButton"> </input>
+					</div>
+
+
+			</div>	
+
+			<div class="col-1-4">
+
+					<div class="form-check form-check-inline col-md-7">
+						<br>
+						<input  onclick="deleteDeviceData()" type="button" value="Delete Device Data" id="deleteDeviceDataButton"> </input>
+					</div>
+					<div class="form-check form-check-inline col-md-7">
+						<br>
+						<input  onclick="deleteImgData()" type="button" value="Delete Image Data" id="deleteImgDataButton"> </input>
+					</div>
 
 			</div>
+
+			
 
 		</div>
 
