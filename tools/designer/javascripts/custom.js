@@ -375,14 +375,13 @@ db.collection("UserExperiments")
     .toArray()
     .then(docs => {
       var html = docs.map(doc => 
-`user_id: ${doc.user_id}, 
-_id: ${doc._id}, 
+`_id: ${doc._id}, 
 name: ${doc.name}, 
 expiration_date: ${doc.expiration_date}, 
 duration: ${doc.duration}, 
-target_temp: ${doc.target_temperature}, 
-sensor_type: ${doc.sensor_type},
-sensing_interval: ${doc.sensing_interval}`);
+target_temp: ${doc.target_temp}, 
+sensor_type: ${doc.sensor.interval},
+sensing_interval: ${doc.sensor.interval}`);
       document.getElementById("json_received").innerHTML = html;
       console.log(docs);
     });
@@ -423,7 +422,7 @@ function submitExperiment(){
 // 	const newRecord = {
 // 			"user_id" : userid,
 // 			"_id" : _id,//experiment_id
-// 			"start_time" : start, 
+//	 			"start_time" : start, 
 // 			"expiration_date" : expiration,
 // 			"organism_media" : org_media,
 // 			"duration" : duration,
