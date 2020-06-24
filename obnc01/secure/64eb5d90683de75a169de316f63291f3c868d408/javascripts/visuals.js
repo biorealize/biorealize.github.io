@@ -26,7 +26,7 @@
         message: function (m) {
             
             var channelName = m.channel;
-
+            //testing the 
             if (channelName ==='obnc01_out') 
             {
                 //console.log("parsing info from reactor");
