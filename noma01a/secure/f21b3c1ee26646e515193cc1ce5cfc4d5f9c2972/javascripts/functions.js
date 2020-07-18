@@ -173,7 +173,7 @@
 
         pubnub.publish({
 
-                channel : 'obtx01cam_in',
+                channel : 'noma01a_cam_in',
                 message : { 
                             'device': {
                                         'cmd':'take_img',
@@ -201,7 +201,7 @@
 
         pubnub.publish({
 
-                channel : 'obtx01plate_in',
+                channel : 'noma01a_plate_in',
                 message : { 'device' : 'colorAllWhite'},
                 callback : function(m){
                     console.log(m)
@@ -214,7 +214,7 @@
 
                 pubnub.publish({
 
-                        channel : 'obtx01plate_in',
+                        channel : 'noma01a_plate_in',
                         message : { 'device' : 'colorAllOff'},
                         callback : function(m){
                             console.log(m)
@@ -235,7 +235,7 @@
 
     pubnub.publish({
 
-                channel : 'obtx01_AS7262_in',
+                channel : 'noma01a_AS7262_in',
                 message : {'device':'read'},
                 callback : function(m){
                     console.log(m)
@@ -276,7 +276,7 @@
         var data = m.message[1]+"";
         var url = data.split("/")[2]+"";
         formatted_url = url.split(' ').join('%20');
-        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/obtx01/secure/f412380f623fbc20a937e2ee69f340e3401a4b27/data/" + data;
+        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/noma01a/secure/f21b3c1ee26646e515193cc1ce5cfc4d5f9c2972/data/" + data;
 
         //var updatedStatus = document.getElementById("devicestatus").innerHTML
 
@@ -493,7 +493,7 @@
         console.log("initNewExperiment called");
         pubnub.publish({
 
-                channel : 'obtx01_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'init'},
                 callback : function(m){
                     console.log(m)
@@ -507,7 +507,7 @@
         if (chkButton.checked){
             //console.log("checked called");
             pubnub.publish({
-                channel : 'obtx01_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'spin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -518,7 +518,7 @@
         else{
             //console.log("unchecked called");
             pubnub.publish({
-                channel : 'obtx01_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'nospin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -540,7 +540,7 @@
             label.innerHTML="Spin";
 
             pubnub.publish({
-                channel : 'obtx01_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'start'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -554,7 +554,7 @@
             label.innerHTML="";
             
             pubnub.publish({
-                channel : 'obtx01_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'stop'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -606,7 +606,7 @@
                         tickThickness: .5,
                         tickLength: 5,
                         gridThickness: .5,
-                        lineThicksness: .5,
+                        lineThickness: .5,
                         titleFontColor: "dimGrey",
                         labelFontColor: "dimGrey",
                         titleFontSize: 12,
@@ -697,7 +697,7 @@ function pingPeripherals(){
         console.log("pinging reactor");
         
         pubnub.publish({
-                channel : 'obtx01_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'echo'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -712,7 +712,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'obtx01cam_in',
+                channel : 'noma01a_cam_in',
                 message : { 
                             'device': {
                                         'cmd':'echo'
@@ -732,7 +732,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'obtx01plate_in',
+                channel : 'noma01a_plate_in',
                 message : { 'device' : 'echo'},
                 callback : function(m){
                     console.log(m)
@@ -749,7 +749,7 @@ function pingPeripherals(){
 
         pubnub.publish({
 
-                channel : 'obtx01AS7262_in',
+                channel : 'br01_AS7262_in',
                 message : {'device':'echo'},
                 callback : function(m){
                     console.log(m)

@@ -423,7 +423,7 @@
         	var organismMedia = m.message.experiment.media_type;
         	var volume = m.message.experiment.plate_type;
         	var targetTemperature = m.message.experiment.target_temp + ' °C';
-        	var duration = m.message.experiment.duration + ' secs' ;
+        	var duration = m.message.experiment.duration + ' min' ;
         	//var obj2 = JSON.parse(obj.message);
         	//var obj3 = JSON.parse(obj2.eon);
         	//var temp = JSON.parse(obj3.Temperature);
