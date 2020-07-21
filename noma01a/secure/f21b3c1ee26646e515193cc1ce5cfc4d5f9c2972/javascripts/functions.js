@@ -179,7 +179,7 @@
                                         'cmd':'take_img',
                                         'experiment_id': experimentId,
                                         'exposure': imgExposure,
-                                        'ring_led_brightness': 50
+                                        'ring_led_brightness': 0
                                         }
                             }, //take_img_with_ring
                 callback : function(m){
