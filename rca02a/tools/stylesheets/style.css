@@ -8,8 +8,7 @@
       }
       h1 {
       color: #F3F3F3;
-      font-weight: 100;
-      opacity: 0.2;
+      font-weight: 150;
       }
 
     hr{
@@ -25,6 +24,7 @@
      border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3);
      margin: 0px;
     }
+
 
     #pageheader {
     /*Only has the logo, which determines the width*/
@@ -120,16 +120,14 @@
     color: #e7e7e7;
     padding: 6px;
     font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif; font-weight: lighter;  
-    opacity: 0.85;
+    opacity: 0.45;
     }
 
 
   .label {
     color: white;
-    padding: 3px;
+    padding: 4px;
     font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif;
-    font-size: 14px; 
-    font-weight: 200;
     }
   .experiment_id {background-color: #314ae3;} /* Purple */
   .expiration_date {background-color: #4CAF50} /* Green */
@@ -137,14 +135,12 @@
   .temperature {background-color: #ff9800;} /* Orange */
   .volume {background-color: #8547ad;} /* Violet */
   .duration {background-color: #f44336;} /* Red */ 
-  .name{background-color: #4682bf;} /* Gray */ 
+  .name {background-color: #4682bf;} /* Gray */ 
   .description {background-color: #F3F3F3; color: black;} /* Gray */ 
   .other {background-color: transparent;} /* Gray */ 
   .status {background-color: #454545; color: #e7e7e7;} /* Gray */ 
   .data {color: #F7F7F7;} /* Gray */ 
   .timelabel {color: #8b0000; opacity: 0.55;}
-  .ahref_rewrite{color: #f44336; opacity: 1; font-weight: 500}
-  .ahref_rewrite_success{color: #f44336; opacity: 1; font-weight: 500;}
 
 
   .content {
@@ -153,6 +149,16 @@
     font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif;
   }
 
+#imgExposureField{
+background-color: transparent;
+color: #F3F3F3;
+width:60px;
+height: 20px;
+padding: 10px;
+border: 0px;
+-webkit-appearance: none;
+
+}
 
 #pagefooter {
   width: 100%;
@@ -163,7 +169,7 @@
 
 
 .switch {
-  position: relative;d
+  position: relative;
   display: inline-block;
   opacity:0.2;
   width: 90px;
@@ -228,6 +234,7 @@ input[type=button2]:active{
   background-color: #314ae3;
   transform: translateY(2px);
 }
+
 
 
 .slider {
