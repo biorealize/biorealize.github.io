@@ -129,12 +129,13 @@
     padding: 4px;
     font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif;
     }
-  .syringe_id {background-color: #314ae3;} /* Purple */
-  .date {background-color: #4CAF50} /* Green */
+  .experiment_id {background-color: #314ae3;} /* Purple */
+  .expiration_date {background-color: #4CAF50} /* Green */
   .organism_media {background-color: #2196F3;} /* Blue */
   .temperature {background-color: #ff9800;} /* Orange */
   .volume {background-color: #8547ad;} /* Violet */
   .duration {background-color: #f44336;} /* Red */ 
+  .name {background-color: #4682bf;} /* Gray */ 
   .description {background-color: #F3F3F3; color: black;} /* Gray */ 
   .other {background-color: transparent;} /* Gray */ 
   .status {background-color: #454545; color: #e7e7e7;} /* Gray */ 
@@ -148,6 +149,16 @@
     font-family: 'Roboto Light', 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe UI Web Regular', sans-serif;
   }
 
+#imgExposureField{
+background-color: transparent;
+color: #F3F3F3;
+width:60px;
+height: 20px;
+padding: 10px;
+border: 0px;
+-webkit-appearance: none;
+
+}
 
 #pagefooter {
   width: 100%;
@@ -223,6 +234,7 @@ input[type=button2]:active{
   background-color: #314ae3;
   transform: translateY(2px);
 }
+
 
 
 .slider {
