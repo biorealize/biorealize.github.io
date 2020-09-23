@@ -428,6 +428,7 @@
             '</span><br><br>'
 
 
+
             //document.getElementsByClassName(".switch").style.opacity = "1"; 
             document.getElementById("button_label").style.opacity = "1"; 
             document.getElementById("togBtn").checked=true;
