@@ -413,9 +413,11 @@
         	//var temp = JSON.parse(obj3.Temperature);
             //document.getElementById("instructions").innerHTML =  "<span style=\"color:#355ea3\">" + "Syringe ID" + "</span>" + '&nbsp &nbsp &nbsp &nbsp'+ "<span style=\"color:black\">" + data + "</span>"; ; 
             
+
             document.getElementById("instructions").innerHTML = 
-            '<br> <span class="label syringe_id">Experiment ID </span> <span class="label other">' + experimentId +  
-            '</span><br><br> <span class="label date">Expiration Date</span><span class="label other">'+ expDate +
+            '<br> <span class="label experiment_id">Experiment ID </span> <span class="label other">' + experimentId +  
+            '</span><br><br> <span class="label name">Name</span><span class="label other">'+ name +
+            '</span><br><br> <span class="label expiration_date">Expiration Date</span><span class= "label other">'+ expDate +
             '</span><br><br><span class="label organism_media">Organism + Media</span><span class="label other"> <i>'+ organismMedia +
             '</i> </span><br><br><span class="label volume">Volume</span><span class="label other">'+ volume +
             '</span><br><br><span class="label temperature">Temperature</span><span class="label other">'+ targetTemperature +
