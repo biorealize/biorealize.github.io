@@ -427,7 +427,7 @@
                 '</span><br><br> <span class="label name">Name</span><span class="label other">'+ name +
                 '</span><br><br> <span class="label expiration_date">Expiration Date</span><span class= "label other">'+ expDate +
                 '</span><br><br><span class="label organism_media">Media Type</span><span class="label other"> <i>'+ mediaType +
-                '</i> </span><br><br><span class="label volume">Plate/Tube</span><span class="label other">'+ volume +
+                '</i> </span><br><br><span class="label volume">Volume</span><span class="label other">'+ volume +
                 '</span><br><br><span class="label temperature">Temperature</span><span class="label other">'+ targetTemperature +
                 '</span><br><br><span class="label duration">Duration</span><span class="label other">'+ duration + 
                 '</span><br><br>'
