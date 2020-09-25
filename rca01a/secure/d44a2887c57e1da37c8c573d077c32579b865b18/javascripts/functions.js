@@ -400,43 +400,48 @@
             '<br><span class="label status">Reactor</span><span class="label data">' + m.message[1] + '<br>';
         }
 
-                if (m.message.hasOwnProperty("experiment") ){
+            if (m.message.hasOwnProperty("experiment") ){
             
             //console.log(m.message.hasOwnProperty("experiment"));
             //console.log(m.message.experiment);
             
-            experimentId = m.message.experiment._id;
-            var expDate = m.message.experiment.expiration_date;
-            var name = m.message.experiment.name;
-            var organismMedia = m.message.experiment.media_type;
-            var volume = m.message.experiment.plate_type;
-            var targetTemperature = m.message.experiment.target_temp + ' °C';
-            var duration = m.message.experiment.duration + ' min' ;
-            //var obj2 = JSON.parse(obj.message);
-            //var obj3 = JSON.parse(obj2.eon);
-            //var temp = JSON.parse(obj3.Temperature);
-            //document.getElementById("instructions").innerHTML =  "<span style=\"color:#355ea3\">" + "Syringe ID" + "</span>" + '&nbsp &nbsp &nbsp &nbsp'+ "<span style=\"color:black\">" + data + "</span>"; ; 
+                experimentId = m.message.experiment._id;
+                var expDate = m.message.experiment.expiration_date;
+                var name = m.message.experiment.name;
+                var mediaType = m.message.experiment.media_type;
+                //var volume = m.message.experiment.plate_type;
+                var targetTemperature = m.message.experiment.target_temp + ' °C';
+                var duration = m.message.experiment.duration + ' min' ;
 
-            document.getElementById("instructions").innerHTML = 
-            '<br> <span class="label experiment_id">Experiment ID </span> <span class="label other">' + experimentId +  
-            '</span><br><br> <span class="label name">Name</span><span class="label other">'+ name +
-            '</span><br><br> <span class="label expiration_date">Expiration Date</span><span class= "label other">'+ expDate +
-            '</span><br><br><span class="label organism_media">Organism + Media</span><span class="label other"> <i>'+ organismMedia +
-            '</i> </span><br><br><span class="label volume">Volume</span><span class="label other">'+ volume +
-            '</span><br><br><span class="label temperature">Temperature</span><span class="label other">'+ targetTemperature +
-            '</span><br><br><span class="label duration">Duration</span><span class="label other">'+ duration + 
-            '</span><br><br>'
+                if (mediaType=="solid")
+                    var volume = m.message.experiment.plate_type;
+                else
+                    var volume = m.message.experiment.tube_type;
+                //var obj2 = JSON.parse(obj.message);
+                //var obj3 = JSON.parse(obj2.eon);
+                //var temp = JSON.parse(obj3.Temperature);
+                //document.getElementById("instructions").innerHTML =  "<span style=\"color:#355ea3\">" + "Syringe ID" + "</span>" + '&nbsp &nbsp &nbsp &nbsp'+ "<span style=\"color:black\">" + data + "</span>"; ; 
+
+                document.getElementById("instructions").innerHTML = 
+                '<br> <span class="label experiment_id">Experiment ID </span> <span class="label other">' + experimentId +  
+                '</span><br><br> <span class="label name">Name</span><span class="label other">'+ name +
+                '</span><br><br> <span class="label expiration_date">Expiration Date</span><span class= "label other">'+ expDate +
+                '</span><br><br><span class="label organism_media">Media Type</span><span class="label other"> <i>'+ mediaType +
+                '</i> </span><br><br><span class="label volume">Plate/Tube</span><span class="label other">'+ volume +
+                '</span><br><br><span class="label temperature">Temperature</span><span class="label other">'+ targetTemperature +
+                '</span><br><br><span class="label duration">Duration</span><span class="label other">'+ duration + 
+                '</span><br><br>'
 
 
 
-            //document.getElementsByClassName(".switch").style.opacity = "1"; 
-            document.getElementById("button_label").style.opacity = "1"; 
-            document.getElementById("togBtn").checked=true;
-            document.getElementById("spin_box_id").checked=false;
-            checkBox = document.getElementById("spin_box_id"); 
-            checkBox.style="display:visible";
-            label = document.getElementById("spin_check_label");
-            label.innerHTML="Spin"; 
+                //document.getElementsByClassName(".switch").style.opacity = "1"; 
+                document.getElementById("button_label").style.opacity = "1"; 
+                document.getElementById("togBtn").checked=true;
+                document.getElementById("spin_box_id").checked=false;
+                checkBox = document.getElementById("spin_box_id"); 
+                checkBox.style="display:visible";
+                label = document.getElementById("spin_check_label");
+                label.innerHTML="Spin"; 
         }
 
         if (m.message.hasOwnProperty("run") ) {
