@@ -379,8 +379,14 @@ db.collection("UserExperiments")
 name: ${doc.name}, 
 expiration_date: ${doc.expiration_date}, 
 duration: ${doc.duration}, 
-target_temp: ${doc.target_temp}, 
-sensor_type: ${doc.sensor.interval},
+target_temp: ${doc.target_temp},
+media_type: ${doc.media_type}, 
+tube_type: ${doc.tube_type},
+tube_payload: ${doc.tube_payload},
+plate_type: ${doc.plate_type},  
+plate_payload: ${doc.plate_payload}, 
+spin_speed: ${doc.spin_speed},  
+sensor_type: ${doc.sensor.type},
 sensing_interval: ${doc.sensor.interval}`);
       document.getElementById("json_received").innerHTML = html;
       console.log(docs);
