@@ -449,7 +449,7 @@
             //console.log(m.message.run.elapsed_time);
 
             var sensorInterval = m.message.run.sensor_interval;
-            var sensorType = m.message.run.sensor.type;
+            var sensorType = m.message.run.sensor_type;
             var spinSpeed = m.message.run.spin_speed; 
             var lidStatus = m.message.run.lid ;
             var elapsedTime = m.message.run.elapsed_time;
@@ -457,12 +457,12 @@
             var recordID = m.message.run.record_id;
             var timestamp = m.message.run.ts;
 
-            var dataCaptureInterval = m.message.data_capture_interval;
+            var dataCaptureInterval = m.message.run.data_capture_interval;
 
             document.getElementById("devicestatus").innerHTML = 
             '<br><span class="label status">Data Capture Interval:</span><span class="label data">'+ dataCaptureInterval + '</span><br>' +
-            '<br><span class="label status">Sensor Type:</span><span class="label data">'+ sensorType + '</span><br>' +
-            '<br><span class="label status">Sensor Interval:</span><span class="label data">'+ sensorInterval + '</span><br>' +
+            //'<br><span class="label status">Sensor Type:</span><span class="label data">'+ sensorType + '</span><br>' +
+            //'<br><span class="label status">Sensor Interval:</span><span class="label data">'+ sensorInterval + '</span><br>' +
             '<br><span class="label status">Agitation Mode:</span><span class="label data">'+ spinSpeed + '</span><br>' +  
             '<br><span class="label status">Lid:</span><span class="label data">'+ lidStatus + '</span><br>'
 
