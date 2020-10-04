@@ -192,7 +192,7 @@
 
         pubnub.publish({
 
-                channel : 'rca01a_plate_in',
+                channel : 'br_lab_plate_in', //rca01a_plate_in
                 message : { 'device' : 'colorAllWhite'},
                 callback : function(m){
                     console.log(m)
@@ -205,7 +205,7 @@
 
                 pubnub.publish({
 
-                        channel : 'rca01a_plate_in',
+                        channel : 'br_lab_plate_in', //rca01a_plate_in
                         message : { 'device' : 'colorAllOff'},
                         callback : function(m){
                             console.log(m)
@@ -437,11 +437,11 @@
                 //document.getElementsByClassName(".switch").style.opacity = "1"; 
                 document.getElementById("button_label").style.opacity = "1"; 
                 document.getElementById("togBtn").checked=true;
-                document.getElementById("spin_box_id").checked=false;
-                checkBox = document.getElementById("spin_box_id"); 
-                checkBox.style="display:visible";
-                label = document.getElementById("spin_check_label");
-                label.innerHTML="Spin"; 
+                //document.getElementById("spin_box_id").checked=false;
+                //checkBox = document.getElementById("spin_box_id"); 
+                //checkBox.style="display:visible";
+                //label = document.getElementById("spin_check_label");
+                //label.innerHTML="Spin"; 
         }
 
         if (m.message.hasOwnProperty("run") ) {
@@ -463,7 +463,7 @@
             '<br><span class="label status">Data Capture Interval:</span><span class="label data">'+ dataCaptureInterval + '</span><br>' +
             //'<br><span class="label status">Sensor Type:</span><span class="label data">'+ sensorType + '</span><br>' +
             //'<br><span class="label status">Sensor Interval:</span><span class="label data">'+ sensorInterval + '</span><br>' +
-            '<br><span class="label status">Agitation Mode:</span><span class="label data">'+ spinSpeed + '</span><br>' +  
+            '<br><span class="label status">Spin Speed:</span><span class="label data">'+ spinSpeed + '</span><br>' +  
             '<br><span class="label status">Lid:</span><span class="label data">'+ lidStatus + '</span><br>'
 
             currentTemp = m.message.run.current_temp;
@@ -531,10 +531,10 @@
 
         if (chkButton.checked){
             //console.log("checked");
-            checkBox = document.getElementById("spin_box_id"); 
-            checkBox.style="display:visible";
-            label = document.getElementById("spin_check_label");
-            label.innerHTML="Spin";
+            //checkBox = document.getElementById("spin_box_id"); 
+            //checkBox.style="display:none";//visible
+            //label = document.getElementById("spin_check_label");
+            //label.innerHTML="Spin";
 
             pubnub.publish({
                 channel : 'rca01a_in',
@@ -545,10 +545,10 @@
             });
         }
         else{
-            checkBox = document.getElementById("spin_box_id"); 
-            checkBox.style="display:none";
-            label = document.getElementById("spin_check_label");
-            label.innerHTML="";
+           //checkBox = document.getElementById("spin_box_id"); 
+            //checkBox.style="display:none";
+            //label = document.getElementById("spin_check_label");
+            //label.innerHTML="";
             
             pubnub.publish({
                 channel : 'rca01a_in',
@@ -729,7 +729,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'rca01a_plate_in',
+                channel : 'br_lab_plate_in', //rca01a_plate_in
                 message : { 'device' : 'echo'},
                 callback : function(m){
                     console.log(m)
