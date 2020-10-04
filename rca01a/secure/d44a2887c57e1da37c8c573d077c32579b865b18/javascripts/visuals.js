@@ -45,7 +45,7 @@
                 parseInformationfromCamera(m)
             }
 
-            if (channelName ==='rbr_lab_plate_out') 
+            if (channelName ==='br_lab_plate_out') 
             {
 
                   //console.log("new message from plate");
