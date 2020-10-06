@@ -267,7 +267,8 @@
         var data = m.message[1]+"";
         var url = data.split("/")[2]+"";
         formatted_url = url.split(' ').join('%20');
-        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01a/secure/d44a2887c57e1da37c8c573d077c32579b865b18/data/" + data;
+        //formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01a/secure/d44a2887c57e1da37c8c573d077c32579b865b18/data/" + data;
+        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/obtx01/secure/f412380f623fbc20a937e2ee69f340e3401a4b27/data/" + data;
 
         //var updatedStatus = document.getElementById("devicestatus").innerHTML
 
