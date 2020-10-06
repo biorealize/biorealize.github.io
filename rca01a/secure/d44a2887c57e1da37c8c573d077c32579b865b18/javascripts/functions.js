@@ -165,7 +165,7 @@
         
         pubnub.publish({
 
-                channel : 'rca01a_cam_in',
+                channel : 'obtx01cam_in', // //rca01a_cam_in
                 message : { 
                             'device': {
                                         'cmd':'take_img',
@@ -709,7 +709,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'rca01a_cam_in',
+                channel : 'obtx01cam_in', //rca01a_cam_in
                 message : { 
                             'device': {
                                         'cmd':'echo'
