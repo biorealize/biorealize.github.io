@@ -1,5 +1,5 @@
     var formatted_url = "";
-
+    var experimentId = "";
     var currentTemp;
     var currentOD;
     var temperatureChart; 
@@ -14,6 +14,8 @@
     var OD_600INDEX = 117;
     var tempChartUpdateInterval = 20000;
     var growthChartUpdateInterval = 5000;
+
+
     // initial value
    // var yValue1 = 37; 
     var time = new Date;
@@ -145,7 +147,8 @@
 
         //also make new image button visible
         document.getElementById("takeImageButton").style="display:visible";
-
+        document.getElementById("imgExposureField").style="display:visible";
+        
         setTimeout(function(){ 
             document.getElementById("previewImageButton").style="display:none";
         }, 1000);
@@ -156,6 +159,7 @@
     function takeImgFunction(){
         
         document.getElementById("previewImageButton").value=""; 
+
         var image = document.getElementsByClassName("loadingImg");
         image = "images/loading.gif";
         //document.images[3].src = "images/loading.gif";
@@ -163,13 +167,18 @@
         
         console.log("Taking image")
         
+        imgExposure = document.getElementById("imgExposureField").value;
+
+        console.log("Exposure: " + imgExposure);
+
         pubnub.publish({
 
-                channel : 'obtx01cam_in', // //rca01a_cam_in
+                channel : 'obtx01cam_in',
                 message : { 
                             'device': {
                                         'cmd':'take_img',
-                                        'exposure': 2000,
+                                        'experiment_id': experimentId,
+                                        'exposure': imgExposure,
                                         'ring_led_brightness': 0
                                         }
                             }, //take_img_with_ring
@@ -192,7 +201,7 @@
 
         pubnub.publish({
 
-                channel : 'br_lab_plate_in', //rca01a_plate_in
+                channel : 'obtx01plate_in',
                 message : { 'device' : 'colorAllWhite'},
                 callback : function(m){
                     console.log(m)
@@ -205,7 +214,7 @@
 
                 pubnub.publish({
 
-                        channel : 'br_lab_plate_in', //rca01a_plate_in
+                        channel : 'obtx01plate_in',
                         message : { 'device' : 'colorAllOff'},
                         callback : function(m){
                             console.log(m)
@@ -214,7 +223,7 @@
 
                 console.log("Taking image completed")
                 
-                }, 4000);
+                }, 5000);
     
         
 
@@ -226,7 +235,7 @@
 
     pubnub.publish({
 
-                channel : 'rca01a_AS7262_in',
+                channel : 'obtx01_AS7262_in',
                 message : {'device':'read'},
                 callback : function(m){
                     console.log(m)
@@ -267,8 +276,8 @@
         var data = m.message[1]+"";
         var url = data.split("/")[2]+"";
         formatted_url = url.split(' ').join('%20');
-        //formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01a/secure/d44a2887c57e1da37c8c573d077c32579b865b18/data/" + data;
-        formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/obtx01/secure/f412380f623fbc20a937e2ee69f340e3401a4b27/data/" + data;
+        //formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/noma01a/secure/f21b3c1ee26646e515193cc1ce5cfc4d5f9c2972/data/" + data;
+       formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/obtx01/secure/f412380f623fbc20a937e2ee69f340e3401a4b27/data/" + data;
 
         //var updatedStatus = document.getElementById("devicestatus").innerHTML
 
@@ -317,7 +326,8 @@
             document.getElementById("deviceinfo").innerHTML = 
             '<img src="images/breactor_nowell_outline_wht.svg" class="left">'+
             '<br><input onclick="loadNewImgFunction()" type="button" value=">" style="display:none" id="previewImageButton" />' + 
-            '<input onclick="takeImgFunction()" type="button" value="Take New Img" style="display:none" id="takeImageButton" />'
+            '<input onclick="takeImgFunction()" type="button" value="Take New Img" style="display:none" id="takeImageButton" />' +
+            '<input type="text" id="imgExposureField" value=2000 style="display:none" />';
            
         }
 
@@ -375,6 +385,8 @@
             setTimeout(function(){ 
                 document.getElementById("previewImageButton").value="Load ->";
                 document.getElementById("previewImageButton").style="display:visible";
+                document.getElementById("imgExposureField").style="display:none";
+
             }, 500);
 
             console.log("new path arrived");
@@ -401,70 +413,61 @@
             '<br><span class="label status">Reactor</span><span class="label data">' + m.message[1] + '<br>';
         }
 
-            if (m.message.hasOwnProperty("experiment") ){
+        if (m.message.hasOwnProperty("experiment") ){
             
             //console.log(m.message.hasOwnProperty("experiment"));
             //console.log(m.message.experiment);
             
-                experimentId = m.message.experiment._id;
-                var expDate = m.message.experiment.expiration_date;
-                var name = m.message.experiment.name;
-                var mediaType = m.message.experiment.media_type;
-                //var volume = m.message.experiment.plate_type;
-                var targetTemperature = m.message.experiment.target_temp + ' °C';
-                var duration = m.message.experiment.duration + ' min' ;
+            experimentId = m.message.experiment._id;
+            var expDate = m.message.experiment.expiration_date;
+            var name = m.message.experiment.name;
+            var organismMedia = m.message.experiment.media_type;
+            var volume = m.message.experiment.plate_type;
+            var targetTemperature = m.message.experiment.target_temp + ' °C';
+            var duration = m.message.experiment.duration + ' min' ;
+            //var obj2 = JSON.parse(obj.message);
+            //var obj3 = JSON.parse(obj2.eon);
+            //var temp = JSON.parse(obj3.Temperature);
+            //document.getElementById("instructions").innerHTML =  "<span style=\"color:#355ea3\">" + "Syringe ID" + "</span>" + '&nbsp &nbsp &nbsp &nbsp'+ "<span style=\"color:black\">" + data + "</span>"; ; 
 
-                if (mediaType=="solid")
-                    var volume = m.message.experiment.plate_type;
-                else
-                    var volume = m.message.experiment.tube_type;
-                //var obj2 = JSON.parse(obj.message);
-                //var obj3 = JSON.parse(obj2.eon);
-                //var temp = JSON.parse(obj3.Temperature);
-                //document.getElementById("instructions").innerHTML =  "<span style=\"color:#355ea3\">" + "Syringe ID" + "</span>" + '&nbsp &nbsp &nbsp &nbsp'+ "<span style=\"color:black\">" + data + "</span>"; ; 
-
-                document.getElementById("instructions").innerHTML = 
-                '<br> <span class="label experiment_id">Experiment ID </span> <span class="label other">' + experimentId +  
-                '</span><br><br> <span class="label name">Name</span><span class="label other">'+ name +
-                '</span><br><br> <span class="label expiration_date">Expiration Date</span><span class= "label other">'+ expDate +
-                '</span><br><br><span class="label organism_media">Media Type</span><span class="label other"> <i>'+ mediaType +
-                '</i> </span><br><br><span class="label volume">Volume</span><span class="label other">'+ volume +
-                '</span><br><br><span class="label temperature">Temperature</span><span class="label other">'+ targetTemperature +
-                '</span><br><br><span class="label duration">Duration</span><span class="label other">'+ duration + 
-                '</span><br><br>'
+            document.getElementById("instructions").innerHTML = 
+            '<br> <span class="label experiment_id">Experiment ID </span> <span class="label other">' + experimentId +  
+            '</span><br><br> <span class="label name">Name</span><span class="label other">'+ name +
+            '</span><br><br> <span class="label expiration_date">Expiration Date</span><span class= "label other">'+ expDate +
+            '</span><br><br><span class="label organism_media">Organism + Media</span><span class="label other"> <i>'+ organismMedia +
+            '</i> </span><br><br><span class="label volume">Volume</span><span class="label other">'+ volume +
+            '</span><br><br><span class="label temperature">Temperature</span><span class="label other">'+ targetTemperature +
+            '</span><br><br><span class="label duration">Duration</span><span class="label other">'+ duration + 
+            '</span><br><br>'
 
 
-
-                //document.getElementsByClassName(".switch").style.opacity = "1"; 
-                document.getElementById("button_label").style.opacity = "1"; 
-                document.getElementById("togBtn").checked=true;
-                //document.getElementById("spin_box_id").checked=false;
-                //checkBox = document.getElementById("spin_box_id"); 
-                //checkBox.style="display:visible";
-                //label = document.getElementById("spin_check_label");
-                //label.innerHTML="Spin"; 
+            //document.getElementsByClassName(".switch").style.opacity = "1"; 
+            document.getElementById("button_label").style.opacity = "1"; 
+            document.getElementById("togBtn").checked=true;
+            document.getElementById("spin_box_id").checked=false;
+            checkBox = document.getElementById("spin_box_id"); 
+            checkBox.style="display:visible";
+            label = document.getElementById("spin_check_label");
+            label.innerHTML="Spin"; 
         }
 
         if (m.message.hasOwnProperty("run") ) {
 
             //console.log(m.message.run.elapsed_time);
 
-            var sensorInterval = m.message.run.sensor_interval;
-            var sensorType = m.message.run.sensor_type;
-            var spinSpeed = m.message.run.spin_speed; 
+            //var specFreq = m.message.run.spec_frequency;
+            //var spinSpeed = m.message.run.spin_speed;
+            //var sensingInterval = m.message.run.sensor.interval; 
             var lidStatus = m.message.run.lid ;
             var elapsedTime = m.message.run.elapsed_time;
             var runStatus = m.message.run.status;
             var recordID = m.message.run.record_id;
             var timestamp = m.message.run.ts;
 
-            var dataCaptureInterval = m.message.run.data_capture_interval;
 
             document.getElementById("devicestatus").innerHTML = 
-            '<br><span class="label status">Data Capture Interval:</span><span class="label data">'+ dataCaptureInterval + '</span><br>' +
-            //'<br><span class="label status">Sensor Type:</span><span class="label data">'+ sensorType + '</span><br>' +
-            //'<br><span class="label status">Sensor Interval:</span><span class="label data">'+ sensorInterval + '</span><br>' +
-            '<br><span class="label status">Spin Speed:</span><span class="label data">'+ spinSpeed + '</span><br>' +  
+            //'<br><span class="label status">Sensor Frequency:</span><span class="label data">'+ specFreq + '</span><br>' +
+            //'<br><span class="label status">Sensing Interval:</span><span class="label data">'+ sensing_interval + '</span><br>' +  
             '<br><span class="label status">Lid:</span><span class="label data">'+ lidStatus + '</span><br>'
 
             currentTemp = m.message.run.current_temp;
@@ -475,7 +478,7 @@
             console.log(m.message.run.ts);
             
             document.getElementById("currenttemperature").innerHTML = 
-            '<span class="label other">Chamber is </span><span style="color:#F0F0F0">'+ currentTemp + ' °C' + ' (and ' + runStatus + ')'
+            '<span class="label other">Chamber is </span><span style="color:#F0F0F0">'+ currentTemp + ' °C' + ' (' + runStatus + ')'
             '</span><br><br>'
             document.getElementById("elapsedtime").innerHTML = 
             '<span class="label other"> Elapsed Time:</span><span style="color:#ff9800">'+ elapsedTime + ' min' + '</span><br>'
@@ -491,7 +494,7 @@
         console.log("initNewExperiment called");
         pubnub.publish({
 
-                channel : 'rca01a_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'init'},
                 callback : function(m){
                     console.log(m)
@@ -505,7 +508,7 @@
         if (chkButton.checked){
             //console.log("checked called");
             pubnub.publish({
-                channel : 'rca01a_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'spin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -516,7 +519,7 @@
         else{
             //console.log("unchecked called");
             pubnub.publish({
-                channel : 'rca01a_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'nospin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -532,13 +535,13 @@
 
         if (chkButton.checked){
             //console.log("checked");
-            //checkBox = document.getElementById("spin_box_id"); 
-            //checkBox.style="display:none";//visible
-            //label = document.getElementById("spin_check_label");
-            //label.innerHTML="Spin";
+            checkBox = document.getElementById("spin_box_id"); 
+            checkBox.style="display:visible";
+            label = document.getElementById("spin_check_label");
+            label.innerHTML="Spin";
 
             pubnub.publish({
-                channel : 'rca01a_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'start'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -546,13 +549,13 @@
             });
         }
         else{
-           //checkBox = document.getElementById("spin_box_id"); 
-            //checkBox.style="display:none";
-            //label = document.getElementById("spin_check_label");
-            //label.innerHTML="";
+            checkBox = document.getElementById("spin_box_id"); 
+            checkBox.style="display:none";
+            label = document.getElementById("spin_check_label");
+            label.innerHTML="";
             
             pubnub.publish({
-                channel : 'rca01a_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'stop'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -695,7 +698,7 @@ function pingPeripherals(){
         console.log("pinging reactor");
         
         pubnub.publish({
-                channel : 'rca01a_in',
+                channel : 'noma01a_in',
                 message : { cmd: 'echo'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -710,7 +713,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'obtx01cam_in', //rca01a_cam_in
+                channel : 'noma01a_cam_in',
                 message : { 
                             'device': {
                                         'cmd':'echo'
@@ -730,7 +733,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'br_lab_plate_in', //rca01a_plate_in
+                channel : 'noma01a_plate_in',
                 message : { 'device' : 'echo'},
                 callback : function(m){
                     console.log(m)
@@ -747,7 +750,7 @@ function pingPeripherals(){
 
         pubnub.publish({
 
-                channel : 'rca01AS7262_in',
+                channel : 'br01_AS7262_in',
                 message : {'device':'echo'},
                 callback : function(m){
                     console.log(m)
