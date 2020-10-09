@@ -223,7 +223,7 @@
 
                 console.log("Taking image completed")
                 
-                }, 5000);
+                }, 10000);
     
         
 
