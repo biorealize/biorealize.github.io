@@ -201,7 +201,7 @@
 
         pubnub.publish({
 
-                channel : 'obtx01plate_in',
+                channel : 'br_lab_plate_in',
                 message : { 'device' : 'colorAllWhite'},
                 callback : function(m){
                     console.log(m)
@@ -214,7 +214,7 @@
 
                 pubnub.publish({
 
-                        channel : 'obtx01plate_in',
+                        channel : 'br_lab_plate_in',
                         message : { 'device' : 'colorAllOff'},
                         callback : function(m){
                             console.log(m)
@@ -494,7 +494,7 @@
         console.log("initNewExperiment called");
         pubnub.publish({
 
-                channel : 'noma01a_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'init'},
                 callback : function(m){
                     console.log(m)
@@ -508,7 +508,7 @@
         if (chkButton.checked){
             //console.log("checked called");
             pubnub.publish({
-                channel : 'noma01a_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'spin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -519,7 +519,7 @@
         else{
             //console.log("unchecked called");
             pubnub.publish({
-                channel : 'noma01a_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'nospin'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -541,7 +541,7 @@
             label.innerHTML="Spin";
 
             pubnub.publish({
-                channel : 'noma01a_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'start'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -555,7 +555,7 @@
             label.innerHTML="";
             
             pubnub.publish({
-                channel : 'noma01a_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'stop'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -698,7 +698,7 @@ function pingPeripherals(){
         console.log("pinging reactor");
         
         pubnub.publish({
-                channel : 'noma01a_in',
+                channel : 'rca01a_in',
                 message : { cmd: 'echo'},
                 callback : function(m){
                     callbackonsole.log(m)
@@ -713,7 +713,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'noma01a_cam_in',
+                channel : 'obtx01cam_in',
                 message : { 
                             'device': {
                                         'cmd':'echo'
@@ -733,7 +733,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'noma01a_plate_in',
+                channel : 'br_lab_plate_in',
                 message : { 'device' : 'echo'},
                 callback : function(m){
                     console.log(m)
