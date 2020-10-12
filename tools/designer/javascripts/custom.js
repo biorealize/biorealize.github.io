@@ -215,7 +215,7 @@ function collectExperimentData(){
 		experiment.duration = parseInt(document.getElementById('duration').value);
 		experiment.target_temp = parseFloat(document.getElementById('target_temperature').value);
 
-		sensorType = document.getElementById("sensor_type");
+		sensorType = document.getElementById("sensor_type");//
 
 		sensorInfo = {	"type": sensorType.options[sensorType.selectedIndex].value,
 							"interval": parseInt(document.getElementById('sensing_interval').value),
