@@ -221,6 +221,7 @@ function collectExperimentData(){
 							"interval": parseInt(document.getElementById('sensing_interval').value),
 							"exposure": parseInt(document.getElementById('camera_exposure').value),
 							"ring_led": parseInt(document.getElementById('ring_led').value)
+							"plate_led": parseInt(document.getElementById('plate_led').value)
 							}
 		experiment.sensor = sensorInfo;
 		//experiment.sensor_type = $this.find('#sensor_type').val()
