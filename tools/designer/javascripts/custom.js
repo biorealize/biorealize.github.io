@@ -220,7 +220,7 @@ function collectExperimentData(){
 		sensorInfo = {	"type": sensorType.options[sensorType.selectedIndex].value,
 							"interval": parseInt(document.getElementById('sensing_interval').value),
 							"exposure": parseInt(document.getElementById('camera_exposure').value),
-							"ring_led": parseInt(document.getElementById('ring_led').value)
+							"ring_led": parseInt(document.getElementById('ring_led').value),
 							"plate_led": parseInt(document.getElementById('plate_led').value)
 							}
 		experiment.sensor = sensorInfo;
