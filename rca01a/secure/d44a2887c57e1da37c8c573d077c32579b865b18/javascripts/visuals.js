@@ -9,8 +9,8 @@
     //node-red: once per run
     //node-red2: real-time array data
     pubnub.subscribe({ channels: ['rca01a_in', 'rca01a_out', 
-                                  'obtx01cam_in','obtx01cam_out', //'rca01a_cam_in','rca01a_cam_out', 
-                                  'br_lab_plate_in', 'br_lab_plate_out', //rca01a_plate_in rca01a_plate_out
+                                  'rca01a_cam_in','rca01a_cam_out', //'obtx01cam_in','obtx01cam_out', 
+                                  'rca01a_plate_in', 'rca01a_plate_out', //'br_lab_plate_in', 'br_lab_plate_out', 
                                   'rca01a_AS7262_in','rca01a_AS7262_out',
                                   'c12880MA_16H00363_in', 'c12880MA_16H00363_out'] });
     //xxxx_in - sends input commands to machine

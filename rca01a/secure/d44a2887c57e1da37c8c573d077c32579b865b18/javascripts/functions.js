@@ -173,7 +173,7 @@
 
         pubnub.publish({
 
-                channel : 'obtx01cam_in',
+                channel : 'rca01a_cam_in', //obtx01cam_in
                 message : { 
                             'device': {
                                         'cmd':'take_img',
@@ -201,7 +201,7 @@
 
         pubnub.publish({
 
-                channel : 'br_lab_plate_in',
+                channel : 'rca01a_plate_in',
                 message : { 'device' : 'colorAllWhite'},
                 callback : function(m){
                     console.log(m)
@@ -214,7 +214,7 @@
 
                 pubnub.publish({
 
-                        channel : 'br_lab_plate_in',
+                        channel : 'rca01a_plate_in',//'br_lab_plate_in',
                         message : { 'device' : 'colorAllOff'},
                         callback : function(m){
                             console.log(m)
@@ -235,7 +235,7 @@
 
     pubnub.publish({
 
-                channel : 'obtx01_AS7262_in',
+                channel : 'rca01a_AS7262_in',
                 message : {'device':'read'},
                 callback : function(m){
                     console.log(m)
@@ -277,7 +277,8 @@
         var url = data.split("/")[2]+"";
         formatted_url = url.split(' ').join('%20');
         //formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/noma01a/secure/f21b3c1ee26646e515193cc1ce5cfc4d5f9c2972/data/" + data;
-       formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/obtx01/secure/f412380f623fbc20a937e2ee69f340e3401a4b27/data/" + data;
+       //formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/obtx01/secure/f412380f623fbc20a937e2ee69f340e3401a4b27/data/" + data;
+       formatted_url = "https://raw.githubusercontent.com/biorealize/biorealize.github.io/master/rca01a/secure/d44a2887c57e1da37c8c573d077c32579b865b18/data/" + data;
 
         //var updatedStatus = document.getElementById("devicestatus").innerHTML
 
@@ -713,7 +714,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'obtx01cam_in',
+                channel : 'rca01a_cam_in', //obtx01cam_in'
                 message : { 
                             'device': {
                                         'cmd':'echo'
