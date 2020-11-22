@@ -39,13 +39,13 @@
                   //}
             }
 
-            if ( channelName ==='obtx01cam_out') {//rca01a_cam_out
+            if ( channelName === 'rca01a_cam_out') {//rca01a_cam_out //'obtx01cam_out'
 
                 //console.log(m.message);
                 parseInformationfromCamera(m)
             }
 
-            if (channelName ==='br_lab_plate_out') 
+            if (channelName === 'rca01a_plate_out') //'br_lab_plate_out'
             {
 
                   //console.log("new message from plate");

@@ -734,7 +734,7 @@ function pingPeripherals(){
             
         pubnub.publish({
 
-                channel : 'br_lab_plate_in',
+                channel : 'rca01a_plate_in', //'br_lab_plate_in'
                 message : { 'device' : 'echo'},
                 callback : function(m){
                     console.log(m)
